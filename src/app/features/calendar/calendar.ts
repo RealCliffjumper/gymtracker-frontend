@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { JwtService } from '../../core/services/jwt.service';
 import { Router } from '@angular/router';
 import { UserService } from '../../core/services/user.service';
 

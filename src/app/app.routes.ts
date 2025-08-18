@@ -7,14 +7,43 @@ export const routes: Routes = [
     
     {
       path: '',
+      redirectTo: 'home', pathMatch: 'full'
+    },
+
+    {
+      path: 'home',
       loadComponent:() => import("./features/calendar/calendar").then(m => m.Calendar),
       canActivate: [authGuard],
     },
+
     {
       path: "auth",
       loadComponent:() => import("./core/auth/auth").then(m => m.Auth),
       canActivate: [
       () => inject(UserService).isAuthenticated.pipe(map((isAuth) => !isAuth)),
       ],
+    },
+    
+    {
+      path: "profile",
+      loadComponent:() => import("./features/profile/profile").then(m=> m.Profile),
+      canActivate:[authGuard]
+    },
+
+    {
+      path: "workouts",
+      loadComponent:() => import("./features/workouts/workouts").then(m=> m.Workouts),
+      canActivate:[authGuard]
+    },
+
+    {
+      path: "plans",
+      loadComponent:() => import("./features/plans/plans").then(m=> m.Plans),
+      canActivate:[authGuard]
+    },
+
+    {
+    path: '**',
+    loadComponent: () => import('./features/not-found/not-found').then(m => m.NotFound),
     }
 ];
