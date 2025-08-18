@@ -1,28 +1,77 @@
-<div class="tabs">
-  <button (click)="switchTab('login')" [class.active]="condition === 'login'">Login</button>
-  <button (click)="switchTab('register')" [class.active]="condition === 'register'">Register</button>
-</div>
+<div class="auth-container">
+  <div class="auth-card">
+    <nz-tabs nzCentered nzType="line">
+      <nz-tab nzTitle="Login">
+        <form nz-form class="auth-form" (ngSubmit)="onLogin()">
+          <nz-form-item>
+            <nz-form-control>
+              <input nz-input placeholder="Email" [(ngModel)]="userLoginId" name="userLoginId" type="email" />
+            </nz-form-control>
+          </nz-form-item>
 
-@switch(condition){
-@case('login'){
-<div class="tab-content">
-    <form (ngSubmit)="onLogin()">
-      <input type="text" [(ngModel)]="userLoginId" name="userLoginId" placeholder="Email" required>
-      <input type="password" [(ngModel)]="password" name="password" placeholder="Password" required>
-      <button type="submit">Login</button>
-    </form>
+          <nz-form-item>
+            <nz-form-control>
+              <input nz-input placeholder="Password" [(ngModel)]="password" name="password" type="password" />
+            </nz-form-control>
+          </nz-form-item>
+
+          <button nz-button nzType="primary" type="submit" class="auth-btn">Login</button>
+
+          <div class="extra-link">
+            <a>Forgot password? Reset here</a>
+          </div>
+        </form>
+      </nz-tab>
+
+      <nz-tab nzTitle="Signup">
+        <form nz-form class="auth-form" (ngSubmit)="onRegister()">
+          <nz-form-item>
+            <nz-form-control>
+              <input nz-input [(ngModel)]="userDto.userLoginId" name="userLoginId" placeholder="Email" type="email" />
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-control>
+              <input nz-input [(ngModel)]="userDto.userFirstName" name="firstName" placeholder="First name" />
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-control>
+              <input nz-input [(ngModel)]="userDto.userLastName" name="lastName" placeholder="Last name" />
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-control>
+              <input nz-input [(ngModel)]="userDto.password" name="password" placeholder="Password" type="password" />
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-control>
+              <input nz-input placeholder="Confirm password" type="password" />
+            </nz-form-control>
+          </nz-form-item>
+
+          <button nz-button nzType="primary" type="submit" class="auth-btn">Signup</button>
+        </form>
+      </nz-tab>
+
+      <nz-tab nzTitle="Password recovery">
+        <form nz-form class="auth-form">
+          <nz-form-item>
+            <nz-form-control>
+              <input nz-input placeholder="Email" type="email" />
+            </nz-form-control>
+          </nz-form-item>
+
+          <p class="hint">Please enter the email you last used for login</p>
+
+          <button nz-button nzType="primary" class="auth-btn">Reset password</button>
+        </form>
+      </nz-tab>
+    </nz-tabs>
+  </div>
 </div>
-}
-@case('register'){
-<div class="tab-content">
-    <h2>Register</h2>
-    <form (ngSubmit)="onRegister()">
-    <input [(ngModel)]="userDto.userLoginId" name="email" placeholder="Email" required>
-      <input [(ngModel)]="userDto.userFirstName" name="firstName" placeholder="First Name" required>
-      <input [(ngModel)]="userDto.userLastName" name="lastName" placeholder="Last Name" required>
-      <input [(ngModel)]="userDto.password" type="password" name="password" placeholder="Password" required>
-      <button type="submit">Sign Up</button>
-    </form>
-</div>
-} 
-}
