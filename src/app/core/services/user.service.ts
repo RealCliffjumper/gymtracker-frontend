@@ -10,14 +10,27 @@ import { Router } from '@angular/router';
 })
 export class UserService {
 
-  public currentUserSubject = new BehaviorSubject<User | null>(null);
-  public currentUser = this.currentUserSubject
-    .asObservable()
-    .pipe(distinctUntilChanged());
+  public currentUserSubject :BehaviorSubject<User | null>
+  public currentUser : Observable<User | null>
+  public isAuthenticated: Observable<boolean>
 
-  public isAuthenticated = this.currentUser.pipe(map((user) => !!user));
+  constructor(private jwtService: JwtService, private router: Router) {
+    const storedUser = localStorage.getItem('user');
+    this.currentUserSubject = new BehaviorSubject<User | null>(
+      storedUser ? JSON.parse(storedUser) : null
+    );
 
-  constructor(private jwtService: JwtService, private router: Router) {}
+    this.currentUser = this.currentUserSubject
+      .asObservable()
+      .pipe(distinctUntilChanged());
+
+    this.isAuthenticated = this.currentUser.pipe(map(user => !!user));}
+
+
+  setUser(user: User) {
+    localStorage.setItem('user', JSON.stringify(user));
+    this.currentUserSubject.next(user);
+  }
 
   logout(): void {
     this.purgeAuth();
@@ -26,6 +39,7 @@ export class UserService {
 
   purgeAuth(): void {
     this.jwtService.destroyToken();
+    localStorage.removeItem('user');
     this.currentUserSubject.next(null);
   }
 }
