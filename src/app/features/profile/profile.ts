@@ -9,7 +9,7 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { User } from '../../shared/models/user';
 import { UserService } from '../../core/services/user.service';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
-import { NzModalComponent, NzModalModule } from 'ng-zorro-antd/modal';
+import { NzModalComponent, NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { HttpClient } from '@angular/common/http';
 import { NgClass } from '@angular/common';
@@ -50,7 +50,7 @@ export class Profile {
     roles: []
   };
 
-  constructor(private userService: UserService, private fb: FormBuilder, private message: NzMessageService, private http: HttpClient) {
+  constructor(private userService: UserService, private fb: FormBuilder, private message: NzMessageService, private http: HttpClient, private modal: NzModalService) {
     // Load user data on init
     this.userService.currentUser.subscribe(u => {
       if (u) {
@@ -62,7 +62,12 @@ export class Profile {
   
   onSave() {
     this.userService.updateUser(this.user).subscribe({
-      next: () => alert('Profile saved!'),
+      next: () => this.modal.success({
+      nzTitle: 'Profile changed',
+      nzContent: 'Applied profile changes',
+      nzOkText: 'OK',
+      
+    }),
       error: err => console.error(err)
     });
   }

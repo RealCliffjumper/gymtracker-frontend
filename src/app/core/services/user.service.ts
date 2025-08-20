@@ -33,7 +33,7 @@ export class UserService {
 
   updateUser(user: User): Observable<User> {
     return this.http.put<User>(`${this.apiUrl}/${user.userId}`, user).pipe(
-      tap(updated => this.currentUserSubject.next(updated))
+      tap(updated => this.setUser(updated))
     );
   }
   
