@@ -1,6 +1,4 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { UserService } from '../../core/services/user.service';
 
 @Component({
   selector: 'app-calendar',
@@ -11,10 +9,4 @@ import { UserService } from '../../core/services/user.service';
 })
 export class Calendar {
 
-constructor(private userService: UserService, private route: Router) { }
-logout(): void {
-    this.userService.purgeAuth();
-    this.route.navigate(["auth"])
-  }
 }
-
