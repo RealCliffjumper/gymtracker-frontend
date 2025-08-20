@@ -3,6 +3,7 @@ import { Routes } from '@angular/router';
 import { UserService } from './core/services/user.service';
 import { map } from 'rxjs';
 import { authGuard } from './core/auth/auth.guard';
+import { authRedirectGuard } from './core/auth/auth.redirect.guard';
 export const routes: Routes = [
     
     {
@@ -19,9 +20,7 @@ export const routes: Routes = [
     {
       path: "auth",
       loadComponent:() => import("./core/auth/auth").then(m => m.Auth),
-      canActivate: [
-      () => inject(UserService).isAuthenticated.pipe(map((isAuth) => !isAuth)),
-      ],
+      canActivate: [authRedirectGuard],
     },
     
     {
