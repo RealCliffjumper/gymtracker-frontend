@@ -1,7 +1,15 @@
-
-<div class="tabs">
-  <button routerLink="/home" routerLinkActive="active">Home</button>
-  <button routerLink="/profile" routerLinkActive="active">Profile</button>
-  <button routerLink="/workouts" routerLinkActive="active">My Workouts</button>
-  <button routerLink="/plans" routerLinkActive="active">My Plans</button>
-</div>
+<ul nz-menu nzMode="horizontal" class="nav-menu">
+  <li nz-menu-item routerLink="/home" routerLinkActive="ant-menu-item-selected" >
+    Home
+  </li>
+  <li nz-menu-item routerLink="/profile" routerLinkActive="ant-menu-item-selected">
+    Profile
+  </li>
+  <li nz-menu-item routerLink="/workouts" routerLinkActive="ant-menu-item-selected">
+    My Workouts
+  </li>
+  <li nz-menu-item routerLink="/plans" routerLinkActive="ant-menu-item-selected">
+    My Plans
+  </li>
+  <nz-icon nzType="logout" nzTheme="outline" (click) = logout()/>
+</ul>
