@@ -9,6 +9,7 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 
 
 @Component({
@@ -20,31 +21,28 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
     NzFormModule,
     NzInputModule,
     NzButtonModule,
-    NzTypographyModule],
+    NzTypographyModule,
+    NzModalModule],
   templateUrl: './auth.html',
   styleUrl: './auth.css'
 })
 
 
 export class Auth {
-  condition: 'login' | 'register' = 'login';
-
-  switchTab(tab: 'login' | 'register') {
-    this.condition = tab;
-  }
 
   userDto: UserDto = {
     userLoginId: '',
     userFirstName: '',
     userLastName: '',
-    password: ''
+    password: '',
+    unitPreference: 'KG'
   };
 
   
   userLoginId = '';
   password = '';
   
-    constructor(private authService: AuthService, private route: Router, private userService: UserService) {}
+    constructor(private authService: AuthService, private route: Router, private userService: UserService, private modal: NzModalService) {}
   
     onLogin() {
       this.authService.login({ userLoginId: this.userLoginId, password: this.password }).subscribe({
@@ -54,8 +52,12 @@ export class Auth {
           this.userService.setUser(res.user);
           this.route.navigate(["/home"]);
         },
-        error: (err) => {
-          console.error('Login failed', err);
+        error: () => {    //handle errors via backend
+          this.modal.error({
+          nzTitle: 'Invalid credentials',
+          nzContent: 'Check your password or email',
+          nzOkText: 'OK',
+    });
         }
       });
     }
