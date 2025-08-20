@@ -3,4 +3,5 @@ export interface UserDto {
   userFirstName: string;
   userLastName: string;
   password: string;
+  unitPreference: 'KG' | 'LBS'
 }

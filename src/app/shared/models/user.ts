@@ -6,6 +6,7 @@ export interface User {
     userLoginId: string;
     password?: string;
     createdAt: Date;
+    unitPreference: 'KG' | 'LBS'
     enabled: boolean;
     locked: boolean;
     roles: string[];
