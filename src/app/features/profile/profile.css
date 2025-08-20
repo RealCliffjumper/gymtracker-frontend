@@ -1,0 +1,58 @@
+.profile-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.profile-card {
+  max-width: 900px;
+  width: 100%;
+}
+
+.profile-avatar {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.unit-selector {
+  margin: 16px 0;
+}
+
+.save-btn {
+  width: 100%;
+  background-color: var(--ant-primary-color);
+  color: #f5f4ef;
+  border-color: var(--ant-primary-color);
+}
+
+.exercises-panel {
+  text-align: center;
+}
+
+.exercise-card {
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-label {
+  text-align: right;
+  padding-right: 12px;
+}
+
+.form-label-email { /* separate class for email label since its 5 letters */
+  text-align: right; 
+  padding-right: 8px;
+}
+
+.btn-enabled {
+  background-color: var(--ant-primary-color) !important;
+  border-color: var(--ant-primary-color) !important;
+  color: #fff !important;
+}
+
+.unit-label {
+  margin-right: 10px;
+  white-space: nowrap;
+}
