@@ -119,6 +119,7 @@ export class Profile {
       this.message.success('Password changed successfully!');
       this.handleCancel();
       this.isSubmitting = false;
+      this.userService.logout();
     },
     error: (err) => {
       this.message.error(err.error?.message || 'Failed to change password');
