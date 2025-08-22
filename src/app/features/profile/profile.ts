@@ -66,11 +66,16 @@ export class Profile {
       nzTitle: 'Profile changed',
       nzContent: 'Applied profile changes',
       nzOkText: 'OK',
-      
     }),
-      error: err => console.error(err)
-    });
+    
+    error: (err) => {
+      if(err.status === 304){
+        this.message.warning('No changes were made');
+        return;
+      }
+    }
   }
+  )}
 
   //Modal handling
 
