@@ -44,6 +44,10 @@ export class UserService {
     });
   }
 
+  deleteUser(userId: string): Observable<void>{
+    return this.http.delete<void>(`${this.apiUrl}/delete/${userId}`);
+  }
+
   setUser(user: User) {
     localStorage.setItem('user', JSON.stringify(user));
     this.currentUserSubject.next(user);
