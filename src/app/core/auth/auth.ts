@@ -62,11 +62,9 @@ export class Auth {
 
     this.authService.login({ userLoginId: this.userLoginId, password: this.password }).subscribe({
       next: (res) => {
-        //console.log('Login successful');
         localStorage.setItem('jwtToken', res.token);
-
-        this.userService.setUser(res.user);
-        this.route.navigate(["/home"]);
+          this.userService.setUser(res.user);
+          this.route.navigate(['/home']);
       },
 
       error: () => {    
@@ -91,7 +89,8 @@ export class Auth {
       //console.log('Registration successful');
       localStorage.setItem('jwtToken', res.token);
 
-      this.userService.currentUserSubject.next(res.user);
+      //this.userService.currentUserSubject.next(res.user);
+      this.userService.setUser(res.user);
       this.route.navigate(["/home"]);
     },
 

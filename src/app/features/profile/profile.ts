@@ -52,7 +52,7 @@ export class Profile {
 
   constructor(private userService: UserService, private fb: FormBuilder, private message: NzMessageService, private http: HttpClient, private modal: NzModalService) {
     // Load user data on init
-    this.userService.currentUser.subscribe(u => {
+    this.userService.currentUser$.subscribe(u => {
       if (u) {
         this.user = { ...u };
       }

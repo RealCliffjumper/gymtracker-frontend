@@ -12,24 +12,15 @@ import { HttpClient } from '@angular/common/http';
 export class UserService {
   private apiUrl = 'http://localhost:8080/api/user';
 
-
-  public currentUserSubject :BehaviorSubject<User | null>
-  public currentUser : Observable<User | null>
-  public isAuthenticated: Observable<boolean>
+  public currentUserSubject = new BehaviorSubject<User | null>(null);
+  currentUser$ = this.currentUserSubject.asObservable();
+  public isAuthenticated = this.currentUser$.pipe(map(user => !!user));
 
   constructor(private jwtService: JwtService, private router: Router, private http: HttpClient) {
-    const storedUser = localStorage.getItem('user');
-    this.currentUserSubject = new BehaviorSubject<User | null>(
-      storedUser ? JSON.parse(storedUser) : null
-    );
-
-    this.currentUser = this.currentUserSubject
-      .asObservable()
-      .pipe(distinctUntilChanged());
-
-    this.isAuthenticated = this.currentUser.pipe(map(user => !!user));
   }
 
+  getUser(): Observable<User> {
+    return this.http.get<User>(`${this.apiUrl}/get`);  }
 
   updateUser(user: User): Observable<User> {
     return this.http.put<User>(`${this.apiUrl}/${user.userId}`, user).pipe(
@@ -48,8 +39,7 @@ export class UserService {
     return this.http.delete<void>(`${this.apiUrl}/delete/${userId}`);
   }
 
-  setUser(user: User) {
-    localStorage.setItem('user', JSON.stringify(user));
+  setUser(user: User) :void {
     this.currentUserSubject.next(user);
   }
 
@@ -60,7 +50,6 @@ export class UserService {
 
   purgeAuth(): void {
     this.jwtService.destroyToken();
-    localStorage.removeItem('user');
     this.currentUserSubject.next(null);
   }
 }

@@ -22,7 +22,14 @@ export class App {
   protected readonly title = signal('gymtracker-fe');
 
   
-  constructor(){}
+  constructor(private userService: UserService){
+    const token = localStorage.getItem('jwtToken');
+    if (token) {
+    this.userService.getUser().subscribe(user => {
+    this.userService.setUser(user);
+  });
+}
+}
 
   isAuthenticated$ = inject(UserService).isAuthenticated;
   
