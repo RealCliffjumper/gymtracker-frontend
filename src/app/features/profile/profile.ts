@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardComponent } from 'ng-zorro-antd/card';
@@ -34,58 +34,80 @@ import { NgClass } from '@angular/common';
 })
 export class Profile {
 
+  private fb = inject(FormBuilder);
+  private userService = inject(UserService);
+  private message = inject(NzMessageService);
+  private modal = inject(NzModalService);
+
+  // Modal & state
   isPasswordModalVisible = false;
   isSubmitting = false;
-  passwordForm!: FormGroup;
-  
-  user: User = {
+
+  user = signal<User>({
     userId: '',
     userLoginId: '',
     userFirstName: '',
     userLastName: '',
     unitPreference: 'KG',
-    createdAt: new Date,
+    createdAt: new Date(),
     enabled: true,
     locked: false,
     roles: []
-  };
+  });
 
-  constructor(private userService: UserService, private fb: FormBuilder, private message: NzMessageService, private http: HttpClient, private modal: NzModalService) {
-    // Load user data on init
-    this.userService.currentUser$.subscribe(u => {
-      if (u) {
-        this.user = { ...u };
+  userForm: FormGroup = this.fb.group({
+    userFirstName: ['', Validators.required],
+    userLastName: ['', Validators.required],
+    userLoginId: ['', [Validators.required, Validators.email]],
+    unitPreference: ['KG']
+  });
+
+  passwordForm: FormGroup = this.fb.group({
+    oldPassword: ['', Validators.required],
+    newPassword: ['', Validators.required],
+    confirmPassword: ['', Validators.required]
+  });
+
+  constructor() {
+    effect(() => {
+      const currentUser = this.userService.currentUser();
+      if (currentUser) {
+        this.user.set({ ...currentUser });
+
+        this.userForm.patchValue({
+          userFirstName: currentUser.userFirstName,
+          userLastName: currentUser.userLastName,
+          userLoginId: currentUser.userLoginId,
+          unitPreference: currentUser.unitPreference
+        });
       }
     });
-    
   }
-  
+
   onSave() {
-    this.userService.updateUser(this.user).subscribe({
-      next: () => this.modal.success({
-      nzTitle: 'Profile changed',
-      nzContent: 'Applied profile changes',
-      nzOkText: 'OK',
-    }),
-    
-    error: (err) => {
-      if(err.status === 304){
-        this.message.warning('No changes were made');
-        return;
+    const updatedUser: User = {
+      ...this.user(),
+      ...this.userForm.value
+    };
+
+    this.userService.updateUser(updatedUser).subscribe({
+      next: () =>
+        this.modal.success({
+          nzTitle: 'Profile changed',
+          nzContent: 'Applied profile changes',
+          nzOkText: 'OK'
+        }),
+      error: (err) => {
+        if (err.status === 304) {
+          this.message.warning('No changes were made');
+          return;
+        }
+        this.message.error('Failed to update profile');
       }
-    }
+    });
   }
-  )}
 
   //Modal handling
-
-  ngOnInit(): void {
-    this.passwordForm = this.fb.group({
-      oldPassword: ['', Validators.required],
-      newPassword: ['', Validators.required],
-      confirmPassword: ['', Validators.required]
-    });
-  }
 
   openChangePasswordModal(): void {
     this.isPasswordModalVisible = true;
@@ -111,15 +133,15 @@ export class Profile {
 
   this.isSubmitting = true;
 
-  const userId = this.userService.currentUserSubject.value?.userId;
+  const user = this.userService.currentUser();
 
-  if (!userId) {
+  if (!user) {
     this.message.error('User not logged in.');
     this.isSubmitting = false;
     return;
   }
 
-  this.userService.changePassword(userId, oldPassword, newPassword).subscribe({
+  this.userService.changePassword(user.userId, oldPassword, newPassword).subscribe({
     next: () => {
       this.message.success('Password changed successfully!');
       this.handleCancel();

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { computed, Injectable, signal } from '@angular/core';
 import { Observable, BehaviorSubject } from "rxjs";
 import { User } from "../../shared/models/user";
 import { map, distinctUntilChanged, tap, shareReplay } from "rxjs/operators";
@@ -12,9 +12,10 @@ import { HttpClient } from '@angular/common/http';
 export class UserService {
   private apiUrl = 'http://localhost:8080/api/user';
 
-  public currentUserSubject = new BehaviorSubject<User | null>(null);
-  currentUser$ = this.currentUserSubject.asObservable();
-  public isAuthenticated = this.currentUser$.pipe(map(user => !!user));
+  private _currentUser = signal<User | null>(null);
+  currentUser = this._currentUser.asReadonly();
+
+  isAuthenticated = computed(() => !!this._currentUser());
 
   constructor(private jwtService: JwtService, private router: Router, private http: HttpClient) {
   }
@@ -40,7 +41,7 @@ export class UserService {
   }
 
   setUser(user: User) :void {
-    this.currentUserSubject.next(user);
+    this._currentUser.set(user);
   }
 
   logout(): void {
@@ -50,6 +51,6 @@ export class UserService {
 
   purgeAuth(): void {
     this.jwtService.destroyToken();
-    this.currentUserSubject.next(null);
+    this._currentUser.set(null);
   }
 }
