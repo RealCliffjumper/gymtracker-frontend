@@ -1,0 +1,44 @@
+.workout-container {
+  max-width: 900px;
+  margin: 40px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.workout-card,
+.exercise-card {
+  padding: 20px;
+}
+
+.page-title {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.save-btn {
+  float: right;
+  width: 100%;
+  background-color: var(--ant-primary-color);
+  color: #f5f4ef;
+  border-color: var(--ant-primary-color);
+}
+
+.exercise-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.exercise-search {
+  margin: 10px 0;
+}
+
+.exercise-list {
+  margin-top: 10px;
+}
+
+.exercise-actions {
+  display: flex;
+  gap: 10px;
+}

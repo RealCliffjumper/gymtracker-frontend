@@ -2,7 +2,7 @@ import { bootstrapApplication } from '@angular/platform-browser';
 import { App } from './app/app';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptors } from '@angular/common/http';
 import 'zone.js'
-import { provideRouter } from '@angular/router';
+import { provideRouter, withRouterConfig } from '@angular/router';
 import { routes } from './app/app.routes';
 import { jwtInterceptor } from './app/core/interceptors/jwt.interceptor';
 import { provideAnimations } from '@angular/platform-browser/animations';
@@ -44,7 +44,7 @@ registerLocaleData(en);
 bootstrapApplication(App, {
  providers:[
   provideHttpClient(withInterceptors([jwtInterceptor])),
-  provideRouter(routes),
+  provideRouter(routes, withRouterConfig({onSameUrlNavigation: 'reload'})),
   provideAnimations(), provideNzI18n(en_US), importProvidersFrom(FormsModule), provideAnimationsAsync(), provideHttpClient(),
   provideAppInitializer(() => appInitializer(inject(EnvironmentInjector))())
  ] 

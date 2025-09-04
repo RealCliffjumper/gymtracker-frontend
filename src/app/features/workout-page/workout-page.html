@@ -1,0 +1,94 @@
+<div class="workout-container">
+  <nz-card class="workout-card">
+    <h2 class="page-title">{{workoutForm.value.workoutName}}</h2>
+    
+
+    <!-- Workout Info Form -->
+    <form nz-form [formGroup]="workoutForm" class="workout-form">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="6">Workout Name</nz-form-label>
+        <nz-form-control [nzSpan]="18">
+          <input nz-input formControlName="workoutName" placeholder="New workout" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSpan]="6">Workout Description</nz-form-label>
+        <nz-form-control [nzSpan]="18">
+          <input nz-input formControlName="workoutDescription" placeholder="Add description (optional)" />
+        </nz-form-control>
+      </nz-form-item>
+
+
+      <nz-form-item>
+        <nz-form-label [nzSpan]="6">Muscle Group</nz-form-label>
+        <nz-form-control [nzSpan]="18">
+          <nz-select  nzPlaceHolder="At least one" nzMode="multiple">
+            <nz-option></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSpan]="6">Day of Week</nz-form-label>
+        <nz-form-control [nzSpan]="18">
+          <nz-select  nzPlaceHolder="None">
+            <nz-option></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSpan]="6">Weekly Plan</nz-form-label>
+        <nz-form-control [nzSpan]="18">
+          <nz-select nzPlaceHolder="Day must be selected" disabled></nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-row class="buttons" nzJustify="end" nzGutter="16">
+        @if(workout){
+        <nz-col >
+          <button nz-button nzType="default" nzDanger class="delete-btn" (click) = deleteWorkout()>Delete</button>
+        </nz-col>
+        }
+        
+        <nz-col>
+          <button nz-button nzType="primary" class="save-btn" (click) = onSave()>Save</button>
+        </nz-col>
+      </nz-row>
+    </form>
+
+    <div class="meta-info">
+      <p>Created at: {{createdAt | parseDates | date:'mediumDate'}}</p>
+      <p>Last updated at: {{updatedAt | parseDates | date: 'mediumDate'}}</p>
+    </div>
+    
+  </nz-card>
+
+  <!-- Exercises Section -->
+  <nz-card class="exercise-card">
+    <div class="exercise-header">
+      <h3>Exercises</h3>
+      <p>Add one or more exercises</p>
+    </div>
+
+    <nz-input-group [nzSuffix]="suffixIconSearch" class="exercise-search">
+      <input type="text" nz-input placeholder="Search exercises" />
+    </nz-input-group>
+    <ng-template #suffixIconSearch>
+      <span nz-icon nzType="search"></span>
+    </ng-template>
+
+    <!-- Exercises List -->
+    <div class="exercise-list">
+      <nz-list [nzBordered]="true">
+       <!-- <nz-list-item *ngFor="let exercise of exercises">
+          <span>{{ exercise.name }}</span>
+          <div class="exercise-actions">
+            <a (click)="linkSuperset(exercise)">Superset</a>
+            <button nz-button nzType="text" nzDanger (click)="removeExercise(exercise)">X</button>
+          </div>
+        </nz-list-item>-->
+      </nz-list>
+    </div>
+  </nz-card>
+</div>

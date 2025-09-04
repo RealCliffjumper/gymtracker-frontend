@@ -1,7 +1,4 @@
-import { inject } from '@angular/core';
 import { Routes } from '@angular/router';
-import { UserService } from './core/services/user.service';
-import { map } from 'rxjs';
 import { authGuard } from './core/auth/auth.guard';
 import { authRedirectGuard } from './core/auth/auth.redirect.guard';
 export const routes: Routes = [
@@ -36,14 +33,22 @@ export const routes: Routes = [
     },
 
     {
+      path: "workout/:workoutName",
+      loadComponent:() => import("./features/workout-page/workout-page").then(m => m.WorkoutPage),
+      canActivate:[authGuard]
+    },
+    
+    {
       path: "plans",
       loadComponent:() => import("./features/plans/plans").then(m=> m.Plans),
       canActivate:[authGuard]
     },
+
     {
       path: 'not-found',
       loadComponent: () => import('./features/not-found/not-found').then(m => m.NotFound)
     },
+
     {
       path: '**',
       redirectTo: '/not-found'
