@@ -7,13 +7,9 @@ export const authRedirectGuard: CanActivateFn = () => {
   const userService = inject(UserService);
   const router = inject(Router);
 
-  return userService.isAuthenticated.pipe(
-    map(isAuth => {
-      if (isAuth) {
-        router.navigate(['/home']);
-        return false;
-      }
-      return true;
-    })
-  );
+  if (userService.isAuthenticated()) {
+    router.navigate(['/home']);
+    return false;
+  }
+  return true;
 };

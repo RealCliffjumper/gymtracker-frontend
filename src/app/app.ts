@@ -11,7 +11,6 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
   imports: [
     RouterOutlet, 
     Navbar, 
-    AsyncPipe, 
     NzMenuModule,
     NzIconModule
   ],
@@ -31,6 +30,6 @@ export class App {
 }
 }
 
-  isAuthenticated$ = inject(UserService).isAuthenticated;
+  isAuthenticated = inject(UserService).isAuthenticated;
   
 }

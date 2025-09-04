@@ -11,17 +11,11 @@ export const authGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
   const message = inject(NzMessageService);
 
-  return userService.isAuthenticated.pipe(
-
-    map(isAuth => {
-
-      if (!isAuth) {
-        router.navigate(['/auth']); // redirect to auth page if not
-        message.warning('Please login first');
-        return false;
-      }
-      return true;
-
-    })
-  );
+  if (!userService.isAuthenticated()) {
+    router.navigate(['/home']);
+    router.navigate(['/auth']); // redirect to auth page if not
+    message.warning('Please login first');
+    return false;
+  }
+  return true;
 };
