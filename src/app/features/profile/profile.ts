@@ -13,6 +13,8 @@ import { NzModalComponent, NzModalModule, NzModalService } from 'ng-zorro-antd/m
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { HttpClient } from '@angular/common/http';
 import { NgClass } from '@angular/common';
+import { Exercise } from '../../shared/models/exercise';
+import { ExerciseService } from '../../core/services/exercise.service';
 
 @Component({
   selector: 'app-profile',
@@ -38,11 +40,13 @@ export class Profile {
   private userService = inject(UserService);
   private message = inject(NzMessageService);
   private modal = inject(NzModalService);
+  private exerciseService = inject(ExerciseService)
 
   // Modal & state
   isPasswordModalVisible = false;
   isSubmitting = false;
-
+  //
+  
   user = signal<User>({
     userId: '',
     userLoginId: '',
@@ -54,6 +58,8 @@ export class Profile {
     locked: false,
     roles: []
   });
+
+  exercises = signal<Exercise[]>([]);
 
   userForm: FormGroup = this.fb.group({
     userFirstName: ['', Validators.required],
@@ -71,8 +77,13 @@ export class Profile {
   constructor() {
     effect(() => {
       const currentUser = this.userService.currentUser();
+      
       if (currentUser) {
         this.user.set({ ...currentUser });
+        this.exerciseService.getUserExercises(this.user().userId).subscribe({
+          next: (data) => this.exercises.set(data),
+          error: (err) => console.error('Error loading workouts', err)
+        });
 
         this.userForm.patchValue({
           userFirstName: currentUser.userFirstName,

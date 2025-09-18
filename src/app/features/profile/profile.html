@@ -48,11 +48,15 @@
       <div nz-col [nzSpan]="12" class="exercises-panel">
         <h3>My exercises</h3>
         <nz-card nzBordered="true" class="exercise-card">
+          @if(exercises().length > 0){
+          <ul>
+            @for (exercise of exercises(); track exercise.exerciseId){
+            <li >{{ exercise.exerciseName }}</li>
+            }
+          </ul>
+          } @else {
             <p>No exercises added yet.</p>
-          <!-- <p *ngIf="!user.exercises?.length">No exercises added yet.</p>
-          <ul *ngIf="user.exercises?.length">
-            <li *ngFor="let exercise of user.exercises">{{ exercise.name }}</li>
-          </ul> -->
+          }
         </nz-card>
       </div>
     </div>
