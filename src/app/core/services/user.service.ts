@@ -1,4 +1,4 @@
-import { computed, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { Observable, BehaviorSubject } from "rxjs";
 import { User } from "../../shared/models/user";
 import { map, distinctUntilChanged, tap, shareReplay } from "rxjs/operators";
@@ -17,7 +17,11 @@ export class UserService {
 
   isAuthenticated = computed(() => !!this._currentUser());
 
-  constructor(private jwtService: JwtService, private router: Router, private http: HttpClient) {
+  jwtService = inject(JwtService)
+  router = inject(Router)
+  http = inject(HttpClient)
+
+  constructor() {
   }
 
   getUser(): Observable<User> {
