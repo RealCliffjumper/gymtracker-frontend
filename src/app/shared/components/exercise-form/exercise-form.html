@@ -1,0 +1,41 @@
+<form [formGroup]="exerciseForm" (ngSubmit)="submit()">
+  <nz-form-item>
+    <nz-form-label [nzSpan]="6">Name</nz-form-label>
+    <nz-form-control [nzSpan]="18">
+      <input nz-input formControlName="exerciseName" />
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSpan]="6">Description</nz-form-label>
+    <nz-form-control [nzSpan]="18">
+      <textarea nz-input formControlName="exerciseDescription"></textarea>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSpan]="6">Muscle Group</nz-form-label>
+    <nz-form-control [nzSpan]="18">
+      <nz-select formControlName="muscleGroup">
+        @for (group of availableMuscleGroups; track group) {
+        <nz-option [nzLabel]="muscleGroupLabels[group]" [nzValue]="group"></nz-option>
+        }
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSpan]="6">Equipment</nz-form-label>
+    <nz-form-control [nzSpan]="18">
+      <nz-select formControlName="equipmentType">
+        @for (equipment of equipmentTypes; track equipment) {
+        <nz-option [nzLabel]="equipmentDic[equipment]" [nzValue]="equipment"></nz-option>
+        }
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+
+  <div class="form-actions">
+    <button nz-button nzType="primary" class="save-btn" [disabled]="exerciseForm.invalid">Save</button>
+  </div>
+</form>

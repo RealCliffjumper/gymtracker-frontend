@@ -1,0 +1,36 @@
+input[nz-input],
+textarea[nz-input] {
+  width: 100%;
+  padding: 6px 11px;
+  font-size: 14px;
+  border: 1px solid #d9d9d9;
+  border-radius: 0;
+  line-height: 1.5715;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+textarea[nz-input] {
+  min-height: 80px;
+  resize: vertical;
+}
+
+input[nz-input]:focus,
+textarea[nz-input]:focus {
+  border-color: var(--ant-primary-color);
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+  outline: none;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 16px;
+}
+
+.save-btn {
+  min-width: 120px;
+  border-radius: 8px;
+  background-color: var(--ant-primary-color);
+  color: #f5f4ef;
+  border-color: var(--ant-primary-color);
+}
