@@ -42,3 +42,17 @@
   display: flex;
   gap: 10px;
 }
+
+nz-icon {
+    padding-left: 10px;
+    font-size: 24px;
+    cursor:pointer;
+}
+
+.order-icon {
+  cursor: grab;
+  margin-right: 8px;
+}
+.order-icon:active {
+  cursor: grabbing;
+}

@@ -23,8 +23,15 @@
       <nz-form-item>
         <nz-form-label [nzSpan]="6">Muscle Group</nz-form-label>
         <nz-form-control [nzSpan]="18">
-          <nz-select  nzPlaceHolder="At least one" nzMode="multiple">
-            <nz-option></nz-option>
+          <nz-select
+          nzMode="multiple"
+          nzPlaceHolder="Filter by muscle group"
+          [ngModel]="muscleFilters()" [ngModelOptions]="{standalone: true}"
+          (ngModelChange)="muscleFilters.set($event)"
+          >
+          @for (group of availableMuscleGroups; track group) {
+            <nz-option [nzLabel]="muscleGroupLabels[group]" [nzValue]="group"></nz-option> <!--the filters should be already active if there are exercises in the workout-->
+          }
           </nz-select>
         </nz-form-control>
       </nz-form-item>
@@ -65,30 +72,112 @@
   </nz-card>
 
   <!-- Exercises Section -->
+  @if(workout){
   <nz-card class="exercise-card">
     <div class="exercise-header">
       <h3>Exercises</h3>
-      <p>Add one or more exercises</p>
     </div>
 
-    <nz-input-group [nzSuffix]="suffixIconSearch" class="exercise-search">
-      <input type="text" nz-input placeholder="Search exercises" />
-    </nz-input-group>
-    <ng-template #suffixIconSearch>
-      <span nz-icon nzType="search"></span>
-    </ng-template>
+    <nz-select
+      nzShowSearch
+      nzAllowClear
+      nzPlaceHolder="Search and add one or more exercises"
+      [ngModel]="selectedExercise()"
+      (nzOnSearch)="onSearch($event)"
+      (ngModelChange)="onExerciseSelected($event)"
+      (nzOpenChange)="onDropdownOpen($event)"
+      style="width: 300px"
+    >
+    <nz-option-group nzLabel="Actions">
+      <nz-option nzLabel="Create an exercise" nzValue="__create__"></nz-option>
+    </nz-option-group>
+    
+    <nz-option-group nzLabel="Available exercises">
+    @for (exercise of filteredExercises(); track exercise.exerciseId) {
+      <nz-option
+        [nzLabel]="exercise.exerciseName"
+        [nzValue]="exercise.exerciseId">
+      </nz-option>
+    }
+    </nz-option-group>
+    </nz-select>
+    <button nz-button nzType="primary" class="add-btn" (click)="openAddWorkoutExerciseModal()">Add</button>
 
     <!-- Exercises List -->
     <div class="exercise-list">
-      <nz-list [nzBordered]="true">
-       <!-- <nz-list-item *ngFor="let exercise of exercises">
-          <span>{{ exercise.name }}</span>
+      <nz-list [nzBordered]="true" cdkDropList (cdkDropListDropped)="drop($event)">
+      @for (workoutExercise of workoutExercises(); track workoutExercise.exerciseOrder){
+        <nz-list-item cdkDrag>
+          <nz-icon nzType="unordered-list" nzTheme="outline" class="order-icon" cdkDragHandle/>
+          <span>{{ workoutExercise.exerciseName }}</span>
           <div class="exercise-actions">
-            <a (click)="linkSuperset(exercise)">Superset</a>
-            <button nz-button nzType="text" nzDanger (click)="removeExercise(exercise)">X</button>
+            @if(workoutExercises().length > 1){
+              <nz-icon nzType="link" nzTheme="outline" (click)="linkSuperset()" nz-tooltip nzTooltipTitle="Link superset" />
+            }
+            <nz-icon nzType="edit" nzTheme="outline" nz-tooltip nzTooltipTitle="Edit" [nzTooltipArrowPointAtCenter]="true" (click)="openEditWorkoutExerciseModal(workoutExercise)"/>
+            <nz-icon nzType="delete" nzTheme="outline" (click)="removeExercise(workoutExercise.workoutExerciseId)" nz-tooltip nzTooltipTitle="Delete"/>
           </div>
-        </nz-list-item>-->
+        </nz-list-item>
+      }
       </nz-list>
     </div>
   </nz-card>
+  }
+</div>
+
+<nz-modal
+  [(nzVisible)]="isWorkoutExerciseModalVisible"
+  [nzTitle]="isEditMode ?  'Edit exercise in workout' : 'Add exercise to workout' "
+  (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()"
+  [nzOkLoading]="isSubmitting"
+>
+<ng-container *nzModalContent>
+  <form [formGroup]="exerciseForm" (ngSubmit)="handleOk()">
+    
+    <span></span>
+    @for (set of sets.controls; let i = $index; track i) {
+        <div [formGroup]="set" class="set-row">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="6">Set {{ i + 1 }} Reps</nz-form-label>
+            <nz-form-control [nzSpan]="18">
+              <input nz-input formControlName="reps" type="number"/>
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-label [nzSpan]="6">
+              Set {{ i + 1 }} Weight ({{userService.currentUser()?.unitPreference}})
+            </nz-form-label>
+            <nz-form-control [nzSpan]="18">
+              <input nz-input formControlName="weight" type="number"/>
+            </nz-form-control>
+          </nz-form-item>
+
+          @if(sets.length > 1){
+            <button nz-button nzType="default" nzDanger (click)="removeSet(i)">
+            Remove
+            </button>
+          }
+          
+        </div>
+      }
+
+      <button nz-button nzType="dashed" (click)="addSet()" style="margin-top: 8px">
+        + Add Set
+      </button>
+
+  </form>
+</ng-container>
+
+<div *nzModalFooter>
+      <button nz-button nzType="default" type="button" (click)="handleCancel()">Cancel</button>
+      <button 
+      nz-button nzType="primary" 
+      type="submit" 
+      (click)="handleOk()" 
+      [disabled]="exerciseForm.invalid || isSubmitting"
+      [ngClass]="{ 'btn-enabled': exerciseForm.valid && !isSubmitting }">
+        Save
+      </button>
 </div>

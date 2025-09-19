@@ -6,6 +6,7 @@ import { NzColDirective, NzRowDirective } from 'ng-zorro-antd/grid';
 import { WorkoutService } from '../../core/services/workout.service';
 import { Workout } from '../../shared/models/workout';
 import { UserService } from '../../core/services/user.service';
+import { NzButtonModule } from 'ng-zorro-antd/button';
 
 @Component({
   selector: 'app-workouts',
@@ -14,7 +15,8 @@ import { UserService } from '../../core/services/user.service';
     NzCardModule,
     NzRowDirective,
     NzColDirective,
-    CommonModule
+    CommonModule,
+    NzButtonModule
   ],
   templateUrl: './workouts.html',
   styleUrl: './workouts.css'
