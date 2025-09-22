@@ -1,5 +1,6 @@
 <div class="workout-container">
   <nz-card class="workout-card">
+    <nz-icon nzType="left" nzTheme="outline" routerLink="/workouts"/>
     <h2 class="page-title">{{workoutForm.value.workoutName}}</h2>
     
 
@@ -106,18 +107,37 @@
     <!-- Exercises List -->
     <div class="exercise-list">
       <nz-list [nzBordered]="true" cdkDropList (cdkDropListDropped)="drop($event)">
-      @for (workoutExercise of workoutExercises(); track workoutExercise.exerciseOrder){
+      @for (workoutExercise of workoutExercises(); track workoutExercise.exerciseOrder; let idx = $index){
+        @let nextExercise = workoutExercises()[idx + 1];
+
+        <div class="exercise-item" 
+            [ngStyle]="{
+            'border-left':workoutExercise.supersetGroupId &&
+            (
+              (nextExercise && workoutExercise.supersetGroupId === nextExercise.supersetGroupId) ||
+              (workoutExercises()[idx - 1] &&
+              workoutExercises()[idx - 1].supersetGroupId === workoutExercise.supersetGroupId)
+              )
+              ? '4px solid ' + getSupersetColor(workoutExercise.supersetGroupId)
+              : '4px solid transparent'
+          }">
         <nz-list-item cdkDrag>
           <nz-icon nzType="unordered-list" nzTheme="outline" class="order-icon" cdkDragHandle/>
           <span>{{ workoutExercise.exerciseName }}</span>
           <div class="exercise-actions">
             @if(workoutExercises().length > 1){
-              <nz-icon nzType="link" nzTheme="outline" (click)="linkSuperset()" nz-tooltip nzTooltipTitle="Link superset" />
+              <nz-icon 
+              nzType="link" 
+              nzTheme="outline" 
+              (click)="toggleSuperset(workoutExercise.workoutExerciseId, workoutExercise.exerciseOrder!)"
+              [class.shake]="selectedForSuperset().includes(workoutExercise.workoutExerciseId)" 
+              nz-tooltip nzTooltipTitle="Link superset"/>
             }
             <nz-icon nzType="edit" nzTheme="outline" nz-tooltip nzTooltipTitle="Edit" [nzTooltipArrowPointAtCenter]="true" (click)="openEditWorkoutExerciseModal(workoutExercise)"/>
             <nz-icon nzType="delete" nzTheme="outline" (click)="removeExercise(workoutExercise.workoutExerciseId)" nz-tooltip nzTooltipTitle="Delete"/>
           </div>
         </nz-list-item>
+        </div>
       }
       </nz-list>
     </div>

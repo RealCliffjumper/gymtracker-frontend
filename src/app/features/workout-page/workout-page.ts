@@ -9,7 +9,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { WorkoutService } from '../../core/services/workout.service';
 import { WorkoutDto } from '../../shared/models/workout.dto';
 import { UserService } from '../../core/services/user.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Workout } from '../../shared/models/workout';
 import { ParseDatesPipe } from '../../shared/pipes/parse-dates-pipe';
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -27,6 +27,7 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { ExerciseForm } from '../../shared/components/exercise-form/exercise-form';
 import { WorkoutSetDto } from '../../shared/models/workout-exercise-set';
 import {CdkDragDrop, DragDropModule, moveItemInArray} from '@angular/cdk/drag-drop';
+import { EMPTY } from 'rxjs';
 
 @Component({
   selector: 'app-workout-page',
@@ -46,7 +47,8 @@ import {CdkDragDrop, DragDropModule, moveItemInArray} from '@angular/cdk/drag-dr
     NzIconModule,
     NzTooltipModule,
     NzDividerModule,
-    DragDropModule
+    DragDropModule,
+    RouterLink
 ],
   templateUrl: './workout-page.html',
   styleUrl: './workout-page.css'
@@ -86,6 +88,21 @@ muscleFilters = signal<string[]>([]);
 selectedExercise = signal<string | null>(null)
 availableMuscleGroups = MUSCLE_GROUPS;
 muscleGroupLabels = MUSCLE_GROUP_LABELS;
+selectedForSuperset = signal<string[]>([]);
+selectedForSupersetRemoval = false;
+
+supersetColors: string[] = [
+  '#4caf50', // green
+  '#ffeb3b', // yellow
+  '#f44336', // red
+  '#2196f3', // blue
+  '#9c27b0', // purple
+  '#ff9800', // orange
+  '#00bcd4', // cyan
+  '#8bc34a', // light green
+  '#e91e63', // pink
+  '#795548', // brown
+];
 
 filteredExercises = computed(() => {
     const term = this.searchTerm().toLowerCase();
@@ -198,7 +215,7 @@ updateWorkout(){
           this.message.warning('No changes were made');
           return;
         }
-        this.message.error('Failed to workout');
+        this.message.error('Failed to update workout');
       }
     });
 }
@@ -272,8 +289,62 @@ removeExercise(exerciseId: string) {
   })
 }
 
-linkSuperset() {
-  console.log('link')
+
+toggleSuperset(workoutExerciseId: string, exerciseOrder: number){
+  const current = this.selectedForSuperset();
+
+  if (current.includes(workoutExerciseId)) {
+
+    this.selectedForSuperset.set(current.filter(id => id !== workoutExerciseId));
+    return;
+  }
+
+  if (current.length === 0) {
+    this.selectedForSuperset.set([workoutExerciseId]);
+
+  } else if (current.length === 1) {
+    const [firstId] = current;
+    const firstExercise = this.workoutExercises().find(e => e.workoutExerciseId === firstId);
+
+
+    if (!firstExercise) return;
+
+
+    const isSequential = Math.abs(firstExercise.exerciseOrder! - exerciseOrder!) === 1;
+    
+    if(!isSequential) {
+      this.message.warning("Supersets must be sequential exercises!");
+      this.selectedForSuperset.set([]);
+      return;
+    }
+
+    this.selectedForSuperset.set([firstId, workoutExerciseId]);
+
+    const setid1 = firstExercise.supersetGroupId
+    const setid2 = this.workoutExercises().find(e => e.workoutExerciseId === workoutExerciseId)?.supersetGroupId
+
+
+    if(setid1 && setid2 && setid1 === setid2){
+      this.workoutExerciseService
+      .removeSupersetWorkoutExercise(firstId, workoutExerciseId)
+      .subscribe(() => {
+        this.message.success("Superset relation removed");
+        this.loadExercises();
+        this.selectedForSuperset.set([]);
+        this.rebuildPage(this.workout!)
+      });
+    }
+
+    else {
+      this.workoutExerciseService
+      .supersetWorkoutExercise(firstId, workoutExerciseId)
+      .subscribe(() => {
+        this.message.success("Superset linked!");
+        this.loadExercises();
+        this.selectedForSuperset.set([]);
+        this.rebuildPage(this.workout!)
+      });
+    }}
 }
 
 //'Add exercise to workout modal' section
@@ -319,13 +390,11 @@ handleOk(): void {
   return;
 }
 
-  
   const sets: WorkoutSetDto[] = this.exerciseForm.value.sets!.map((s: any, idx: number) => ({
     setNumber: idx + 1,
     reps: s.reps,
     weight: s.weight
   }));
-
 
   if(this.isEditMode && this.editingExerciseId){
     
@@ -355,8 +424,7 @@ handleOk(): void {
         this.selectedExercise.set(null);
       });
   }
-  }
-  
+}
 }
 
 // set interaction methods
@@ -403,5 +471,15 @@ rebuildPage(w: Workout){
       { queryParams: { id: w!.workoutId } }
     );
   });
+}
+
+getSupersetColor(groupId: string | null): string {
+  if (!groupId) return 'transparent';
+
+  const hash = Array.from(groupId)
+    .map(c => c.charCodeAt(0))
+    .reduce((acc, val) => acc + val, 0);
+
+  return this.supersetColors[hash % this.supersetColors.length];
 }
 }

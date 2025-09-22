@@ -32,8 +32,12 @@ export class WorkoutExerciseService {
     return this.http.put<void>(`${this.apiUrl}/${workoutId}/reorder`, newOrder)
   }
 
-  supersetWorkoutExercise(workoutExerciseId1: string, workoutExerciseId2: string){
-    return this.http.put(`${this.apiUrl}/superset`, {workoutExerciseId1, workoutExerciseId2})
+  supersetWorkoutExercise(id1: string, id2: string){
+    return this.http.put(`${this.apiUrl}/superset`, {id1, id2})
+  }
+
+  removeSupersetWorkoutExercise(id1: string, id2: string){
+    return this.http.put(`${this.apiUrl}/superset/remove`, {id1, id2})
   }
   
   deleteWorkoutExercise(workoutExerciseId: string): Observable<void>{

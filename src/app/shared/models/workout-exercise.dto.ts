@@ -6,4 +6,5 @@ export interface WorkoutExerciseDto {
   exerciseOrder?: number;
   exerciseName?: string;
   sets: WorkoutSetDto[];
+  supersetGroupId?: string;
 }

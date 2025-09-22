@@ -24,6 +24,12 @@
   border-color: var(--ant-primary-color);
 }
 
+.add-btn{
+  background-color: var(--ant-primary-color);
+  color: #f5f4ef;
+  border-color: var(--ant-primary-color);
+}
+
 .exercise-header {
   display: flex;
   justify-content: space-between;
@@ -49,10 +55,38 @@ nz-icon {
     cursor:pointer;
 }
 
+nz-icon[nzType="left"]{
+  padding-left:0px;
+  padding-right: 10px;  
+}
+
 .order-icon {
   cursor: grab;
   margin-right: 8px;
 }
 .order-icon:active {
   cursor: grabbing;
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-2px); }
+  50% { transform: translateX(2px); }
+  75% { transform: translateX(-2px); }
+  100% { transform: translateX(0); }
+}
+
+.shake {
+  animation: shake 0.3s infinite;
+}
+
+.exercise-item{
+  border-left: 3px solid transparent;
+  padding-left: 8px;
+  transition: border-color 0.3s ease;
+}
+
+.exercise-item.superset-group{
+  border-left: 3px solid var(--ant-primary-color);
+  background: rgba(0, 128, 255, 0.05)
 }
