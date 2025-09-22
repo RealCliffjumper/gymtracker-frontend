@@ -11,10 +11,14 @@ import { UserService } from '../../core/services/user.service';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzModalComponent, NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { HttpClient } from '@angular/common/http';
 import { NgClass } from '@angular/common';
 import { Exercise } from '../../shared/models/exercise';
 import { ExerciseService } from '../../core/services/exercise.service';
+import { Router } from '@angular/router';
+import { NzListModule } from 'ng-zorro-antd/list';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { ExerciseForm } from '../../shared/components/exercise-form/exercise-form';
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip';
 
 @Component({
   selector: 'app-profile',
@@ -30,7 +34,10 @@ import { ExerciseService } from '../../core/services/exercise.service';
     ReactiveFormsModule,
     NzModalModule,
     NzModalComponent,
-  NgClass],
+    NgClass,
+    NzListModule,
+    NzIconModule,
+    NzTooltipModule],
   templateUrl: './profile.html',
   styleUrl: './profile.css'
 })
@@ -41,6 +48,7 @@ export class Profile {
   private message = inject(NzMessageService);
   private modal = inject(NzModalService);
   private exerciseService = inject(ExerciseService)
+  private router = inject(Router)
 
   // Modal & state
   isPasswordModalVisible = false;
@@ -118,6 +126,23 @@ export class Profile {
     });
   }
 
+openCreateExerciseModal(): void {
+
+  this.modal.create({
+    nzTitle: 'Create New Exercise',
+    nzContent: ExerciseForm,
+    nzOnOk: () => {
+     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate(
+      ['/profile']
+    );
+  });
+    },
+    nzFooter: null
+  });
+  
+}
+
   //Modal handling
 
   openChangePasswordModal(): void {
@@ -152,6 +177,7 @@ export class Profile {
     return;
   }
 
+
   this.userService.changePassword(user.userId, oldPassword, newPassword).subscribe({
     next: () => {
       this.message.success('Password changed successfully!');
@@ -165,4 +191,12 @@ export class Profile {
     }
   });
 }
+
+  goToExercise(exercise: Exercise) {
+    if (exercise) {
+      this.router.navigate(['/exercise', exercise.exerciseName], {
+        queryParams: { exid: exercise.exerciseId }
+      });
+    }
+  }
 }

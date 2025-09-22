@@ -49,15 +49,16 @@
         <h3>My exercises</h3>
         <nz-card nzBordered="true" class="exercise-card">
           @if(exercises().length > 0){
-          <ul>
+          <nz-list>
             @for (exercise of exercises(); track exercise.exerciseId){
-            <li >{{ exercise.exerciseName }}</li>
+            <nz-list-item (click)="goToExercise(exercise)">{{ exercise.exerciseName }}</nz-list-item>
             }
-          </ul>
+          </nz-list>
           } @else {
             <p>No exercises added yet.</p>
           }
         </nz-card>
+        <nz-icon nzType="plus" nzTheme="outline" nz-tooltip nzTooltipTitle="Add exercise" (click)="openCreateExerciseModal()"/>
       </div>
     </div>
   </nz-card>
