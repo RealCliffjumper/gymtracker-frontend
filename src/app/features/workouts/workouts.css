@@ -7,9 +7,11 @@
 }
 
 .workout-card {
+  max-width: 100%;
   text-align: center;
   height: 120px;
   cursor: pointer;
+  border-color: black;
 }
 
 .add-workout-btn {
