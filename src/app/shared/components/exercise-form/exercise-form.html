@@ -1,4 +1,4 @@
-<form [formGroup]="exerciseForm" (ngSubmit)="submit()">
+<form [formGroup]="exerciseForm">
   <nz-form-item>
     <nz-form-label [nzSpan]="6">Name</nz-form-label>
     <nz-form-control [nzSpan]="18">
@@ -27,7 +27,7 @@
   <nz-form-item>
     <nz-form-label [nzSpan]="6">Equipment</nz-form-label>
     <nz-form-control [nzSpan]="18">
-      <nz-select formControlName="equipmentType">
+      <nz-select formControlName="equipment">
         @for (equipment of equipmentTypes; track equipment) {
         <nz-option [nzLabel]="equipmentDic[equipment]" [nzValue]="equipment"></nz-option>
         }
@@ -36,6 +36,11 @@
   </nz-form-item>
 
   <div class="form-actions">
-    <button nz-button nzType="primary" class="save-btn" [disabled]="exerciseForm.invalid">Save</button>
+    @if(exercise){
+        <nz-col >
+          <button nz-button nzType="default" nzDanger class="delete-btn" (click)="deleteExercise()">Delete</button>
+        </nz-col>
+        }
+    <button nz-button nzType="primary" class="save-btn" (click)="submit()" [disabled]="exerciseForm.invalid">Save</button>
   </div>
 </form>

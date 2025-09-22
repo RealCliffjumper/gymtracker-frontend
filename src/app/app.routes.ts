@@ -27,6 +27,12 @@ export const routes: Routes = [
     },
 
     {
+      path: "exercise/:exerciseName",
+      loadComponent:() => import("./shared/components/exercise-form/exercise-form").then(m=> m.ExerciseForm),
+      canActivate:[authGuard]
+    },
+
+    {
       path: "workouts",
       loadComponent:() => import("./features/workouts/workouts").then(m=> m.Workouts),
       canActivate:[authGuard]

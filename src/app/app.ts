@@ -12,7 +12,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     RouterOutlet, 
     Navbar, 
     NzMenuModule,
-    NzIconModule
+    NzIconModule,
   ],
   templateUrl: './app.html',
   styleUrl: './app.css'
