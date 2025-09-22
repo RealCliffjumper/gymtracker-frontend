@@ -4,6 +4,6 @@ export interface Exercise{
     exerciseName: string;
     exerciseDescription: string;
     muscleGroup: string
-    equipmentType: string
+    equipment: string
     isPublic: boolean
 }
