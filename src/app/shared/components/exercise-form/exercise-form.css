@@ -1,3 +1,9 @@
+.form-wrapper {
+  max-width: 600px;   /* limit width */
+  margin: 0 auto;     /* center horizontally */
+  padding: 16px;
+}
+
 input[nz-input],
 textarea[nz-input] {
   width: 100%;
@@ -27,7 +33,7 @@ textarea[nz-input]:focus {
   margin-top: 16px;
 }
 
-.save-btn {
+.save-exercise-btn {
   min-width: 120px;
   border-radius: 8px;
   background-color: var(--ant-primary-color);

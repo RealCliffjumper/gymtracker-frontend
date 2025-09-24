@@ -203,13 +203,9 @@ updateWorkout(){
      workoutDescription: formValue.workoutDescription ?? ''
    };
 
-  this.workoutService.updateWorkout(this.workout!.workoutId,updatedWorkout).subscribe({
+  this.workoutService.updateWorkout(this.workout!.workoutId, updatedWorkout).subscribe({
       next: () =>
-        this.modal.success({
-          nzTitle: 'Workout changed',
-          nzContent: 'Applied changes to workout',
-          nzOkText: 'OK'
-        }),
+        this.message.success( 'Applied changes to workout'),
       error: (err) => {
         if (err.status === 304) {
           this.message.warning('No changes were made');
@@ -224,7 +220,7 @@ deleteWorkout(){
   this.modal.confirm({
       nzTitle: '<i>Delete workout</i>',
       nzContent: '<b>Are you sure you want to delete this workout?</b>',
-      nzOkText: 'Yes',
+      nzOkText: '<a class="okBtn">Ok</a>',
       nzOnOk: () => 
         [
           this.workoutService.deleteWorkout(this.workout!.workoutId).subscribe({

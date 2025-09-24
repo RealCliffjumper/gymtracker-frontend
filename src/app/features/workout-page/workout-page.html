@@ -9,24 +9,26 @@
       <nz-form-item>
         <nz-form-label [nzSpan]="6">Workout Name</nz-form-label>
         <nz-form-control [nzSpan]="18">
-          <input nz-input formControlName="workoutName" placeholder="New workout" />
+          <input nz-input formControlName="workoutName" placeholder="New workout" class="workoutName"/>
         </nz-form-control>
       </nz-form-item>
 
       <nz-form-item>
         <nz-form-label [nzSpan]="6">Workout Description</nz-form-label>
         <nz-form-control [nzSpan]="18">
-          <input nz-input formControlName="workoutDescription" placeholder="Add description (optional)" />
+          <input nz-input formControlName="workoutDescription" placeholder="Add description (optional)" class="workoutDesc"/>
         </nz-form-control>
       </nz-form-item>
 
 
+      @if(workout){ <!-- for now it will be an optional field later it will determine the list of exercises when I figure out how to persist the filters through page reloads-->
       <nz-form-item>
         <nz-form-label [nzSpan]="6">Muscle Group</nz-form-label>
         <nz-form-control [nzSpan]="18">
           <nz-select
           nzMode="multiple"
           nzPlaceHolder="Filter by muscle group"
+          class="muscleGroup"
           [ngModel]="muscleFilters()" [ngModelOptions]="{standalone: true}"
           (ngModelChange)="muscleFilters.set($event)"
           >
@@ -36,7 +38,7 @@
           </nz-select>
         </nz-form-control>
       </nz-form-item>
-
+      }
       <nz-form-item>
         <nz-form-label [nzSpan]="6">Day of Week</nz-form-label>
         <nz-form-control [nzSpan]="18">
@@ -88,6 +90,7 @@
       (ngModelChange)="onExerciseSelected($event)"
       (nzOpenChange)="onDropdownOpen($event)"
       style="width: 300px"
+      class="searchBar"
     >
     <nz-option-group nzLabel="Actions">
       <nz-option nzLabel="Create an exercise" nzValue="__create__"></nz-option>
@@ -129,12 +132,13 @@
               <nz-icon 
               nzType="link" 
               nzTheme="outline" 
+              class="supersetBtn"
               (click)="toggleSuperset(workoutExercise.workoutExerciseId, workoutExercise.exerciseOrder!)"
               [class.shake]="selectedForSuperset().includes(workoutExercise.workoutExerciseId)" 
               nz-tooltip nzTooltipTitle="Link superset"/>
             }
-            <nz-icon nzType="edit" nzTheme="outline" nz-tooltip nzTooltipTitle="Edit" [nzTooltipArrowPointAtCenter]="true" (click)="openEditWorkoutExerciseModal(workoutExercise)"/>
-            <nz-icon nzType="delete" nzTheme="outline" (click)="removeExercise(workoutExercise.workoutExerciseId)" nz-tooltip nzTooltipTitle="Delete"/>
+            <nz-icon nzType="edit" nzTheme="outline" nz-tooltip nzTooltipTitle="Edit" [nzTooltipArrowPointAtCenter]="true" (click)="openEditWorkoutExerciseModal(workoutExercise)" class="editExercise"/>
+            <nz-icon nzType="delete" nzTheme="outline" (click)="removeExercise(workoutExercise.workoutExerciseId)" nz-tooltip nzTooltipTitle="Delete" class="removeExercise"/>
           </div>
         </nz-list-item>
         </div>
@@ -161,7 +165,7 @@
           <nz-form-item>
             <nz-form-label [nzSpan]="6">Set {{ i + 1 }} Reps</nz-form-label>
             <nz-form-control [nzSpan]="18">
-              <input nz-input formControlName="reps" type="number"/>
+              <input nz-input formControlName="reps" type="number" class="reps"/>
             </nz-form-control>
           </nz-form-item>
 
@@ -170,12 +174,12 @@
               Set {{ i + 1 }} Weight ({{userService.currentUser()?.unitPreference}})
             </nz-form-label>
             <nz-form-control [nzSpan]="18">
-              <input nz-input formControlName="weight" type="number"/>
+              <input nz-input formControlName="weight" type="number" class="weight"/>
             </nz-form-control>
           </nz-form-item>
 
           @if(sets.length > 1){
-            <button nz-button nzType="default" nzDanger (click)="removeSet(i)">
+            <button nz-button nzType="default" nzDanger (click)="removeSet(i)" class="removeSet">
             Remove
             </button>
           }
@@ -183,7 +187,7 @@
         </div>
       }
 
-      <button nz-button nzType="dashed" (click)="addSet()" style="margin-top: 8px">
+      <button nz-button nzType="dashed" (click)="addSet()" style="margin-top: 8px" class="addSet">
         + Add Set
       </button>
 
@@ -195,6 +199,7 @@
       <button 
       nz-button nzType="primary" 
       type="submit" 
+      class="saveExerciseBtn"
       (click)="handleOk()" 
       [disabled]="exerciseForm.invalid || isSubmitting"
       [ngClass]="{ 'btn-enabled': exerciseForm.valid && !isSubmitting }">

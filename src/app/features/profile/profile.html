@@ -28,7 +28,7 @@
             </nz-form-control>
           </nz-form-item>
 
-          <button nz-button nzType="default" type="button" (click)="openChangePasswordModal()">
+          <button nz-button nzType="default" type="button" (click)="openChangePasswordModal()" class="openPasswordModal">
             Change Password
           </button>
 
@@ -58,7 +58,7 @@
             <p>No exercises added yet.</p>
           }
         </nz-card>
-        <nz-icon nzType="plus" nzTheme="outline" nz-tooltip nzTooltipTitle="Add exercise" (click)="openCreateExerciseModal()"/>
+        <nz-icon class="addExerciseBtn" nzType="plus" nzTheme="outline" nz-tooltip nzTooltipTitle="Add exercise" (click)="openCreateExerciseModal()"/>
       </div>
     </div>
   </nz-card>
@@ -76,21 +76,21 @@
     <nz-form-item>
       <nz-form-label [nzSpan]="6">Old Password</nz-form-label>
       <nz-form-control [nzSpan]="18">
-        <input nz-input type="password" formControlName="oldPassword" />
+        <input nz-input type="password" formControlName="oldPassword" class="oldPassword"/>
       </nz-form-control>
     </nz-form-item>
 
     <nz-form-item>
       <nz-form-label [nzSpan]="6">New Password</nz-form-label>
       <nz-form-control [nzSpan]="18">
-        <input nz-input type="password" formControlName="newPassword" />
+        <input nz-input type="password" formControlName="newPassword" class="newPassword">
       </nz-form-control>
     </nz-form-item>
 
     <nz-form-item>
       <nz-form-label [nzSpan]="6">Confirm</nz-form-label>
       <nz-form-control [nzSpan]="18">
-        <input nz-input type="password" formControlName="confirmPassword" />
+        <input nz-input type="password" formControlName="confirmPassword" class="confirmPassword"/>
       </nz-form-control>
     </nz-form-item>
 
@@ -103,6 +103,7 @@
       nz-button nzType="primary" 
       type="submit" 
       (click)="handleOk()" 
+      class="savePassword"
       [disabled]="passwordForm.invalid || isSubmitting"
       [ngClass]="{ 'btn-enabled': passwordForm.valid && !isSubmitting }">
         Change Password
