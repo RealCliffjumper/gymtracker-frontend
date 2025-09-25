@@ -1,0 +1,19 @@
+.nav-menu {
+  display: flex;
+  justify-content: center; /* centers the navbar */
+  background: #fff; /* matches NG-Zorro card / form bg */
+  border-bottom: 1px solid #f0f0f0;
+}
+
+/* Highlight active tab with theme color */
+.ant-menu-item-selected {
+  background-color: var(--ant-primary-color) !important;
+  color: #fff !important;
+  border-radius: 4px;
+}
+
+nz-icon {
+    padding-left: 10px;
+    font-size: 24px;
+    cursor:pointer;
+}

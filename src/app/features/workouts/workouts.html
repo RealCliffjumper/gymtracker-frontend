@@ -1,0 +1,42 @@
+<div class="container">
+   <div class="workout-grid">
+    <nz-row [nzGutter]="16" nzJustify="center">
+      @if (workouts().length > 0) {
+        @for (workout of workouts(); track workout.workoutId) {
+          <nz-col [nzXs]="24" 
+                  [nzSm]="12" 
+                  [nzMd]="8" 
+                  [nzLg]="6" 
+                  [nzXl]="4">
+            <nz-card class="workout-card" (click)="goToWorkout(workout)">
+              <h1>{{ workout.workoutName }}</h1>
+            </nz-card>
+          </nz-col>
+        }
+
+        <!-- Add New Workout Button -->
+        <nz-col [nzXs]="24" 
+                  [nzSm]="12" 
+                  [nzMd]="8" 
+                  [nzLg]="6" 
+                  [nzXl]="4">
+          <button nz-button nzType="dashed" class="add-workout-btn" (click)="goToWorkout()">
+            <nz-icon nzType="plus"/>
+            Add new workout
+          </button>
+        </nz-col>
+      } @else {
+        <nz-col [nzXs]="24" 
+                  [nzSm]="12" 
+                  [nzMd]="8" 
+                  [nzLg]="6" 
+                  [nzXl]="4">
+          <button nz-button nzType="dashed" class="add-workout-btn" (click)="goToWorkout()">
+            <nz-icon nzType="plus"/>
+            Add your first workout
+          </button>
+        </nz-col>
+      }
+    </nz-row>
+  </div>
+</div>

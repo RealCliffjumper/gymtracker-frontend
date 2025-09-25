@@ -1,0 +1,77 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <nz-tabs nzCentered nzType="line" [(nzSelectedIndex)]="selectedIndex">
+      <nz-tab nzTitle="Login">
+        <form nz-form class="auth-form" (ngSubmit)="onLogin()">
+          <nz-form-item>
+            <nz-form-control>
+              <input nz-input placeholder="Email" [(ngModel)]="userLoginId" name="userLoginId" type="email" />
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-control>
+              <input nz-input placeholder="Password" [(ngModel)]="password" name="password" type="password" />
+            </nz-form-control>
+          </nz-form-item>
+
+          <button nz-button nzType="primary" type="submitLogin" class="auth-btn">Login</button>
+
+          <div class="extra-link">
+            <a (click)="switchTab(3)">Forgot password? Reset here</a>
+          </div>
+        </form>
+      </nz-tab>
+
+      <nz-tab nzTitle="Signup">
+        <form nz-form class="auth-form" (ngSubmit)="onRegister()">
+          <nz-form-item>
+            <nz-form-control>
+              <input nz-input [(ngModel)]="userDto.userLoginId" name="userLoginId" placeholder="Email" type="email" />
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-control>
+              <input nz-input [(ngModel)]="userDto.userFirstName" name="firstName" placeholder="First name" />
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-control>
+              <input nz-input [(ngModel)]="userDto.userLastName" name="lastName" placeholder="Last name" />
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-control>
+              <input nz-input [(ngModel)]="userDto.password" name="password" placeholder="Password" type="password" />
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-control>
+              <input nz-input placeholder="Confirm password" [(ngModel)]="confirmPassword" name="confirmPassword" type="password" />
+            </nz-form-control>
+          </nz-form-item>
+
+          <button nz-button nzType="primary" type="submitSignup" class="auth-btn">Signup</button>
+        </form>
+      </nz-tab>
+
+      <nz-tab nzTitle="Password recovery">
+        <form nz-form class="auth-form">
+          <nz-form-item>
+            <nz-form-control>
+              <input nz-input placeholder="Email" type="email" />
+            </nz-form-control>
+          </nz-form-item>
+
+          <p class="hint">Please enter the email you last used for login</p>
+
+          <button nz-button nzType="primary" class="auth-btn">Reset password</button>
+        </form>
+      </nz-tab>
+    </nz-tabs>
+  </div>
+</div>

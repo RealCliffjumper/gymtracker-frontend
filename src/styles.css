@@ -1,1 +1,21 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  /* Brand / Primary Colors */
+  --ant-primary-color: #2ecc71;     /* main green */
+  --ant-primary-color-hover: #27ae60;
+  --ant-primary-color-active: #1e8449;
+
+  /* Feedback Colors */
+  --ant-success-color: #2ecc71;
+  --ant-warning-color: #f1c40f;
+  --ant-error-color: #e74c3c;
+  --ant-info-color: #3498db;
+
+  /* Layout & Background */
+  --ant-body-background: #f9f9f9;
+  --ant-component-background: #ffffff;
+
+  /* Borders & Shadows */
+  --ant-border-radius-base: 8px;
+  --ant-border-color-base: #e0e0e0;
+  --ant-box-shadow-base: 0 4px 12px rgba(0, 0, 0, 0.08);
+}

@@ -1,0 +1,8 @@
+export const EQUIPMENT_TYPE: string[] = [
+'BARBELL',
+'KETTLEBELL',
+'BODYWEIGHT',
+'DUMBBELL',
+'MACHINE'
+];
+
