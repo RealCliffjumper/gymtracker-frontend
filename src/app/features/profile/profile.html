@@ -42,6 +42,7 @@
 
           <button nz-button nzType="primary" class="save-btn" type="saveProfile">Save</button>
         </form>
+        
       </div>
 
 
@@ -60,8 +61,11 @@
         </nz-card>
         <nz-icon class="addExerciseBtn" nzType="plus" nzTheme="outline" nz-tooltip nzTooltipTitle="Add exercise" (click)="openCreateExerciseModal()"/>
       </div>
+      
     </div>
+    
   </nz-card>
+<nz-icon nzType="delete" nzTheme="outline" (click)="deleteUser()"></nz-icon>
 </div>
 
 <nz-modal

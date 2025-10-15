@@ -199,4 +199,18 @@ openCreateExerciseModal(): void {
       });
     }
   }
+
+  deleteUser(): void{
+    this.modal.confirm({
+          nzTitle: 'Account termination',
+          nzContent: 'This action will delete your user account.',
+          nzOkText: 'OK',
+          nzOnOk: () => [
+            this.userService.deleteUser(this.user().userId).subscribe({
+              next:()=>{
+                this.userService.logout()
+              }
+            })           
+        ]})
+  }
 }
