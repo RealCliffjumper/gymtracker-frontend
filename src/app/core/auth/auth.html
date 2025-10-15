@@ -1,7 +1,7 @@
 <div class="auth-container">
   <div class="auth-card">
     <nz-tabs nzCentered nzType="line" [(nzSelectedIndex)]="selectedIndex">
-      <nz-tab nzTitle="Login">
+      <nz-tab nzTitle="Log in">
         <form nz-form class="auth-form" (ngSubmit)="onLogin()">
           <nz-form-item>
             <nz-form-control>
@@ -15,7 +15,7 @@
             </nz-form-control>
           </nz-form-item>
 
-          <button nz-button nzType="primary" type="submitLogin" class="auth-btn">Login</button>
+          <button nz-button nzType="primary" type="submitLogin" class="auth-btn">Log in</button>
 
           <div class="extra-link">
             <a (click)="switchTab(3)">Forgot password? Reset here</a>
@@ -23,7 +23,7 @@
         </form>
       </nz-tab>
 
-      <nz-tab nzTitle="Signup">
+      <nz-tab nzTitle="Sign up">
         <form nz-form class="auth-form" (ngSubmit)="onRegister()">
           <nz-form-item>
             <nz-form-control>
@@ -55,7 +55,7 @@
             </nz-form-control>
           </nz-form-item>
 
-          <button nz-button nzType="primary" type="submitSignup" class="auth-btn">Signup</button>
+          <button nz-button nzType="primary" type="submitSignup" class="auth-btn">Sign up</button>
         </form>
       </nz-tab>
 
