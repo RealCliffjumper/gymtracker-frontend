@@ -84,6 +84,20 @@ export class Auth {
     return;
   }
 
+  if(!this.userDto.userLoginId){
+    this.message.error('Email field can not be empty',{
+          nzDuration: 4000
+        })
+    return;
+  }
+
+  if(!this.userDto.password){
+    this.message.error('Password can not be empty',{
+          nzDuration: 4000
+        })
+    return;
+  }
+
   this.authService.register(this.userDto).subscribe({
     next: (res) => {
       //console.log('Registration successful');
