@@ -27,7 +27,7 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { ExerciseForm } from '../../shared/components/exercise-form/exercise-form';
 import { WorkoutSetDto } from '../../shared/models/workout-exercise-set';
 import {CdkDragDrop, DragDropModule, moveItemInArray} from '@angular/cdk/drag-drop';
-import { EMPTY } from 'rxjs';
+import { EMPTY, forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-workout-page',
@@ -112,7 +112,6 @@ filteredExercises = computed(() => {
       (term === '' || ex.exerciseName.toLowerCase().includes(term))
   );
 });
-
 //modal state
 isWorkoutExerciseModalVisible = false;
 isSubmitting = false;
@@ -155,8 +154,9 @@ ngOnInit() {
           );
         }
       });
+      
       this.workoutExerciseService.getAllWorkoutExercises(this.workoutId).subscribe(data=>{
-      this.workoutExercises.set(data)
+        this.workoutExercises.set(data)
       })
     } else {
       this.workoutForm.controls['workoutName'].setValue('New Workout')
@@ -220,7 +220,7 @@ deleteWorkout(){
   this.modal.confirm({
       nzTitle: '<i>Delete workout</i>',
       nzContent: '<b>Are you sure you want to delete this workout?</b>',
-      nzOkText: '<a class="okBtn">Ok</a>',
+      nzOkText: 'Yes',
       nzOnOk: () => 
         [
           this.workoutService.deleteWorkout(this.workout!.workoutId).subscribe({
@@ -268,10 +268,21 @@ onDropdownOpen(open: boolean): void {
 }
 
 loadExercises(): void{
-  this.exerciseService.getAllExercises().subscribe({
-    next: (data) => this.exercises.set(data),
+  const user = this.userService.currentUser();
+  if (!user) return;
+
+  forkJoin({
+    user: this.exerciseService.getUserExercises(user.userId),
+    all: this.exerciseService.getAllExercises()
+
+    }).subscribe({
+    next: ({ user, all}) => {
+      const merged = [ ...user, ...all];
+
+      this.exercises.set(merged);
+    },
     error: (err) => console.error("Failed to load exercises", err)
-  })
+  });
 }
 
 removeExercise(exerciseId: string) {
@@ -304,8 +315,7 @@ toggleSuperset(workoutExerciseId: string, exerciseOrder: number){
 
 
     if (!firstExercise) return;
-
-
+    
     const isSequential = Math.abs(firstExercise.exerciseOrder! - exerciseOrder!) === 1;
     
     if(!isSequential) {
