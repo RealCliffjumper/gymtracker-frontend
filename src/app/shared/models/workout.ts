@@ -1,3 +1,5 @@
+import { WorkoutExerciseDto } from "./workout-exercise.dto";
+
 export interface Workout {
     workoutId: string;
     userId: string;
@@ -5,4 +7,5 @@ export interface Workout {
     workoutDescription: string;
     createdAt: Date;
     updatedAt: Date;
+    exercises: WorkoutExerciseDto[];
 }
