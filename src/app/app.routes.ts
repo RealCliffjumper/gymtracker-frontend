@@ -39,7 +39,7 @@ export const routes: Routes = [
     },
 
     {
-      path: "workout/:workoutName",
+      path: "workout/:workoutId",
       loadComponent:() => import("./features/workout-page/workout-page").then(m => m.WorkoutPage),
       canActivate:[authGuard]
     },
@@ -49,6 +49,12 @@ export const routes: Routes = [
       loadComponent:() => import("./features/plans/plans").then(m=> m.Plans),
       canActivate:[authGuard]
     },
+
+    {
+      path: "plan/:weeklyPlanId",
+      loadComponent:() => import("./features/plan-page/plan-page").then(m=>m.PlanPage),
+      canActivate:[authGuard]
+      },
 
     {
       path: 'not-found',
