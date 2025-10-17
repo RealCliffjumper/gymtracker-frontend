@@ -1,0 +1,42 @@
+<div class="workout-info-modal" content>
+  <!-- Header -->
+  <div class="header">
+    <h2 class="workout-title">{{ workout()?.workoutName }}</h2>
+    <p class="workout-description">{{ workout()?.workoutDescription }}</p>
+  </div>
+
+  <!-- Exercise List -->
+  <nz-list nzBordered class="exercise-list">
+    @for (workoutExercise of workoutExercises(); track workoutExercise.exerciseOrder; let idx = $index) {
+      @let nextExercise = workoutExercises()[idx + 1];
+
+      <nz-list-item
+        class="exercise-item"
+        [ngStyle]="{
+          'border-left': workoutExercise.supersetGroupId &&
+          (
+            (nextExercise && workoutExercise.supersetGroupId === nextExercise.supersetGroupId) ||
+            (workoutExercises()[idx - 1] &&
+              workoutExercises()[idx - 1].supersetGroupId === workoutExercise.supersetGroupId)
+          )
+            ? '4px solid ' + getSupersetColor(workoutExercise.supersetGroupId)
+            : '4px solid transparent'
+        }"
+      >
+        <div class="exercise-content">
+          <span class="exercise-name">{{ workoutExercise.exerciseName }}</span>
+        </div>
+      </nz-list-item>
+    }
+  </nz-list>
+
+  <!-- Footer Actions -->
+  <div class="modal-footer">
+    <button nz-button nzType="default" nzDanger (click)="goToWorkout(workout()!.workoutId)">
+      Edit
+    </button>
+    <button nz-button nzType="primary" class="save-exercise-btn" (click)="closeModal()">
+      OK
+    </button>
+  </div>
+</div>

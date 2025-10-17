@@ -1,0 +1,93 @@
+.workout-info-modal {
+  padding: 1rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* --- Header Section --- */
+.header {
+  text-align: center;
+}
+
+.workout-title {
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+  color: #222;
+}
+
+.workout-description {
+  color: #666;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+/* --- Exercise List --- */
+.exercise-list {
+  border-radius: 8px;
+  overflow: hidden;
+  background: #fafafa;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.exercise-item {
+  padding: 0.75rem 1rem;
+  transition: background-color 0.2s ease;
+  border-left: 4px solid transparent;
+}
+
+.exercise-item:hover {
+  background-color: #f0f5ff;
+}
+
+.exercise-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.exercise-name {
+  font-weight: 500;
+  color: #333;
+}
+
+.superset-label {
+  font-size: 0.75rem;
+  background-color: #fff3cd;
+  color: #856404;
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+
+/* --- Footer Buttons --- */
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 1rem;
+}
+
+button[nz-button] {
+  min-width: 90px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+button[nzType="primary"] {
+  background-color: var(--ant-primary-color) !important;
+  border-color: var(--ant-primary-color);
+  box-shadow: var(--ant-primary-color);
+  color: white !important;
+}
+
+button[nzType="primary"]:hover {
+ border-color: #1677ff;
+  background-color: #1677ff !important;
+  color: white !important;
+}
+
+button[nzType="default"][nzDanger]:hover {
+  background-color: #ffccc7;
+  color: #a8071a;
+}
