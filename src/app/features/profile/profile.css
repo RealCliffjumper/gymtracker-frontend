@@ -62,3 +62,7 @@ nz-icon {
     font-size: 24px;
     cursor:pointer;
 }
+
+nz-list-item{
+  cursor:pointer;
+}
