@@ -48,9 +48,7 @@ export class Workouts {
 
   goToWorkout(workout?: Workout) {
   if (workout) {
-    this.router.navigate(['/workout', workout.workoutName || 'workout'], {
-      queryParams: { id: workout.workoutId }
-    });
+    this.router.navigate(['/workout',  workout.workoutId]);
   } else {
     this.router.navigate(['/workout', 'new-workout']);
   }

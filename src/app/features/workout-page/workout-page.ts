@@ -131,8 +131,7 @@ exerciseForm = this.fb.group({
 });
 
 ngOnInit() {
-    this.workoutName = this.route.snapshot.paramMap.get('workoutName')!;
-    this.workoutId = this.route.snapshot.queryParamMap.get('id')!;
+    this.workoutId = this.route.snapshot.paramMap.get('workoutId')!;
     
 
     if (this.workoutId) {
@@ -144,7 +143,7 @@ ngOnInit() {
         this.createdAt = this.workout.createdAt
         this.updatedAt = this.workout.updatedAt
 
-        if (this.workoutName !== data.workoutName) {
+/*         if (this.workoutName !== data.workoutName) {
           this.router.navigate(
             ['/workout', data.workoutName],
             {
@@ -152,7 +151,7 @@ ngOnInit() {
               replaceUrl: true
             }
           );
-        }
+        } */
       });
       
       this.workoutExerciseService.getAllWorkoutExercises(this.workoutId).subscribe(data=>{
@@ -473,8 +472,7 @@ trackById(index: number, item: any): string {
 rebuildPage(w: Workout){
   this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
       this.router.navigate(
-      ['/workout', w!.workoutName || 'workout'],
-      { queryParams: { id: w!.workoutId } }
+      ['/workout', w!.workoutId]
     );
   });
 }
