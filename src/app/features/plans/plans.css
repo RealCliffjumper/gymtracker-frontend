@@ -1,0 +1,31 @@
+.container {
+  padding: 16px;
+}
+
+.plan-grid {
+  margin-top: 16px;
+}
+
+
+.plan-card {
+  max-width: 100%;
+  text-align: center;
+  height: 120px;
+  cursor: pointer;
+  border-color: black;
+}
+
+.add-plan-btn {
+  width: 100%;
+  height: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+}
+
+.addWorkoutBtn{
+    color: white;
+    background-color: var(--ant-primary-color);
+    border-color:var(--ant-primary-color);
+}
