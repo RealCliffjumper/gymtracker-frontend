@@ -58,6 +58,10 @@ export class Auth {
 
   constructor(private authService: AuthService, private route: Router, private userService: UserService, private modal: NzModalService, private message: NzMessageService) {}
   
+  ngOnInit(){
+    localStorage.removeItem('jwtToken');
+  }
+
   onLogin() {
 
     this.authService.login({ userLoginId: this.userLoginId, password: this.password }).subscribe({
