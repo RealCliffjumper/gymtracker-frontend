@@ -13,7 +13,11 @@ export class WeeklyPlanService {
     getWeeklyPlan(weeklyPlanId: string): Observable<WeeklyPlan>{
       return this.http.get<WeeklyPlan>(`${this.apiUrl}/${weeklyPlanId}/find`);
     }
-  
+
+    getActivePlan(userId: string): Observable<WeeklyPlan>{
+      return this.http.get<WeeklyPlan>(`${this.apiUrl}/${userId}/active`);
+    }
+    
     getWeeklyPlans(userId: string): Observable<WeeklyPlan[]>{
       return this.http.get<WeeklyPlan[]>(`${this.apiUrl}/${userId}/all`);
     }
