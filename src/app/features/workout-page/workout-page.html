@@ -20,8 +20,7 @@
         </nz-form-control>
       </nz-form-item>
 
-
-      @if(workout){ <!-- for now it will be an optional field later it will determine the list of exercises when I figure out how to persist the filters through page reloads-->
+                     <!-- for now it will be an optional field later it will determine the list of exercises when I figure out how to persist the filters through page reloads-->
       <nz-form-item>
         <nz-form-label [nzSpan]="6">Muscle Group</nz-form-label>
         <nz-form-control [nzSpan]="18">
@@ -38,20 +37,47 @@
           </nz-select>
         </nz-form-control>
       </nz-form-item>
-      }
       <nz-form-item>
         <nz-form-label [nzSpan]="6">Day of Week</nz-form-label>
         <nz-form-control [nzSpan]="18">
-          <nz-select  nzPlaceHolder="None">
-            <nz-option></nz-option>
+         
+          <nz-select nzPlaceHolder="None"
+          nzAllowClear
+          (nzOnClear)="selectedPlan.set(null)"
+          [ngModel]="selectedDay()"
+          (ngModelChange)="onDaySelected($event)"
+          [ngModelOptions]="{standalone: true}"
+          >
+             @for(day of dow; track day){
+            <nz-option
+            [nzLabel]="dow_labels[day]"
+            [nzValue]="day"
+            >
+            </nz-option>
+             }
           </nz-select>
+          
         </nz-form-control>
       </nz-form-item>
 
       <nz-form-item>
         <nz-form-label [nzSpan]="6">Weekly Plan</nz-form-label>
         <nz-form-control [nzSpan]="18">
-          <nz-select nzPlaceHolder="Day must be selected" disabled></nz-select>
+          <nz-select nzPlaceHolder="Day must be selected" 
+          nzAllowClear
+          [nzDisabled]="!selectedDay()" 
+          (nzOpenChange)="onDropdownPlanOpen($event)"
+          [ngModel]="selectedPlan()"
+          (ngModelChange)="onPlanSelected($event)"
+          [ngModelOptions]="{standalone: true}">
+            @for(plan of weeklyPlans(); track plan.weeklyPlanId){
+            <nz-option
+              [nzLabel]="plan.weeklyPlanName"
+              [nzValue]="plan.weeklyPlanId"
+              >
+            </nz-option>
+          }
+          </nz-select>
         </nz-form-control>
       </nz-form-item>
       <nz-row class="buttons" nzJustify="end" nzGutter="16">

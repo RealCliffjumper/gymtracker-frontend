@@ -28,6 +28,11 @@ import { ExerciseForm } from '../../shared/components/exercise-form/exercise-for
 import { WorkoutSetDto } from '../../shared/models/workout-exercise-set';
 import {CdkDragDrop, DragDropModule, moveItemInArray} from '@angular/cdk/drag-drop';
 import { EMPTY, forkJoin } from 'rxjs';
+import { WeeklyPlanEntryService } from '../../core/services/weeklyplan.entry.service';
+import { DAYS_OF_WEEK } from '../../shared/models/dow';
+import { DOW_LABELS } from '../../shared/models/dow-dictionary';
+import { WeeklyPlanService } from '../../core/services/weeklyplan.service';
+import { WeeklyPlan } from '../../shared/models/weekly-plan';
 
 @Component({
   selector: 'app-workout-page',
@@ -65,13 +70,15 @@ router = inject(Router)
 route = inject(ActivatedRoute)
 modal = inject(NzModalService)
 message = inject(NzMessageService)
-
+weeklyPlanService = inject(WeeklyPlanService)
+weeklyPlanEntryService = inject(WeeklyPlanEntryService)
 
 
 //workout related stuff
 workoutDto = signal<WorkoutDto>({
   workoutName: '',
   workoutDescription: '',
+  muscleGroups: [],
   createdAt: new Date()
 })
 workoutName = ''
@@ -79,6 +86,11 @@ workoutId = ''
 workout: Workout | null = null;
 createdAt = new Date();
 updatedAt = new Date();
+dow = DAYS_OF_WEEK;
+dow_labels = DOW_LABELS;
+selectedDay= signal<string | null>(null)
+selectedPlan= signal<string | null>(null)
+weeklyPlans = signal<WeeklyPlan[]>([])
 
 //exercise related stuff
 exercises = signal<Exercise[]>([]);
@@ -130,11 +142,19 @@ exerciseForm = this.fb.group({
     ])
 });
 
+loadPlans(){
+  this.weeklyPlanService.getWeeklyPlans(this.userService.currentUser()!.userId).subscribe({
+    next:(data) => {
+      this.weeklyPlans.set(data)
+    }
+  })
+}
+
 ngOnInit() {
     this.workoutId = this.route.snapshot.paramMap.get('workoutId')!;
     
 
-    if (this.workoutId) {
+    if (this.workoutId && this.workoutId !== 'new-workout') {
         this.workoutService.getWorkout(this.workoutId).subscribe(data => {
         this.workout = data;
 
@@ -166,6 +186,7 @@ ngOnInit() {
 onSave() {
   if(this.workout){
     this.updateWorkout()
+    this.updatePlanRelation(this.workoutId)
   } else{
     this.createWorkout()
   }
@@ -179,17 +200,22 @@ createWorkout(){
     const updatedWorkoutDto: WorkoutDto = {
       createdAt: this.createdAt,
       workoutName: formValue.workoutName ?? '',
-      workoutDescription: formValue.workoutDescription ?? ''
+      workoutDescription: formValue.workoutDescription ?? '',
+      muscleGroups: this.muscleFilters()
     };
 
     this.workoutService.createWorkout(user.userId, updatedWorkoutDto).subscribe({
         next: (createdWorkout) => {
+          
           this.rebuildPage(createdWorkout);
+          this.updatePlanRelation(createdWorkout.workoutId)
         },
         error: (err) => {
           console.error('Failed to create workout:', err); // for now console
         }
     })
+    
+    
   }
 }
 
@@ -199,14 +225,17 @@ updateWorkout(){
   const updatedWorkout: WorkoutDto = {
      createdAt: this.createdAt,
      workoutName: formValue.workoutName ?? '',
-     workoutDescription: formValue.workoutDescription ?? ''
+     workoutDescription: formValue.workoutDescription ?? '',
+     muscleGroups: this.muscleFilters()
    };
 
   this.workoutService.updateWorkout(this.workout!.workoutId, updatedWorkout).subscribe({
       next: () =>
-        this.message.success( 'Applied changes to workout'),
+        { 
+          this.message.success( 'Applied changes to workout')
+        },
       error: (err) => {
-        if (err.status === 304) {
+        if (err.status === 304) { //this error handling needs to be changed. either that or the form needs to be read including the day and plan fields
           this.message.warning('No changes were made');
           return;
         }
@@ -228,6 +257,28 @@ deleteWorkout(){
         ]
   });
   
+}
+
+onDropdownPlanOpen(open: boolean){
+  if (open && this.weeklyPlans.length === 0) {
+      this.loadPlans();
+    }
+}
+
+onDaySelected(value: string){
+  this.selectedDay.set(value)
+  console.log(this.selectedDay())
+}
+
+onPlanSelected(value: string){
+  this.selectedPlan.set(value)
+}
+
+updatePlanRelation(id: string){
+  console.log(this.workoutId)
+  if(this.selectedDay() && this.selectedPlan()){
+    this.weeklyPlanEntryService.addEntry(id, this.selectedPlan()!, this.selectedDay()!).subscribe({})
+  }
 }
 
 //Exercise section logic
@@ -381,8 +432,6 @@ openEditWorkoutExerciseModal(exercise: WorkoutExerciseDto): void {
   this.exerciseForm.setControl('sets', setsArray);
 }
 
-
-
 handleCancel(): void {
     this.isWorkoutExerciseModalVisible = false;
     this.exerciseForm.reset();
@@ -393,7 +442,7 @@ handleOk(): void {
   if (this.exerciseForm.invalid) {
     this.message.error('Please fill all fields correctly.');
   return;
-}
+  }
 
   const sets: WorkoutSetDto[] = this.exerciseForm.value.sets!.map((s: any, idx: number) => ({
     setNumber: idx + 1,
@@ -416,6 +465,7 @@ handleOk(): void {
     const dto: WorkoutExerciseDto = {
       workoutExerciseId: this.workout!.workoutId,
       exerciseId: exerciseId!,
+      supersetGroupId: null,
       sets
     };
 
@@ -462,10 +512,6 @@ drop(event: CdkDragDrop<any[]>): void {
   }));
 
   this.workoutExerciseService.updateWorkoutExerciseOrder(this.workoutId, newOrder).subscribe();
-}
-
-trackById(index: number, item: any): string {
-  return item.workoutExerciseId;
 }
 
 //page reload so it could load the new data
