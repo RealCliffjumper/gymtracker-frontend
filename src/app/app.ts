@@ -5,6 +5,8 @@ import { UserService } from './core/services/user.service';
 import { AsyncPipe } from '@angular/common';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { ScheduledworkoutService } from './core/services/scheduledworkout-service';
+import { isBefore } from 'date-fns';
 
 @Component({
   selector: 'app-root',
@@ -21,12 +23,24 @@ export class App {
   protected readonly title = signal('gymtracker-fe');
 
   
-  constructor(private userService: UserService){
+  constructor(private userService: UserService, scheduledWorkoutService: ScheduledworkoutService){
     const token = localStorage.getItem('jwtToken');
     if (token) {
     this.userService.getUser().subscribe(user => {
-    this.userService.setUser(user);
-  });
+      this.userService.setUser(user);
+      
+      const lastLogin = new Date(user.lastLoggedIn)
+      console.log(lastLogin)  
+      const today = new Date()
+      const todayAtMidnight = new Date(today.setHours(0,0,0,0))
+
+      //if (isBefore(lastLogin, todayAtMidnight)) {
+        scheduledWorkoutService.refreshStatuses(user.userId).subscribe({
+          next: () => console.log('Statuses refreshed'),
+          error: (err) => console.error('Failed to refresh statuses', err)
+        });
+      //}
+    });
 }
 }
 
