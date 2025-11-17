@@ -35,17 +35,19 @@ export class Plans {
   router = inject(Router)
   planName = ''
 
+  loadingPlans = false;
   weeklyPlans = signal<WeeklyPlan[]>([]);
   isModalVisible = false;
   isSubmitting = false;
 
   ngOnInit(){
     const user = this.userService.currentUser();
-
+    this.loadingPlans = true;
     if(user){
       this.weeklyPlanService.getWeeklyPlans(user.userId).subscribe({
         next: (data) => {
-          this.weeklyPlans.set(data)
+          this.weeklyPlans.set(data);
+          this.loadingPlans = false;
         },
         error: () =>{
           console.log('noting')

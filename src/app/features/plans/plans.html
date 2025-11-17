@@ -1,3 +1,7 @@
+@if(loadingPlans){
+  <nz-icon nzType="loading" />
+}
+@else{
 <div class="container">
    <div class="plan-grid">
     <nz-row [nzGutter]="16" nzJustify="center">
@@ -42,6 +46,7 @@
     </nz-row>
   </div>
 </div>
+}
 <nz-modal
   [(nzVisible)]="isModalVisible"
   nzTitle= "Create a plan"

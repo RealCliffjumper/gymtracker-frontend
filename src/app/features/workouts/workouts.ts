@@ -30,17 +30,23 @@ export class Workouts {
   userService = inject(UserService);
   workouts = signal<Workout[]>([]);
   
+  loadingWorkouts = false;
   constructor(){}
 
   ngOnInit(): void{
+    
     this.loadWorkouts();
   }
 
   loadWorkouts(): void {
+    this.loadingWorkouts = true;
    const user = this.userService.currentUser();
    if(user){
    this.workoutService.getUserWorkouts(user.userId).subscribe({
-     next: (data) => this.workouts.set(data),
+     next: (data) => {
+        this.workouts.set(data);
+        this.loadingWorkouts = false;
+     },
      error: (err) => console.error('Error loading workouts', err)
    });
   }

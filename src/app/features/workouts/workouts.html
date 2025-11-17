@@ -1,3 +1,7 @@
+@if(loadingWorkouts){
+  <nz-icon nzType="loading" />
+}
+@else{
 <div class="container">
    <div class="workout-grid">
     <nz-row [nzGutter]="16" nzJustify="center">
@@ -40,3 +44,4 @@
     </nz-row>
   </div>
 </div>
+}
