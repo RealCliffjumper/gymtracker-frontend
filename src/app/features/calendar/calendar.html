@@ -1,1 +1,138 @@
-<nz-calendar [(ngModel)]="date" [(nzMode)]="mode" (nzPanelChange)="panelChange($event)"></nz-calendar>
+<div class="weekly-plan-container">
+  <div class="plan-header">
+    <div class="plan-title">
+      @if(activePlan()){
+        <h1>Your active plan is:</h1><h1 class="plan-name" (click)="goToPlan(activePlan()!.weeklyPlanId)"> {{ activePlan()?.weeklyPlanName }}</h1>
+      }
+      @else{
+        <h1>Currently no plan active</h1>
+        <p class="plan-name" (click)="goToPlansPage()">Create a plan in My plans tab!</p>
+      }
+    </div>
+  </div>
+
+  @if(loadingEntries){
+    <nz-icon nzType="loading" />
+  }
+  @else{
+    <div class="week-info">
+      <span class="week-label">Displayed week:</span>
+      <span class="week-dates">
+        {{'t' + datesFrame[0] | parseDates | date }} to {{'t'+ datesFrame[6] | parseDates | date }}
+      </span>
+    </div>
+
+    <div class="week-navigation">
+      <nz-icon nzType="left" class="nav-icon" (click)="goLeft()"></nz-icon>
+
+      <div class="days-grid">
+        @for (day of dow; track day) {
+          <nz-card
+            class="day-card"
+            nzHoverable
+            [ngClass]="{
+              'skippedCard': getEntryForDay(day)?.isSkipped,
+              'completedCard': getEntryForDay(day)?.status === 'COMPLETED'
+            }"
+          >
+            <div class="day-header">
+              <span class="day-label">{{ dow_labels[day] }}</span>
+            </div>
+
+            <div class="day-content">
+              @if (getEntryForDay(day); as entry) {
+                <div class="workout-entry">
+                  @if (entry.scheduledWorkoutId) {
+                    @if (entry.status === status[0] || entry.status === status[3]) {
+                      <span class="workout-name"
+                        (click)="openScheduledWorkoutModal(entry.scheduledWorkoutId, entry.workoutScheduledDate)">
+                        {{ entry.workoutName }}
+                      </span>
+                    }
+                    @else {
+                      <span class="workout-name"
+                        (click)="openScheduledInfoModal(entry.scheduledWorkoutId, entry.isSkipped)">
+                        {{ entry.workoutName }}
+                      </span>
+                    }
+                  }
+                  @else {
+                    <span class="workout-name"
+                      (click)="workoutInfoWindow(entry, entry.workoutScheduledDate)">
+                      {{ entry.workoutName }}
+                    </span>
+                  }
+
+                  @if (!entry.isSkipped && entry.status !== 'COMPLETED') {
+                    <div class="icon-actions">
+                      <nz-icon nzType="edit" nzTheme="outline" class="cursor-pointer"
+                        (click)="openEditEntryModal(entry)"></nz-icon>
+                    </div>
+                  }
+                  
+                </div>
+                  
+                } 
+                @else if (weekOffset === 0 && isTodayOrFuture(day)) {
+                  <div class="add-entry">
+                    <nz-icon nzType="plus-circle" nzTheme="outline"
+                      class="cursor-pointer text-green-500"
+                      (click)="scheduleExtraWorkout(day)">
+                    </nz-icon>
+                  </div>
+                  }
+            </div>
+
+          </nz-card>
+        }
+        
+      </div>
+      <nz-icon nzType="right" class="nav-icon" (click)="goRight()"></nz-icon>
+    </div>
+  }
+</div>
+
+<nz-modal
+  [(nzVisible)]="isModalVisible"
+  [nzTitle]= "modalMode() === 'add' 
+    ? 'Add workout for ' 
+    : 'Edit workout for '"
+  (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()"
+  [nzOkLoading]="isSubmitting"
+>
+<ng-container *nzModalContent>
+    <nz-select
+      nzShowSearch
+      nzAllowClear
+      nzPlaceHolder="Search and add a workout"
+      [ngModel]="selectedWorkout()"
+      (nzOnSearch)="onSearch($event)"
+      (ngModelChange)="onWorkoutSelected($event)"
+      (nzOpenChange)="onDropdownOpen($event)"
+      style="width: 300px"
+      class="searchBar"
+    >
+    
+    @for (workout of workouts(); track workout.workoutId) {
+        <nz-option
+        [nzLabel]="workout.workoutName"
+        [nzValue]="workout.workoutId"
+        >
+      </nz-option>
+    }
+    </nz-select>
+</ng-container>
+
+<div *nzModalFooter>
+      <button nz-button nzType="default" type="button" (click)="handleCancel()">Cancel</button>
+      <button 
+      nz-button nzType="primary" 
+      type="submit" 
+      class="addWorkoutBtn"
+      (click)="handleOk()" 
+      [disabled]="!selectedWorkout() || isSubmitting"
+      [ngClass]="{ 'btn-enabled': selectedWorkout() && !isSubmitting }">
+        {{modalMode() === 'add' ? 'Add' : 'Save'}}
+      </button>
+</div>
