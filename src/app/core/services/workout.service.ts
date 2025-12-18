@@ -29,6 +29,10 @@ export class WorkoutService {
     return this.http.get<Workout[]>(`${this.apiUrl}/${userId}/all`);
   }
 
+  getInPlan(workoutId: string): Observable<string[]>{
+    return this.http.get<string[]>(`${this.apiUrl}/${workoutId}/inPlans`)
+  }
+
   deleteWorkout(workoutId: string): Observable<void>{
     return this.http.delete<void>(`${this.apiUrl}/delete/${workoutId}`);
   }

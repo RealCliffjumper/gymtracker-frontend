@@ -80,6 +80,14 @@
           </nz-select>
         </nz-form-control>
       </nz-form-item>
+      @if(planNames().length>0){
+        Already present in these plans: 
+        @for(name of planNames(); track $index){
+          {{name}}
+        }
+      }
+      @else {}
+      
       <nz-row class="buttons" nzJustify="end" nzGutter="16">
         @if(workout){
         <nz-col >

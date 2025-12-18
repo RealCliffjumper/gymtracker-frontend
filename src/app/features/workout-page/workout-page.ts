@@ -91,6 +91,7 @@ dow_labels = DOW_LABELS;
 selectedDay= signal<string | null>(null)
 selectedPlan= signal<string | null>(null)
 weeklyPlans = signal<WeeklyPlan[]>([])
+planNames = signal<string[]>([])
 
 //exercise related stuff
 exercises = signal<Exercise[]>([]);
@@ -162,7 +163,14 @@ ngOnInit() {
         this.workoutForm.controls['workoutDescription'].setValue(this.workout.workoutDescription)
         this.createdAt = this.workout.createdAt
         this.updatedAt = this.workout.updatedAt
-
+        
+        this.workoutService.getInPlan(this.workoutId).subscribe({
+          next: (data)=>{
+            this.planNames.set(data)
+          }
+        })
+        
+    
 /*         if (this.workoutName !== data.workoutName) {
           this.router.navigate(
             ['/workout', data.workoutName],
