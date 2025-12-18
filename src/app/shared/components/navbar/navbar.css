@@ -17,3 +17,12 @@ nz-icon {
     font-size: 24px;
     cursor:pointer;
 }
+
+nz-icon.bell{
+  padding-top:10px
+}
+
+nz-icon:hover{
+    transform: scale(1.2);
+    color: var(--ant-primary-color);
+}
