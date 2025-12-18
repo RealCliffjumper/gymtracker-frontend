@@ -141,7 +141,7 @@ export class ExerciseForm {
         nzOnOk: () => 
           [
             this.exerciseService.deleteExercise(this.exerciseId).subscribe({
-              next: () => this.router.navigate(['/profile'])
+              next: () => this.router.navigate(['/exercises'])
             })
           ]
       });
