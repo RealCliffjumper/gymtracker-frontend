@@ -1,0 +1,70 @@
+<div class="workout-info-modal" content>
+  <div class="header">
+    <h2 class="workout-title">{{ scheduledWorkout()?.workoutName }}</h2>
+    <p class="workout-description">{{ scheduledWorkout()?.workoutDescription }}</p>
+    @if(_duration){
+      <p>Workout completed in: {{timerService.formatDurationHMS(_duration)}}</p>
+      <p>Workout points: {{scheduledWorkout()?.workoutPoints}}</p>
+    }
+  </div>
+  <div class="exercise-header">
+    <span class="col name">Exercise</span>
+    <span class="col sets">Sets</span>
+  </div>
+  <nz-list nzBordered class="exercise-list">
+    @for (scheduledExercise of scheduledExercises(); track scheduledExercise.exerciseOrder; let idx = $index) {
+      
+      @if(_duration){
+        {{'Exercise points: ' + sumExercisePoints(idx)}}
+      }
+      @let nextExercise = scheduledExercises()[idx + 1];
+
+      <nz-list-item
+        class="exercise-item"
+        [ngStyle]="{
+          'border-left': scheduledExercise.supersetGroupId &&
+          (
+            (nextExercise && scheduledExercise.supersetGroupId === nextExercise.supersetGroupId) ||
+            (scheduledExercises()[idx - 1] &&
+              scheduledExercises()[idx - 1].supersetGroupId === scheduledExercise.supersetGroupId)
+          )
+            ? '4px solid ' + getSupersetColor(scheduledExercise.supersetGroupId)
+            : '4px solid transparent'
+        }"
+        >
+        <div class="exercise-content" >
+          <span class="exercise-name" 
+          [ngClass]="{
+              'normalEx' : !scheduledExercise.skipped && !scheduledExercise.completed && !scheduledExercise.isStarted,
+              'startedEx' : scheduledExercise.isStarted,
+              'skippedEx': scheduledExercise.skipped,
+              'completedEx': scheduledExercise.completed
+            }">{{ scheduledExercise.exerciseName }}</span>
+            <span class="col sets"> 
+            {{ scheduledExercise.sets.length }}
+            </span>
+        </div>
+       
+      </nz-list-item>
+    }
+  </nz-list>
+  @if((scheduledDate | parseDates | date:'shortDate') === (today | date:'shortDate') && scheduledWorkout()?.status != 'COMPLETED'){
+      <button nz-button class="begin-workout-btn" (click)="openScheduledWorkoutModal(scheduledWorkoutId, true)">
+        Begin your workout
+      </button>
+    }
+  <div class="modal-footer">
+    <button nz-button nzType="dashed" nzDashed nzDanger (click)="revertScheduled(scheduledWorkoutId)">
+      Remove entry
+    </button>
+    <button nz-button nzType="dashed" nzDashed (click)="openScheduledWorkoutModal(scheduledWorkoutId, false)">
+      Edit entry
+    </button>
+    <button nz-button nzType="dashed" nzDashed (click)="goToWorkout(workout()!.workoutId)">
+      Go to Template
+    </button>
+    <button nz-button nzType="primary" class="save-exercise-btn" (click)="saveAndCloseModal()">
+      Close
+    </button>
+  </div>
+</div>
