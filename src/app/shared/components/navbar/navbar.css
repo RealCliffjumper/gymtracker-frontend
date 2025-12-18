@@ -1,8 +1,9 @@
 .nav-menu {
   display: flex;
-  justify-content: center; /* centers the navbar */
-  background: #fff; /* matches NG-Zorro card / form bg */
+  justify-content: center;
+  background: #fff;
   border-bottom: 1px solid #f0f0f0;
+  width:100%;
 }
 
 /* Highlight active tab with theme color */

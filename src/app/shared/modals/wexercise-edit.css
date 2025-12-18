@@ -1,6 +1,28 @@
-.skipped-set{
-    background-color:red;
+
+.skipped-set {
+  background-color: rgba(255, 0, 0, 0.15);
 }
-.completed-set{
-    background-color:var(--ant-primary-color);
+
+.completed-set {
+  background-color: var(--ant-primary-color); /* matches ant primary */
+}
+
+.action-buttons{
+    padding-bottom: 10px;
+    justify-content: flex-end;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.set-row{
+    padding-top:10px
+}
+
+.modal-footer{
+    margin-top: 10px;
+    justify-content: flex-end;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
 }

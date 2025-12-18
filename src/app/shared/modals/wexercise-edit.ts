@@ -5,9 +5,9 @@ import { MUSCLE_GROUPS } from '../models/musclegroups';
 import { MUSCLE_GROUP_LABELS } from '../models/musclegroups-dictionary';
 import { ExerciseService } from '../../core/services/exercise.service';
 import { WorkoutExerciseService } from '../../core/services/workout-exercise.service';
-import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzFormItemComponent, NzFormModule } from 'ng-zorro-antd/form';
 import { NzOptionComponent } from 'ng-zorro-antd/select';
-import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { Exercise } from '../models/exercise';
@@ -20,6 +20,10 @@ import { SetLogs } from '../models/setlogs.dto';
 import { toDecimal } from 'ng-zorro-antd/core/util';
 import { exerciseIdCounter} from '../signals/signals';
 import { ScheduledExercise } from '../models/scheduledexercise';
+import { NzButtonComponent, NzButtonModule } from 'ng-zorro-antd/button';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzRowDirective } from 'ng-zorro-antd/grid';
+import { NzDividerComponent } from 'ng-zorro-antd/divider';
 
 @Component({
   selector: 'app-wexercise-edit',
@@ -28,7 +32,13 @@ import { ScheduledExercise } from '../models/scheduledexercise';
     NzFormModule,
     ReactiveFormsModule,
     CommonModule,
-    NzListModule
+    NzListModule,
+    NzButtonModule,
+    NzInputModule,
+    NzFormItemComponent,
+    FormsModule,
+    NzRowDirective,
+    NzDividerComponent
   ],
   templateUrl: './wexercise-edit.html',
   styleUrl: './wexercise-edit.css'

@@ -9,6 +9,7 @@
   </textarea>
 </div>
 
+@if(!_duration){
 <div class="search-row">
   All<label 
       nz-checkbox 
@@ -44,12 +45,20 @@
     Add
   </button>
 </div>
-
+}
 <div class="exercise-list">
   <div class="exercise-header">
+    @if(_duration){
+    <span class="col nameC">Exercise</span>
+    <span class="col setsC">Sets</span>
+    <span class="col points">Points</span>
+    <span class="col actionsC">Actions</span>
+    }
+    @else {
     <span class="col name">Exercise</span>
     <span class="col sets">Sets</span>
     <span class="col actions">Actions</span>
+    } 
   </div>
   <nz-list nzBordered cdkDropList (cdkDropListDropped)="drop($event)">
     @for (scheduledExercise of visibleExercises(); track scheduledExercise.exerciseOrder; let idx = $index) {
@@ -74,7 +83,7 @@
               'skippedEx': scheduledExercise.skipped,
               'completedEx': scheduledExercise.completed
             }">
-            <nz-icon class="drag" nzType="unordered-list" nzTheme="outline" cdkDragHandle></nz-icon>
+            <nz-icon class="order-icon" nzType="unordered-list" nzTheme="outline" cdkDragHandle></nz-icon>
             {{ scheduledExercise.exerciseName }}
             </div>
           </div>
@@ -82,7 +91,12 @@
           <div class="col sets">
             {{ scheduledExercise.sets.length }}
           </div>
-
+          @if(_duration){
+            <div class="col points">
+            {{ sumExercisePoints(scheduledExercise.exerciseOrder)}}
+          </div>
+          }
+          
           <div class="col actions">
             @if(eligibleForInteraction){
                 <button nz-button class="start-exercise-btn"

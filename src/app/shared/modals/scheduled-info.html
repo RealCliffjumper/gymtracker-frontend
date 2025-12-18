@@ -9,14 +9,15 @@
   </div>
   <div class="exercise-header">
     <span class="col name">Exercise</span>
+    @if(_duration){
+    <span class="col points">Points</span>
+    }
     <span class="col sets">Sets</span>
   </div>
   <nz-list nzBordered class="exercise-list">
     @for (scheduledExercise of scheduledExercises(); track scheduledExercise.exerciseOrder; let idx = $index) {
       
-      @if(_duration){
-        {{'Exercise points: ' + sumExercisePoints(idx)}}
-      }
+      
       @let nextExercise = scheduledExercises()[idx + 1];
 
       <nz-list-item
@@ -40,6 +41,9 @@
               'skippedEx': scheduledExercise.skipped,
               'completedEx': scheduledExercise.completed
             }">{{ scheduledExercise.exerciseName }}</span>
+            @if(_duration){
+              <span class="col points">{{sumExercisePoints(idx)}}</span>
+            }
             <span class="col sets"> 
             {{ scheduledExercise.sets.length }}
             </span>

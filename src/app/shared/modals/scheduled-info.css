@@ -77,10 +77,17 @@
 }
 
 .exercise-header .col.name { flex: 3; margin-left: 10px;}
+.exercise-header .col.points { flex: 1; justify-content: flex-start; }
 .exercise-header .col.sets { flex: 1; justify-content: center; }
 
 .exercise-content .col.sets {
   flex: 1;
+  justify-content: flex-end;
+  font-weight: 600;
+}
+
+.exercise-content .col.points {
+  flex: 3;
   justify-content: flex-end;
   font-weight: 600;
 }

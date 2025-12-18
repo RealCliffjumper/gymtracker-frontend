@@ -56,6 +56,11 @@ margin-top:10px;
 .exercise-header .col.sets { flex: 1; justify-content: center; }
 .exercise-header .col.actions { flex: 1; justify-content: center; }
 
+.exercise-header .col.nameC { flex: 1; justify-content: flex-end;}
+.exercise-header .col.setsC { flex: 1; justify-content: flex-end; margin-left:30px;}
+.exercise-header .col.points { flex: 1; justify-content: center; }
+.exercise-header .col.actionsC { flex: 0.5; justify-content: flex-end; }
+
 /* SETS TEXT */
 .sets-header {
   font-weight: 600;
@@ -84,13 +89,20 @@ nz-icon:hover{
   align-items: center;
 }
 
+.order-icon {
+  cursor: grab;
+}
+.order-icon:active {
+  cursor: grabbing;
+}
+
 .col.name {
   flex: 2;
   gap: 6px;
 }
 
 .startedEx{ /*make the letters bounce */
-  color:yellow
+  color:rgb(206, 160, 9)
 }
 
 .skippedEx{
@@ -102,8 +114,14 @@ nz-icon:hover{
 }
 
 .col.sets {
+  
   flex: 1;
   font-weight: 600;
+}
+
+.col.points{
+  flex:0.15;
+  font-weight:600;
 }
 
 .col.actions {

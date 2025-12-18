@@ -14,11 +14,11 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
   standalone:true,
   imports: [
     NzCardModule,
-    NzRowDirective,
-    NzColDirective,
     CommonModule,
     NzButtonModule,
-    NzIconModule
+    NzIconModule,
+    NzColDirective,
+    NzRowDirective
   ],
   templateUrl: './workouts.html',
   styleUrl: './workouts.css'
@@ -51,7 +51,7 @@ export class Workouts {
    });
   }
   }
-
+  
   goToWorkout(workout?: Workout) {
   if (workout) {
     this.router.navigate(['/workout',  workout.workoutId]);

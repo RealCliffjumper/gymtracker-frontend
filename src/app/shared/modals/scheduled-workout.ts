@@ -382,11 +382,13 @@ export class ScheduledWorkout {
     this.updatedSets().reduce((sum, s) => sum + s.setPoints!, 0)
   );
 
-  sumExercisePoints(key: string){
-    const total = this.updatedSets()
-      .filter(s => s.scheduledWorkoutExerciseId === key || s.tempExId === key)
-      .reduce((sum, s) => sum + s.setPoints!, 0);
-      return Math.round(total);
+  sumExercisePoints(i: number){
+    const total = this.scheduledExercises()[i].sets
+        .reduce((sum, s) => sum + s.setPoints!, 0);
+    if(total){
+      return total;
+    }
+    else return 0;
   }
 
   drop(event: CdkDragDrop<any[]>) {
@@ -765,7 +767,7 @@ export class ScheduledWorkout {
     }
 
     const modalRef = this.modal.create({
-      nzTitle: 'Add exercise to workout',
+      nzTitle: (editing) ? 'Edit exercise in workout' : 'Add exercise to workout',
       nzContent: WexerciseEdit,
       nzData:{
         workoutExerciseInstance: (toEdit) ? toEdit : null,
