@@ -10,4 +10,5 @@ export interface User {
     enabled: boolean;
     locked: boolean;
     roles: string[];
+    lastLoggedIn: Date;
 }
