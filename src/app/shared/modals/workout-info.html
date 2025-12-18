@@ -31,9 +31,18 @@
   </nz-list>
 
   <!-- Footer Actions -->
+   @if(isScheduledForToday){
+      <button nz-button class="begin-workout-btn" nzDashed (click)="editScheduled(workoutId, true)">
+        Begin
+      </button>
+    }
   <div class="modal-footer">
-    <button nz-button nzType="default" nzDanger (click)="goToWorkout(workout()!.workoutId)">
-      Edit
+    
+    <button nz-button nzType="dashed" [disabled]="isSkipped" nzDashed (click)="editScheduled(workoutId, false)">
+      Edit entry
+    </button>
+    <button nz-button nzType="dashed" nzDashed (click)="goToWorkout(workout()!.workoutId)">
+      Edit template
     </button>
     <button nz-button nzType="primary" class="save-exercise-btn" (click)="closeModal()">
       OK
