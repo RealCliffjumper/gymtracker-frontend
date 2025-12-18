@@ -30,7 +30,9 @@
 
 /* Week info */
 .week-info {
-  align-self: flex-start;
+  align-self: center;
+  display:flex;
+  justify-content: space-between; 
   margin: 0 0 1rem 1rem;
   font-size: 1rem;
   color: #555;
@@ -39,6 +41,28 @@
 .week-label {
   font-weight: 600;
   margin-right: 0.5rem;
+}
+
+nz-date-picker {
+  margin-left: 0px;
+  margin-right: 10px;
+}
+
+.b2p-btn{
+ background-color:var(--ant-primary-color);
+ border-color:var(--ant-primary-color);
+ cursor: pointer;
+ margin-left: 0px; 
+}
+.b2p-btn:hover{
+transform: scale(1.1);
+}
+
+.date-travel{
+  align-self: flex-end;
+  margin: 0 0 1rem 1rem;
+  font-size: 1rem;
+  color: #555;
 }
 
 /* Week navigation */
@@ -96,6 +120,12 @@
   background-color: #f6ffed;
   border-color: #52c41a;
   color: #237804;
+}
+
+.day-card.startedCard{
+  background-color: #e9bb3e48;
+  border-color: #d8ca0d;
+  color: #eebb13;
 }
 
 /* Headers */

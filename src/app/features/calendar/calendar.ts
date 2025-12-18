@@ -1,7 +1,7 @@
 import { Component, effect, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NzButtonModule } from 'ng-zorro-antd/button';
-import { addDays, startOfWeek, endOfWeek, format, addWeeks, eachDayOfInterval, getMonth } from 'date-fns';
+import { startOfISOWeek, startOfWeek, endOfWeek, format, addWeeks, eachDayOfInterval, getISOWeek } from 'date-fns';
 import {} from 'ng-zorro-antd/calendar';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -25,8 +25,10 @@ import { WorkoutInfo } from '../../shared/modals/workout-info';
 import { ScheduledInfo } from '../../shared/modals/scheduled-info';
 import { CalendarEntry } from '../../shared/models/calendarentry.dto';
 import { WORKOUT_STATUS } from '../../shared/models/workoutstatus';
-import { isWorkoutFinished } from '../../shared/signals/signals';
+import { exerciseIdCounter, isWorkoutFinished, isWorkoutStarted, percent, workoutPlanned } from '../../shared/signals/signals';
 import { ParseDatesPipe } from "../../shared/pipes/parse-dates-pipe";
+import { NzDatePickerComponent } from 'ng-zorro-antd/date-picker';
+import { NzProgressModule } from 'ng-zorro-antd/progress';
 
 @Component({
   selector: 'app-calendar',
@@ -40,7 +42,9 @@ import { ParseDatesPipe } from "../../shared/pipes/parse-dates-pipe";
     NzModalModule,
     NzOptionComponent,
     NzSelectModule,
-    ParseDatesPipe
+    ParseDatesPipe,
+    NzDatePickerComponent,
+    NzProgressModule
 ],
   templateUrl: './calendar.html',
   styleUrl: './calendar.css'
@@ -49,6 +53,8 @@ export class Calendar {
 
   dow = DAYS_OF_WEEK;
   dow_labels = DOW_LABELS;
+  date: any;
+  _percent = percent
 
   weeklyPlanService = inject(WeeklyPlanService)
   weeklyPlanEntryService = inject(WeeklyPlanEntryService)
@@ -89,6 +95,10 @@ export class Calendar {
       isWorkoutFinished(); this.loadEntries()
       isWorkoutFinished.set(false)
     })
+    effect(()=>{
+      isWorkoutStarted(); this.loadEntries()
+    })
+    
   }
 
   ngOnInit(){
@@ -125,6 +135,7 @@ export class Calendar {
                     (element.scheduledWorkoutId && element.status === 'SKIPPED' && new Date(element.workoutScheduledDate) < this.todayAtMidnight)
                   )
                 })
+                
               );
               this.scheduledEntries.set(updated);
               this.loadingEntries = false;
@@ -155,6 +166,32 @@ export class Calendar {
       this.weekOffset += 1;
       this.loadEntries()
     }
+  }
+
+  jumpWeeks(result: Date){
+    const currentyear = this.today.getFullYear()
+
+    if(!result){return;}
+
+    if(result.getFullYear() > currentyear){return;}
+    
+    const w1 = getISOWeek(this.todayAtMidnight)
+    const w2 = getISOWeek(result)
+
+    
+    if(w2>w1 || w2===w1 && this.weekOffset === 0){
+      this.date = null
+      return;
+    }
+    else{
+      this.weekOffset = w2-w1
+      this.loadEntries()
+    }
+  }
+
+  backToPresent(){
+    this.weekOffset = 0;
+    this.loadEntries()
   }
 
   goToPlan(planId: string){
@@ -215,6 +252,7 @@ export class Calendar {
 
      modalRef.afterClose.subscribe((result) => {
       if (result === 'scheduled' || result?.updated) {
+        //console.log('yessss')
         this.loadEntries();
       }
     });
@@ -242,7 +280,7 @@ export class Calendar {
   }
 
   openScheduledWorkoutModal(id: string, date: Date){
-    this.modal.create({
+    const modalRef = this.modal.create({
       nzTitle: 'Edit your scheduled workout',
       nzContent: ScheduledWorkout,
       nzData:{
@@ -251,7 +289,9 @@ export class Calendar {
       },
       nzFooter: null
     })
-    
+    modalRef.afterClose.subscribe(() =>
+        exerciseIdCounter.set(0)
+    )
   }
 
   //workout modal section. pretty much reusing add/edit entry modal

@@ -18,7 +18,13 @@
     <div class="week-info">
       <span class="week-label">Displayed week:</span>
       <span class="week-dates">
-        {{'t' + datesFrame[0] | parseDates | date }} to {{'t'+ datesFrame[6] | parseDates | date }}
+        {{'t' + datesFrame[0] | parseDates | date }} to {{'t'+ datesFrame[6] | parseDates | date }} 
+      </span>
+      <span class="date-travel">
+      <nz-date-picker nzMode="week" [(ngModel)]="date" (ngModelChange)="jumpWeeks($event)"></nz-date-picker> 
+        @if(weekOffset !=0){
+          <button nz-button nzType="primary" class="b2p-btn" (click)="backToPresent()">Back to today</button>
+        }
       </span>
     </div>
 
@@ -32,7 +38,8 @@
             nzHoverable
             [ngClass]="{
               'skippedCard': getEntryForDay(day)?.isSkipped,
-              'completedCard': getEntryForDay(day)?.status === 'COMPLETED'
+              'completedCard': getEntryForDay(day)?.status === 'COMPLETED',
+              'startedCard': getEntryForDay(day)?.status === 'STARTED' || getEntryForDay(day)?.status === 'PAUSED'
             }"
           >
             <div class="day-header">
@@ -63,10 +70,15 @@
                     </span>
                   }
 
-                  @if (!entry.isSkipped && entry.status !== 'COMPLETED') {
+                  @if (!entry.isSkipped && entry.status !== 'COMPLETED' && entry.status !== 'STARTED') {
                     <div class="icon-actions">
                       <nz-icon nzType="edit" nzTheme="outline" class="cursor-pointer"
                         (click)="openEditEntryModal(entry)"></nz-icon>
+                    </div>
+                  }
+                  @else if(entry.status === 'STARTED'){
+                    <div class="icon-actions">
+                       <nz-progress [nzPercent]="(_percent()) ? _percent() : 0" nzType="circle" [nzStrokeColor]="'#52c41a'" [nzWidth]="50"></nz-progress>
                     </div>
                   }
                   
