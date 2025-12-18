@@ -13,6 +13,7 @@
   height: 120px;
   cursor: pointer;
   border-color: black;
+  margin-bottom: 16px;
 }
 
 .add-workout-btn {

@@ -64,7 +64,8 @@ export class Profile {
     createdAt: new Date(),
     enabled: true,
     locked: false,
-    roles: []
+    roles: [],
+    lastLoggedIn: new Date()
   });
 
   exercises = signal<Exercise[]>([]);
