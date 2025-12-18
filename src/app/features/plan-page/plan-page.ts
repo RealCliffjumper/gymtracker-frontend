@@ -171,7 +171,8 @@ export class PlanPage {
       nzContent: WorkoutInfo,
       nzData: {
         InputData: this.selectedWorkout(),
-        visible: true
+        visible: true,
+        inPlan: true
       },
       nzFooter: null
     })
