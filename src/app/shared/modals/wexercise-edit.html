@@ -1,0 +1,68 @@
+<ng-container class="container">
+    <h1>{{exercise()?.exerciseName}}</h1>
+    <p>{{exercise()?.exerciseDescription}}</p>
+    <p>This exercise's equipment: {{equip_dic[exercise()!.equipment]}}</p>
+    <p>This exercise's muscle group: {{musclegroup_dic[exercise()!.muscleGroup]}}</p>
+  <form [formGroup]="exerciseForm" (ngSubmit)="save()">
+    Weight: Reps:
+    @for (set of sets.controls; let i = $index; track i) {
+      <div [ngClass]="{
+              'normal-set' : !updatedSets()[i].toSkip && !updatedSets()[i].toComplete,
+              'skipped-set' : updatedSets()[i].toSkip,
+              'completed-set': updatedSets()[i].toComplete
+            }">
+        <div [formGroup]="set" class="set-row">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="6">Set {{ i + 1 }} Reps</nz-form-label>
+            <nz-form-control [nzSpan]="18">
+              <input nz-input formControlName="reps" type="number" class="reps"/>
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-label [nzSpan]="6">
+              Set {{ i + 1 }} Weight ({{userService.currentUser()?.unitPreference}})
+            </nz-form-label>
+            <nz-form-control [nzSpan]="18">
+              <input nz-input formControlName="weight" type="number" class="weight"/>
+            </nz-form-control>
+          </nz-form-item>
+
+          @if(started){
+            <button nz-button type="button" nzDanger (click)="skipSet(i)" class="addSet">
+            Skip
+            </button>
+            <button nz-button type="button" nzDanger (click)="completeSet(i)" class="completeSet">
+            Complete
+            </button>
+          }
+
+          @if(sets.length > 1){
+            <button nz-button nzType="default" nzDanger (click)="removeSet(i)" class="removeSet">
+            Remove
+            </button>
+          }
+          </div>
+        </div>
+      }
+      
+
+      <button nz-button nzType="dashed" (click)="addSet()" style="margin-top: 8px" class="addSet">
+        + Add Set
+      </button>
+
+  </form>
+</ng-container>
+
+<div class="modal-footer">
+      <button nz-button nzType="default" type="button" (click)="close()">Cancel</button>
+      <button 
+        nz-button nzType="primary" 
+        type="submit" 
+        class="saveExerciseBtn"
+        (click)="save()" 
+        [disabled]="exerciseForm.invalid || isSubmitting"
+        [ngClass]="{ 'btn-enabled': exerciseForm.valid && !isSubmitting }">
+            Save
+      </button>
+</div>

@@ -1,0 +1,6 @@
+.skipped-set{
+    background-color:red;
+}
+.completed-set{
+    background-color:var(--ant-primary-color);
+}
