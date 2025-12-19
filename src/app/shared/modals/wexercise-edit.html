@@ -3,56 +3,61 @@
     <p>{{exercise()?.exerciseDescription}}</p>
     <p>This exercise's equipment: {{equip_dic[exercise()!.equipment]}}</p>
     <p>This exercise's muscle group: {{musclegroup_dic[exercise()!.muscleGroup]}}</p>
-    <nz-divider></nz-divider>
   <form [formGroup]="exerciseForm" (ngSubmit)="save()">
-    <span></span>
-    @for (set of sets.controls; let i = $index; track i) {
-      <div [ngClass]="{
-              'normal-set' : !updatedSets()[i].toSkip && !updatedSets()[i].toComplete,
-              'skipped-set' : updatedSets()[i].toSkip,
-              'completed-set': updatedSets()[i].toComplete
-            }">
-      <div [formGroup]="set" class="set-row">
-          <nz-form-item>
-            <nz-form-label [nzSpan]="6">Set {{ i + 1 }} Reps</nz-form-label>
-            <nz-form-control [nzSpan]="18">
-              <input nz-input formControlName="reps" type="number" class="reps"/>
-            </nz-form-control>
-          </nz-form-item>
 
-          <nz-form-item>
-            <nz-form-label [nzSpan]="6">
-              Set {{ i + 1 }} Weight ({{userService.currentUser()?.unitPreference}})
-            </nz-form-label>
-            <nz-form-control [nzSpan]="18">
-              <input nz-input formControlName="weight" type="number" class="weight"/>
-            </nz-form-control>
-          </nz-form-item>
-          <nz-row class="action-buttons">
-            @if(started){
-              <button nz-button type="button" nzDanger (click)="skipSet(i)" class="addSet">
-              Skip
-              </button>
-              <button nz-button type="button" (click)="completeSet(i)" class="completeSet">
-              Complete
-              </button>
-            }
+  <div nz-row style="font-weight:600; padding-top:10px;">
+    <div nz-col nzSpan="2"></div>
+    <div nz-col nzSpan="4">Set</div>
+    <div nz-col nzSpan="6">Weight ({{UM}})</div>
+    <div nz-col nzSpan="5">Reps</div>
+    <div nz-col nzSpan="4">Set actions</div>
+  </div>
+  <nz-divider nzSize="small" />
+  @for (set of sets.controls; let i = $index; track i) {
 
-            @if(sets.length > 1){
-              <button nz-button nzType="default" nzDanger (click)="removeSet(i)" class="removeSet">
-              Remove
-              </button>
-            }
-          </nz-row>
-          </div>
-        </div>
-      }
+    <div 
+      nz-row 
+      nzAlign="middle" 
+      class="set-row"
+      [ngClass]="{
+        'skipped-set'    : updatedSets()[i].toSkip,
+        'completed-set'  : updatedSets()[i].toComplete
+      }"
+      [formGroup]="set"
+    >
+    <div nz-col nzSpan="2"></div>
+    <div nz-col nzSpan="4">#{{i+1}}</div>
+      <div nz-col nzSpan="5">
+        <input nz-input formControlName="weight" type="number" />
+      </div>
+      <div nz-col nzSpan="1" style="padding-left:5px">x</div>
+      <div nz-col nzSpan="4">
+        <input nz-input formControlName="reps" type="number" />
+      </div>
+        @if(started){
+          <div nz-col nzSpan="1"></div>
+            <nz-icon nzType="check" nzTheme="outline" (click)="completeSet(i)" class="completeSet"/>
+        }
+      
+        @if(sets.length > 1){
+          <div nz-col nzSpan="1"></div>
+          <div nz-col nzSpan="2" style="text-align:right;">
+          <button nz-button nzSize="small" nzDanger type="button" class="removeSet"(click)="removeSet(i)">
+            Remove
+          </button>
+          
+      </div>
+        }
 
-      <button nz-button nzType="dashed" (click)="addSet()" style="margin: 4px 0px -20px 0px" class="addSet">
-        + Add Set
-      </button>
-      <nz-divider></nz-divider>
-  </form>
+    </div>
+
+  }
+
+  <button nz-button nzType="dashed" block (click)="addSet()">
+    + Set
+  </button>
+
+</form>
 </ng-container>
 
 <div class="modal-footer">

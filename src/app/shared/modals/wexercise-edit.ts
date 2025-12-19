@@ -22,8 +22,9 @@ import { exerciseIdCounter} from '../signals/signals';
 import { ScheduledExercise } from '../models/scheduledexercise';
 import { NzButtonComponent, NzButtonModule } from 'ng-zorro-antd/button';
 import { NzInputModule } from 'ng-zorro-antd/input';
-import { NzRowDirective } from 'ng-zorro-antd/grid';
-import { NzDividerComponent } from 'ng-zorro-antd/divider';
+import { NzColDirective, NzRowDirective } from 'ng-zorro-antd/grid';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @Component({
   selector: 'app-wexercise-edit',
@@ -35,10 +36,11 @@ import { NzDividerComponent } from 'ng-zorro-antd/divider';
     NzListModule,
     NzButtonModule,
     NzInputModule,
-    NzFormItemComponent,
     FormsModule,
     NzRowDirective,
-    NzDividerComponent
+    NzColDirective,
+    NzDividerModule,
+    NzIconModule
   ],
   templateUrl: './wexercise-edit.html',
   styleUrl: './wexercise-edit.css'
@@ -51,6 +53,7 @@ export class WexerciseEdit {
   editing: any
   newOrder: any
   started: any
+  UM: any
 
   exerciseService = inject(ExerciseService)
   workoutExerciseService = inject(WorkoutExerciseService)
@@ -87,7 +90,7 @@ export class WexerciseEdit {
     this.newOrder = this.nzModalData.length
     this.started = this.nzModalData.started
     const we = this.workoutExercise()
-
+    this.UM = this.userService.currentUser()?.unitPreference
     if(we){ //this largely stays the same
           const setsArray = this.fb.array(
             we.sets.map(s => this.fb.group({
