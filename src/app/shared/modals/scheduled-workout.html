@@ -1,10 +1,11 @@
 <div class="header">
-  <h2 class="workout-title">{{ scheduledWorkout()?.workoutName }}</h2>
+  <h2 class="workout-title">{{ scheduledWorkout()?.workoutName }} </h2>
+    <span class="timer">{{_duration ? timerService.formatDurationHMS(_duration) : _timerDisplay()}}</span>
 
   <textarea 
       nz-input
       class="notes-input"
-      [placeholder]="scheduledWorkout()?.workoutDescription"
+      [placeholder]="scheduledWorkout()?.workoutDescription ?? 'Exercise description'"
       [(ngModel)]="workoutNotes">
   </textarea>
 </div>
@@ -141,33 +142,35 @@
 </div>
 
 <div class="modal-footer">
-  
+
   <div class="footer-center">
-    <p>{{_duration ? timerService.formatDurationHMS(_duration) : _timerDisplay()}}</p>
     @if(eligibleForInteraction){
       <button nz-button class="begin-workout-btn"
-        (click)="started ? saveChanges(status[1]) : saveChanges(status[0])">
+              (click)="started ? saveChanges(status[1]) : saveChanges(status[0])">
         {{ started ? 'Finish' : 'Begin' }}
       </button>
     }
 
-    @if(started){
-      <button nz-button class="pause-btn"
-        (click)="_isWorkoutPaused() ? saveChanges('continued') : saveChanges(status[3])">
+    
+  </div>
+@if(started){
+      <button nz-button class="pause-btn" nzType="dashed"
+              (click)="_isWorkoutPaused() ? saveChanges('continued') : saveChanges(status[3])">
         {{ _isWorkoutPaused() ? 'Continue' : 'Pause' }}
+      </button>
+    }
+  <div class="footer-right">
+    @if(!started){
+      <button nz-button nzType="dashed"
+              (click)="goToWorkout(scheduledWorkout()!.workoutId)">
+        Go to Template
+      </button>
+
+      <button nz-button class="save-exercise-btn"
+              (click)="saveAndCloseModal()">
+        Save
       </button>
     }
   </div>
 
-  @if(!started){
-  <div class="footer-right">
-    <button nz-button nzType="dashed" (click)="goToWorkout(scheduledWorkout()!.workoutId)">
-      Go to Template
-    </button>
-
-    <button nz-button class="save-exercise-btn" (click)="saveAndCloseModal()">
-      Save
-    </button>
-  </div>
-  }
 </div>

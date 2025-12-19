@@ -30,6 +30,7 @@ import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { TimerService } from '../../core/services/timer.service';
 import { ScheduledExercise } from '../models/scheduledexercise';
 import { waitForAsync } from '@angular/core/testing';
+import { NzDropdownMenuComponent, NzDropDownModule } from 'ng-zorro-antd/dropdown';
 
 
 @Component({
@@ -49,7 +50,8 @@ import { waitForAsync } from '@angular/core/testing';
     NzModalModule,
     NzFormModule,
     ReactiveFormsModule,
-    NzCheckboxModule
+    NzCheckboxModule,
+    NzDropDownModule
   ],
   templateUrl: './scheduled-workout.html',
   styleUrl: './scheduled-workout.css'
@@ -409,19 +411,26 @@ export class ScheduledWorkout {
     const current = currentFlags[key] ?? { toDelete: false, toSuperset: false, toUnlink: false };
 
     if(type === 'remove'){
-      this.exerciseFlags.set({
-        ...currentFlags,
-        [key]: { toDelete: !current.toDelete }
-      });
+      this.modal.confirm({
+          nzTitle: 'Remove exercise',
+          nzContent: 'This will remove the exercise and all of its data from the workout.',
+          nzOkText: 'OK',
+          nzOnOk: ()=>{
+            this.exerciseFlags.set({
+              ...currentFlags,
+              [key]: { toDelete: !current.toDelete }
+            });
 
-      this.visibleExercises.update(current =>
-        current.filter(ex => ex.scheduledWorkoutExerciseId !== scheduledWorkoutExerciseId || ex.tempExId !== tempExId)
-      );
-      if(tempExId != undefined){
-        this.scheduledExercises.update(current=>
-        current.filter(ex => ex.tempExId !== tempExId)
-      );
-      }
+            this.visibleExercises.update(current =>
+              current.filter(ex => ex.scheduledWorkoutExerciseId !== scheduledWorkoutExerciseId || ex.tempExId !== tempExId)
+            );
+            if(tempExId != undefined){
+              this.scheduledExercises.update(current=>
+              current.filter(ex => ex.tempExId !== tempExId)
+            );
+        }
+    }})
+      
 
      console.log(this.visibleExercises())
      console.log(this.scheduledExercises())
