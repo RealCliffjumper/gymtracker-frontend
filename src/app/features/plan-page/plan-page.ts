@@ -22,6 +22,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { WorkoutInfo } from "../../shared/modals/workout-info";
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzTooltipModule } from 'ng-zorro-antd/tooltip';
+import { WorkoutsPageDto } from '../../shared/models/workoutspage.dto';
 
 @Component({
   selector: 'app-plan-page',
@@ -54,7 +55,7 @@ export class PlanPage {
 
   weeklyPlan = signal<WeeklyPlan| null>(null)
   weeklyPlanEntries = signal<WeeklyPlanEntry[]>([])
-  workouts = signal<Workout[] | null>(null)
+  workouts = signal<WorkoutsPageDto[] | null>(null)
 
   selectedWorkout = signal<string | null>(null)
   searchTerm = signal('');

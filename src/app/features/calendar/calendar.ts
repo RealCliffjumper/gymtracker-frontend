@@ -29,6 +29,7 @@ import { exerciseIdCounter, isWorkoutFinished, isWorkoutStarted, percent, workou
 import { ParseDatesPipe } from "../../shared/pipes/parse-dates-pipe";
 import { NzDatePickerComponent } from 'ng-zorro-antd/date-picker';
 import { NzProgressModule } from 'ng-zorro-antd/progress';
+import { WorkoutsPageDto } from '../../shared/models/workoutspage.dto';
 
 @Component({
   selector: 'app-calendar',
@@ -86,7 +87,7 @@ export class Calendar {
   modalMode = signal<'add' | 'edit'>('add')
   selectedWorkout = signal<string | null>(null)
   searchTerm = signal('');
-  workouts = signal<Workout[]>([])
+  workouts = signal<WorkoutsPageDto[]>([])
   datesFrame!: Date[] | [];
   status = WORKOUT_STATUS
 

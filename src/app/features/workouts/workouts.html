@@ -12,7 +12,7 @@
                   [nzMd]="8" 
                   [nzLg]="6" 
                   [nzXl]="4">
-            <nz-card class="workout-card" (click)="goToWorkout(workout)">
+            <nz-card class="workout-card" (click)="goToWorkout(workout.workoutId)">
               <h2>{{ workout.workoutName }}</h2>
             </nz-card>
           </nz-col>

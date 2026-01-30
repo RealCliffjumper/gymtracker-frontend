@@ -8,6 +8,7 @@ import { Workout } from '../../shared/models/workout';
 import { UserService } from '../../core/services/user.service';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { WorkoutsPageDto } from '../../shared/models/workoutspage.dto';
 
 @Component({
   selector: 'app-workouts',
@@ -28,7 +29,7 @@ export class Workouts {
   router = inject(Router);
   workoutService = inject(WorkoutService);
   userService = inject(UserService);
-  workouts = signal<Workout[]>([]);
+  workouts = signal<WorkoutsPageDto[]>([]);
   
   loadingWorkouts = false;
   constructor(){}
@@ -52,9 +53,9 @@ export class Workouts {
   }
   }
   
-  goToWorkout(workout?: Workout) {
-  if (workout) {
-    this.router.navigate(['/workout',  workout.workoutId]);
+  goToWorkout(workoutId?: string) {
+  if (workoutId) {
+    this.router.navigate(['/workout',  workoutId]);
   } else {
     this.router.navigate(['/workout', 'new-workout']);
   }

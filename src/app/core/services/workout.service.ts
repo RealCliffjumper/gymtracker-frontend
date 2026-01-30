@@ -3,6 +3,7 @@ import { WorkoutDto } from '../../shared/models/workout.dto';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Workout } from '../../shared/models/workout';
+import { WorkoutsPageDto } from '../../shared/models/workoutspage.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -25,8 +26,8 @@ export class WorkoutService {
     return this.http.get<Workout>(`${this.apiUrl}/${workoutId}/find`);
   }
 
-  getUserWorkouts(userId: string): Observable<Workout[]>{
-    return this.http.get<Workout[]>(`${this.apiUrl}/${userId}/all`);
+  getUserWorkouts(userId: string): Observable<WorkoutsPageDto[]>{
+    return this.http.get<WorkoutsPageDto[]>(`${this.apiUrl}/${userId}/all`);
   }
 
   getInPlan(workoutId: string): Observable<string[]>{
