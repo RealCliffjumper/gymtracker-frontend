@@ -1,0 +1,188 @@
+.workout-info-modal {
+  padding: 1rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* --- Header Section --- */
+.header {
+  text-align: center;
+}
+
+.workout-title {
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+  color: #222;
+}
+
+.workout-description {
+  color: #666;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+/* --- Exercise List --- */
+.exercise-list {
+  border-radius: 8px;
+  overflow: hidden;
+  background: #fafafa;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.exercise-item {
+  padding: 0.75rem 1rem;
+  transition: background-color 0.2s ease;
+  border-left: 4px solid transparent;
+}
+
+.exercise-item:hover {
+  background-color: #f0f5ff;
+}
+
+.exercise-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width:100%;
+}
+
+.exercise-name {
+  flex:7;
+  font-weight: 500;
+  color: #333;
+}
+
+.exercise-name.skippedEx{
+  color:red
+}
+
+.exercise-name.completedEx{
+  color:var(--ant-primary-color)
+}
+
+.exercise-header {
+  display: flex;
+  margin-top:10px;
+  padding: 8px 12px;
+  font-weight: 600;
+  background: #f0f2f5;
+  border-bottom: 1px solid #d9d9d9;
+}
+
+.exercise-header .col {
+  display: flex;
+  align-items: center;
+}
+
+.exercise-header .col.name { flex: 3; margin-left: 10px;}
+.exercise-header .col.points { flex: 1; justify-content: flex-start; }
+.exercise-header .col.sets { flex: 1; justify-content: center; }
+
+.exercise-content .col.sets {
+  flex: 1;
+  justify-content: flex-end;
+  font-weight: 600;
+}
+
+.exercise-content .col.points {
+  flex: 3;
+  justify-content: flex-end;
+  font-weight: 600;
+}
+
+.superset-label {
+  font-size: 0.75rem;
+  background-color: #fff3cd;
+  color: #856404;
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+
+/* --- Footer Buttons --- */
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 1rem;
+}
+
+button[nz-button] {
+  min-width: 90px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+button[nzType="primary"] {
+  background-color: var(--ant-primary-color) !important;
+  border-color: var(--ant-primary-color);
+  box-shadow: var(--ant-primary-color);
+  color: white !important;
+}
+
+button[nzType="primary"]:hover {
+ border-color: #1677ff;
+  background-color: #1677ff !important;
+  color: white !important;
+}
+
+button[nzType="default"][nzDanger]:hover {
+  background-color: #ffccc7;
+  color: #a8071a;
+}
+
+/* The glorious begin button */
+.begin-workout-btn {
+  position: relative;
+  overflow: hidden;
+  padding: 0.6rem 1.6rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+
+  background: var(--ant-primary-color);
+  border-color:   var(--ant-primary-color);
+  color: white !important;
+
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-radius: 0px;
+   display: inline-flex;
+  align-items: center;
+  justify-content: center; 
+}
+
+.begin-workout-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 10px  var(--ant-primary-color);
+}
+
+.begin-workout-btn::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 50%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  background: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.5) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: skewX(-25deg);
+  animation: shine 2s infinite;
+}
+
+@keyframes shine {
+  0% {
+    left: -150%;
+  }
+  50% {
+    left: 150%;
+  }
+  100% {
+    left: 150%;
+  }
+}

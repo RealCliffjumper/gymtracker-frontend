@@ -1,0 +1,46 @@
+@if(loadingExercises){
+  <nz-icon nzType="loading" />
+}
+@else{
+<div class="container">
+   <div class="exercise-grid">
+    <nz-row [nzGutter]="16" nzJustify="center">
+      @if (exercises().length > 0) {
+        @for (exercise of exercises(); track exercise.exerciseId) {
+          <nz-col [nzXs]="24" 
+                  [nzSm]="12" 
+                  [nzMd]="8" 
+                  [nzLg]="6" 
+                  [nzXl]="4">
+            <nz-card class="exercise-card" (click)="goToExercise(exercise)">
+              <h2>{{ exercise.exerciseName }}</h2>
+            </nz-card>
+          </nz-col>
+        }
+
+        <nz-col [nzXs]="24" 
+                  [nzSm]="12" 
+                  [nzMd]="8" 
+                  [nzLg]="6" 
+                  [nzXl]="4">
+          <button nz-button nzType="dashed" class="add-exercise-btn" (click)="openCreateExerciseModal()">
+            <nz-icon nzType="plus"/>
+            Add new exercise
+          </button>
+        </nz-col>
+      } @else {
+        <nz-col [nzXs]="24" 
+                  [nzSm]="12" 
+                  [nzMd]="8" 
+                  [nzLg]="6" 
+                  [nzXl]="4">
+          <button nz-button nzType="dashed" class="add-exercise-btn" (click)="openCreateExerciseModal()">
+            <nz-icon nzType="plus"/>
+            Add your first exercise
+          </button>
+        </nz-col>
+      }
+    </nz-row>
+  </div>
+</div>
+}

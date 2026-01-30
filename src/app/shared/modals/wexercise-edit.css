@@ -1,0 +1,61 @@
+
+.skipped-set {
+  background-color: rgba(255, 0, 0, 0.15);
+}
+
+.completed-set {
+  background-color: var(--ant-primary-color); /* matches ant primary */
+}
+
+.action-buttons{
+    padding-bottom: 10px;
+    justify-content: flex-end;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.modal-footer{
+    margin-top: 10px;
+    justify-content: flex-end;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+[nz-button].completeSet{
+  background-color:var(--ant-primary-color);
+  border-color:var(--ant-primary-color);
+  color:white;
+}
+
+[nz-button].removeSet:hover{
+  transform:scale(1.2);
+}
+
+.set-row {
+  padding: 6px 0;
+  margin-bottom:10px
+}
+
+.skipped-set {
+  background: #ffe1e1;
+}
+
+.completed-set {
+  background: var(--ant-primary-color);
+}
+
+nz-icon {
+    padding-left: 10px;
+    font-size: 24px;
+}
+
+nz-icon:hover{
+  cursor:pointer;
+  transform: scale(1.35);
+}
+
+nz-divider{
+  margin:16px 0px 10px 0px;
+}

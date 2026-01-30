@@ -1,0 +1,74 @@
+<ng-container class="container">
+    <h1>{{exercise()?.exerciseName}}</h1>
+    <p>{{exercise()?.exerciseDescription}}</p>
+    <p>This exercise's equipment: {{equip_dic[exercise()!.equipment]}}</p>
+    <p>This exercise's muscle group: {{musclegroup_dic[exercise()!.muscleGroup]}}</p>
+  <form [formGroup]="exerciseForm" (ngSubmit)="save()">
+
+  <div nz-row style="font-weight:600; padding-top:10px;">
+    <div nz-col nzSpan="2"></div>
+    <div nz-col nzSpan="4">Set</div>
+    <div nz-col nzSpan="6">Weight ({{UM}})</div>
+    <div nz-col nzSpan="5">Reps</div>
+    <div nz-col nzSpan="4">Set actions</div>
+  </div>
+  <nz-divider nzSize="small" />
+  @for (set of sets.controls; let i = $index; track i) {
+
+    <div 
+      nz-row 
+      nzAlign="middle" 
+      class="set-row"
+      [ngClass]="{
+        'skipped-set'    : updatedSets()[i].toSkip,
+        'completed-set'  : updatedSets()[i].toComplete
+      }"
+      [formGroup]="set"
+    >
+    <div nz-col nzSpan="2"></div>
+    <div nz-col nzSpan="4">#{{i+1}}</div>
+      <div nz-col nzSpan="5">
+        <input nz-input formControlName="weight" type="number" />
+      </div>
+      <div nz-col nzSpan="1" style="padding-left:5px">x</div>
+      <div nz-col nzSpan="4">
+        <input nz-input formControlName="reps" type="number" />
+      </div>
+        @if(started){
+          <div nz-col nzSpan="1"></div>
+            <nz-icon nzType="check" nzTheme="outline" (click)="completeSet(i)" class="completeSet"/>
+        }
+      
+        @if(sets.length > 1){
+          <div nz-col nzSpan="1"></div>
+          <div nz-col nzSpan="2" style="text-align:right;">
+          <button nz-button nzSize="small" nzDanger type="button" class="removeSet"(click)="removeSet(i)">
+            Remove
+          </button>
+          
+      </div>
+        }
+
+    </div>
+
+  }
+
+  <button nz-button nzType="dashed" block (click)="addSet()">
+    + Set
+  </button>
+
+</form>
+</ng-container>
+
+<div class="modal-footer">
+      <button nz-button nzType="default" type="button" (click)="close()">Cancel</button>
+      <button 
+        nz-button nzType="primary" 
+        type="submit" 
+        class="saveExerciseBtn"
+        (click)="save()" 
+        [disabled]="exerciseForm.invalid || isSubmitting"
+        [ngClass]="{ 'btn-enabled': exerciseForm.valid && !isSubmitting }">
+            Save
+      </button>
+</div>

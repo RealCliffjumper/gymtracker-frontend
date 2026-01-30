@@ -1,0 +1,58 @@
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: var(--ant-body-background);
+}
+
+.auth-card {
+  background: var(--ant-component-background);
+  padding: 2rem;
+  border-radius: var(--ant-border-radius-base);
+  box-shadow: var(--ant-box-shadow-base);
+  width: 100%;
+  max-width: 450px;
+}
+
+:host ::ng-deep .ant-tabs-nav {
+  margin-bottom: 1.5rem;
+}
+:host ::ng-deep .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: var(--ant-primary-color) !important;
+  font-weight: 600;
+}
+:host ::ng-deep .ant-tabs-ink-bar {
+  background: var(--ant-primary-color) !important;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.auth-btn {
+  width: 100%;
+  background-color: var(--ant-primary-color);
+  color: #f5f4ef;
+  border-color: var(--ant-primary-color);
+}
+
+.extra-link {
+  margin-top: 1rem;
+  text-align: center;
+}
+.extra-link a {
+  color: var(--ant-primary-color);
+  cursor: pointer;
+}
+.extra-link a:hover {
+  text-decoration: underline;
+}
+
+.hint {
+  font-size: 0.85rem;
+  color: #666;
+  margin-bottom: 1rem;
+}

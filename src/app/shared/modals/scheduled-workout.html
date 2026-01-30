@@ -1,0 +1,176 @@
+<div class="header">
+  <h2 class="workout-title">{{ scheduledWorkout()?.workoutName }} </h2>
+    <span class="timer">{{_duration ? timerService.formatDurationHMS(_duration) : _timerDisplay()}}</span>
+
+  <textarea 
+      nz-input
+      class="notes-input"
+      [placeholder]="scheduledWorkout()?.workoutDescription ?? 'Exercise description'"
+      [(ngModel)]="workoutNotes">
+  </textarea>
+</div>
+
+@if(!_duration){
+<div class="search-row">
+  All<label 
+      nz-checkbox 
+      (nzCheckedChange)="onAllChecked($event)"
+      [nzChecked]="loadAll"
+      ></label>
+  User's only<label 
+      nz-checkbox
+      (nzCheckedChange)="onUsersChecked($event)"
+      [nzChecked]="usersChecked"
+      ></label>
+  <nz-select
+      nzShowSearch
+      nzAllowClear
+      [nzPlaceHolder]="(loadAll) ? 'Search all exercises' : 'Search your exercises'"
+      class="searchBar"
+      [ngModel]="selectedExercise()"
+      (nzOnSearch)="onSearch($event)"
+      (ngModelChange)="onExerciseSelected($event)"
+      (nzOpenChange)="onDropdownOpen($event)">
+    
+    <nz-option-group nzLabel="Available exercises">
+      @for (exercise of exercises(); track exercise.exerciseId) {
+        <nz-option
+          [nzLabel]="exercise.exerciseName"
+          [nzValue]="exercise.exerciseId">
+        </nz-option>
+      }
+    </nz-option-group>
+  </nz-select>
+  
+  <button nz-button nzType="primary" class="add-btn" (click)="openWorkoutExerciseModal(false, undefined)">
+    Add
+  </button>
+</div>
+}
+<div class="exercise-list">
+  <div class="exercise-header">
+    @if(_duration){
+    <span class="col nameC">Exercise</span>
+    <span class="col setsC">Sets</span>
+    <span class="col points">Points</span>
+    <span class="col actionsC">Actions</span>
+    }
+    @else {
+    <span class="col name">Exercise</span>
+    <span class="col sets">Sets</span>
+    <span class="col actions">Actions</span>
+    } 
+  </div>
+  <nz-list nzBordered cdkDropList (cdkDropListDropped)="drop($event)">
+    @for (scheduledExercise of visibleExercises(); track scheduledExercise.exerciseOrder; let idx = $index) {
+      @let nextExercise = visibleExercises()[idx + 1];
+
+      <div class="exercise-row"
+           [ngStyle]="{
+             'border-left': scheduledExercise.supersetGroupId &&
+               ((nextExercise && scheduledExercise.supersetGroupId === nextExercise.supersetGroupId) ||
+                (visibleExercises()[idx - 1] &&
+                 visibleExercises()[idx - 1].supersetGroupId === scheduledExercise.supersetGroupId))
+               ? '4px solid ' + getSupersetColor(scheduledExercise.supersetGroupId)
+               : '4px solid transparent'
+           }">
+        
+        <nz-list-item cdkDrag>
+          <div nz-col nzSpan="8">
+          <div
+          [ngClass]="{
+              'normalEx' : !scheduledExercise.skipped && !scheduledExercise.completed && !scheduledExercise.isStarted,
+              'startedEx' : scheduledExercise.isStarted,
+              'skippedEx': scheduledExercise.skipped,
+              'completedEx': scheduledExercise.completed
+            }">
+            <nz-icon class="order-icon" nzType="unordered-list" nzTheme="outline" cdkDragHandle></nz-icon>
+            {{ scheduledExercise.exerciseName }}
+            </div>
+          </div>
+
+          <div class="col sets">
+            {{ scheduledExercise.sets.length }}
+          </div>
+          @if(_duration){
+            <div class="col points">
+            {{ sumExercisePoints(scheduledExercise.exerciseOrder)}}
+          </div>
+          }
+          
+          <div class="col actions">
+            @if(eligibleForInteraction){
+                <button nz-button class="start-exercise-btn"
+                  (click)="flagExercise(scheduledExercise.scheduledWorkoutExerciseId, scheduledExercise.tempExId, 'skip')">
+                  {{ scheduledExercise.skipped ? 'Restore' : 'Skip' }}
+                </button>
+              @if(!scheduledExercise.skipped && !scheduledExercise.completed){
+                @if(scheduledExercise.isStarted){
+                  <nz-icon nzType="loading" nzTheme="outline" />
+                }
+                
+                <button nz-button class="start-exercise-btn"
+                  (click)="scheduledExercise.isStarted ? flagExercise(scheduledExercise.scheduledWorkoutExerciseId, scheduledExercise.tempExId, 'complete') : flagExercise(scheduledExercise.scheduledWorkoutExerciseId, scheduledExercise.tempExId, 'start', scheduledExercise.supersetGroupId)">
+                  {{ scheduledExercise.isStarted ? 'Finish' : 'Start' }}
+                </button>
+              }
+            }
+            
+            @if(visibleExercises().length > 1){
+            <label
+              nz-checkbox
+              (nzCheckedChange)="toggleSuperset(scheduledExercise.scheduledWorkoutExerciseId, scheduledExercise.tempExId, scheduledExercise.exerciseOrder!)"
+              [nzChecked]="checkLookUp().includes(scheduledExercise.scheduledWorkoutExerciseId || scheduledExercise.tempExId!)"
+              [nzDisabled]="isCheckboxDisabled(scheduledExercise.exerciseOrder!)" 
+              nz-tooltip nzTooltipTitle="Link superset"></label>
+            }
+            
+            <nz-icon nzType="edit" nzTheme="outline" class="editExercise"
+              nz-tooltip nzTooltipTitle="Edit"
+              (click)="openWorkoutExerciseModal(true, scheduledExercise.scheduledWorkoutExerciseId || scheduledExercise.tempExId, scheduledExercise.exerciseOrder)">
+            </nz-icon>
+
+            <nz-icon nzType="delete" nzTheme="outline" class="removeExercise"
+              nz-tooltip nzTooltipTitle="Delete"
+              (click)="flagExercise(scheduledExercise.scheduledWorkoutExerciseId, scheduledExercise.tempExId, 'remove', undefined)">
+            </nz-icon>
+          </div>
+        </nz-list-item>
+      </div>
+    }
+  </nz-list>
+</div>
+
+<div class="modal-footer">
+
+  <div class="footer-center">
+    @if(eligibleForInteraction){
+      <button nz-button class="begin-workout-btn"
+              (click)="started ? saveChanges(status[1]) : saveChanges(status[0])">
+        {{ started ? 'Finish' : 'Begin' }}
+      </button>
+    }
+
+    
+  </div>
+@if(started){
+      <button nz-button class="pause-btn" nzType="dashed"
+              (click)="_isWorkoutPaused() ? saveChanges('continued') : saveChanges(status[3])">
+        {{ _isWorkoutPaused() ? 'Continue' : 'Pause' }}
+      </button>
+    }
+  <div class="footer-right">
+    @if(!started){
+      <button nz-button nzType="dashed"
+              (click)="goToWorkout(scheduledWorkout()!.workoutId)">
+        Go to Template
+      </button>
+
+      <button nz-button class="save-exercise-btn"
+              (click)="saveAndCloseModal()">
+        Save
+      </button>
+    }
+  </div>
+
+</div>

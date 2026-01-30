@@ -1,0 +1,145 @@
+<div class="weekly-plan-container">
+  <!-- Plan name section -->
+  <div class="plan-header">
+    
+    @if (isEditing) {
+      <div class="plan-edit">
+        <input
+          type="text"
+          nz-input
+          [(ngModel)]="editablePlanName"
+          class="plan-input"
+        />
+        <nz-icon
+          nzType="edit"
+          nzTheme="outline"
+          (click)="editName()"
+          class="icon-btn"
+        ></nz-icon>
+        <button nz-button nzType="primary" class="addWorkoutBtn" (click)="saveChanges()">Save</button>
+      </div>
+    }
+    @else {
+      
+      <div class="plan-title">
+        <nz-icon 
+        nzType="bulb" 
+        nzTheme="outline" 
+        class="bulb-icon-btn" 
+        nz-tooltip [nzTooltipTitle]="weeklyPlan()?.planActive ? 'Deactivate plan' : 'Activate plan'"
+        nzTheme="fill" 
+        [style.color]="weeklyPlan()?.planActive ? '#ffd700' : 'rgb(148,148,148)'"
+        (click)="changePlanStatus()"/>
+        <h1>{{ weeklyPlan()?.weeklyPlanName }}</h1>
+        <nz-icon
+          nzType="edit"
+          nzTheme="outline"
+          (click)="editName()"
+          class="icon-btn"
+        ></nz-icon>
+        <nz-icon
+          nzType="delete"
+          nzTheme="outline"
+          class="delete-icon-btn"
+          (click)="deletePlan()"
+        ></nz-icon>
+      </div>
+    }
+  </div>
+
+  <!-- Weekday cards section -->
+  <div class="days-grid">
+    @for (day of dow; track day) {
+      <nz-card class="day-card" nzHoverable>
+        <div class="day-header">
+          <span class="day-label">{{ dow_labels[day] }}</span>
+        </div>
+
+        <div class="day-content">
+          @if (getEntryForDay(day); as entry) {
+            <div class="workout-entry">
+              <span
+                class="workout-name"
+                (click)="workoutWindow(entry.workoutId)"
+                >{{ entry.workoutName }}</span
+              >
+
+              <div class="icon-actions">
+                <nz-icon
+                  nzType="edit"
+                  nzTheme="outline"
+                  class="cursor-pointer"
+                  (click)="openEditEntryModal(entry)"
+                ></nz-icon>
+                <nz-icon
+                  nzType="delete"
+                  nzTheme="outline"
+                  class="cursor-pointer"
+                  (click)="removeEntry(entry.weeklyEntryId)"
+                ></nz-icon>
+              </div>
+            </div>
+          }
+          @else {
+            <div class="add-entry">
+              <nz-icon
+                nzType="plus-circle"
+                nzTheme="outline"
+                class="cursor-pointer text-green-500"
+                (click)="openAddEntryModal(day)"
+              ></nz-icon>
+            </div>
+          }
+        </div>
+      </nz-card>
+    }
+  </div>
+</div>
+
+
+
+
+<nz-modal
+  [(nzVisible)]="isModalVisible"
+  [nzTitle]= "modalMode() === 'add' 
+    ? 'Add workout for ' + (dow_labels[selectedDay!] || '') 
+    : 'Edit workout for ' + (dow_labels[selectedDay!] || '')"
+  (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()"
+  [nzOkLoading]="isSubmitting"
+>
+<ng-container *nzModalContent>
+    <nz-select
+      nzShowSearch
+      nzAllowClear
+      nzPlaceHolder="Search and add a workout"
+      [ngModel]="selectedWorkout()"
+      (nzOnSearch)="onSearch($event)"
+      (ngModelChange)="onWorkoutSelected($event)"
+      (nzOpenChange)="onDropdownOpen($event)"
+      style="width: 300px"
+      class="searchBar"
+    >
+    
+    @for (workout of workouts(); track workout.workoutId) {
+        <nz-option
+        [nzLabel]="workout.workoutName"
+        [nzValue]="workout.workoutId"
+        >
+      </nz-option>
+    }
+    </nz-select>
+</ng-container>
+
+<div *nzModalFooter>
+      <button nz-button nzType="default" type="button" (click)="handleCancel()">Cancel</button>
+      <button 
+      nz-button nzType="primary" 
+      type="submit" 
+      class="addWorkoutBtn"
+      (click)="handleOk()" 
+      [disabled]="!selectedWorkout() || isSubmitting"
+      [ngClass]="{ 'btn-enabled': selectedWorkout() && !isSubmitting }">
+        {{modalMode() === 'add' ? 'Add' : 'Save'}}
+      </button>
+</div>

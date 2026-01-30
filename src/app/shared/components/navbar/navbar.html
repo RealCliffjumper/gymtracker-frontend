@@ -1,0 +1,45 @@
+<ul nz-menu nzMode="horizontal" class="nav-menu">
+  <li nz-menu-item routerLink="/home" routerLinkActive="ant-menu-item-selected" >
+    Home
+  </li>
+  <li nz-menu-item routerLink="/profile" routerLinkActive="ant-menu-item-selected">
+    Profile
+  </li>
+  <li nz-menu-item routerLink="/workouts" routerLinkActive="ant-menu-item-selected">
+    My Workouts
+  </li>
+  <li nz-menu-item routerLink="/exercises" routerLinkActive="ant-menu-item-selected">
+    My Exercises
+  </li>
+  <li nz-menu-item routerLink="/plans" routerLinkActive="ant-menu-item-selected">
+    My Plans
+  </li>
+  <nz-badge [nzCount]="(_workoutInProgress()) ? iconTemplate : 0">
+    <nz-icon 
+    nzType="bell" 
+    nzTheme="outline"
+    class="bell"
+    nz-popover
+    nzPopoverTitle="Notifications"
+    [(nzPopoverVisible)]="visible"
+    (nzPopoverVisibleChange)="change($event)"
+    nzPopoverTrigger="click"
+    [nzPopoverContent]="contentTemplate" 
+    />
+  </nz-badge>
+  <nz-icon class="logout" nzType="logout" nzTheme="outline" (click) = logout()/>
+</ul>
+<ng-template #iconTemplate>
+      <nz-icon nzType="clock-circle" class="ant-scroll-number-custom-component" style="color: #f5222d" />
+</ng-template>
+<ng-template #contentTemplate >
+      @if (_notifications().length > 0) {
+        <nz-list>
+          @for (notification of _notifications(); track $index) {
+            <nz-list-item>{{ notification }}</nz-list-item>
+          }
+        </nz-list>
+        } @else {
+          <p>No notifications.</p>
+        }
+</ng-template>

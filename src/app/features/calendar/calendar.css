@@ -1,0 +1,184 @@
+.weekly-plan-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 2rem auto;
+  max-width: 1100px;
+  width: 90%;
+}
+
+/* Header */
+.plan-header {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.plan-title h1 {
+  font-size: 2rem;
+  margin: 0;
+}
+
+.plan-name {
+  color:var(--ant-primary-color)
+}
+
+.plan-name:hover{
+  cursor: pointer;
+  transform: scale(1.15);
+  text-decoration: underline;
+}
+
+/* Week info */
+.week-info {
+  align-self: center;
+  display:flex;
+  justify-content: space-between; 
+  margin: 0 0 1rem 1rem;
+  font-size: 1rem;
+  color: #555;
+}
+
+.week-label {
+  font-weight: 600;
+  margin-right: 0.5rem;
+}
+
+nz-date-picker {
+  margin-left: 0px;
+  margin-right: 10px;
+}
+
+.b2p-btn{
+ background-color:var(--ant-primary-color);
+ border-color:var(--ant-primary-color);
+ cursor: pointer;
+ margin-left: 0px; 
+}
+.b2p-btn:hover{
+transform: scale(1.1);
+}
+
+.date-travel{
+  align-self: flex-end;
+  margin: 0 0 1rem 1rem;
+  font-size: 1rem;
+  color: #555;
+}
+
+/* Week navigation */
+.week-navigation {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+.nav-icon {
+  font-size: 2rem;
+  cursor: pointer;
+  color: #555;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.nav-icon:hover {
+  transform: scale(1.3);
+  color: #9f0cbd;
+}
+
+/* Days grid */
+.days-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1rem;
+  width: 100%;
+}
+
+/* Day cards */
+.day-card {
+  text-align: center;
+  padding: 0.75rem;
+  height: 160px;
+  min-width: 145px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: white;
+}
+
+/* Completed / Skipped cards cover entire card */
+.day-card.skippedCard {
+  background-color: #fff1f0;
+  border-color: #ff4d4f;
+  color: #a8071a;
+}
+
+.day-card.completedCard {
+  background-color: #f6ffed;
+  border-color: #52c41a;
+  color: #237804;
+}
+
+.day-card.startedCard{
+  background-color: #e9bb3e48;
+  border-color: #d8ca0d;
+  color: #eebb13;
+}
+
+/* Headers */
+.day-header {
+  border-bottom: 2px solid var(--ant-primary-color);
+  padding-bottom: 0.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.day-label {
+  font-weight: 600;
+  color: #64c00e;
+  font-size: 1rem;
+}
+
+/* Workout entries */
+.workout-entry {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  text-align: center;
+}
+
+.workout-name {
+  cursor: pointer;
+  color: #333;
+  font-weight: 500;
+}
+
+.workout-name:hover {
+  color: #9f0cbd;
+  text-decoration: underline;
+}
+
+/* Edit / Plus icons */
+.icon-actions nz-icon,
+.add-entry nz-icon {
+  font-size: 1.8rem;
+  cursor: pointer;
+  color: #333;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.icon-actions nz-icon:hover,
+.add-entry nz-icon:hover {
+  transform: scale(1.25);
+  color: #9f0cbd;
+}
+
+.add-entry {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
