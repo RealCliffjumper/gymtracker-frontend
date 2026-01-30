@@ -30,6 +30,12 @@
   border-color: var(--ant-primary-color);
 }
 
+.btn-enabled {
+  background-color: var(--ant-primary-color);
+  border-color: var(--ant-primary-color);
+  color: #fff;
+}
+
 .exercise-header {
   display: flex;
   justify-content: space-between;
@@ -47,6 +53,10 @@
 .exercise-actions {
   display: flex;
   gap: 10px;
+}
+
+.plan-name{
+  color: var(--ant-primary-color);
 }
 
 nz-icon {

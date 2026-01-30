@@ -19,8 +19,6 @@
           <input nz-input formControlName="workoutDescription" placeholder="Add description (optional)" class="workoutDesc"/>
         </nz-form-control>
       </nz-form-item>
-
-                     <!-- for now it will be an optional field later it will determine the list of exercises when I figure out how to persist the filters through page reloads-->
       <nz-form-item>
         <nz-form-label [nzSpan]="6">Muscle Group</nz-form-label>
         <nz-form-control [nzSpan]="18">
@@ -32,7 +30,7 @@
           (ngModelChange)="muscleFilters.set($event)"
           >
           @for (group of availableMuscleGroups; track group) {
-            <nz-option [nzLabel]="muscleGroupLabels[group]" [nzValue]="group"></nz-option> <!--the filters should be already active if there are exercises in the workout-->
+            <nz-option [nzLabel]="muscleGroupLabels[group]" [nzValue]="group"></nz-option>
           }
           </nz-select>
         </nz-form-control>
@@ -83,7 +81,7 @@
       @if(planNames().length>0){
         Already present in these plans: 
         @for(name of planNames(); track $index){
-          {{name}}
+          <span class="plan-name"><b>{{name}}</b></span>
         }
       }
       @else {}
@@ -96,7 +94,10 @@
         }
         
         <nz-col>
-          <button nz-button nzType="primary" class="save-btn" (click) = onSave()>Save</button>
+          <button nz-button nzType="primary" 
+          [disabled]="workoutForm.invalid || isSubmitting"
+          [ngClass]="{ 'btn-enabled': workoutForm.valid && !isSubmitting }"
+          class="save-btn" (click) = onSave()>Save</button>
         </nz-col>
       </nz-row>
     </form>

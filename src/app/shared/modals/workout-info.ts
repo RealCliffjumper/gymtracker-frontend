@@ -16,6 +16,8 @@ import { WORKOUT_STATUS } from '../models/workoutstatus';
 import { isEqual } from 'date-fns';
 import { isWorkoutStarted, workoutStartedAt } from '../signals/signals';
 import { TimerService } from '../../core/services/timer.service';
+import { MUSCLE_GROUPS } from '../models/musclegroups';
+import { MUSCLE_GROUP_LABELS } from '../models/musclegroups-dictionary';
 
 @Component({
   selector: 'app-workout-info',
@@ -54,6 +56,8 @@ export class WorkoutInfo {
   status = WORKOUT_STATUS
   workoutExercises = signal<WorkoutExerciseDto[]>([])
   scheduledId = '';
+  musclegroup = MUSCLE_GROUPS
+  musclegroup_dic = MUSCLE_GROUP_LABELS
 
   supersetColors: string[] = [
   '#4caf50', // green

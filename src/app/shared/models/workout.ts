@@ -5,6 +5,7 @@ export interface Workout {
     userId: string;
     workoutName: string;
     workoutDescription: string;
+    muscleGroups: string[];
     createdAt: Date;
     updatedAt: Date;
     exercises: WorkoutExerciseDto[];

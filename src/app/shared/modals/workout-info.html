@@ -3,6 +3,11 @@
   <div class="header">
     <h2 class="workout-title">{{ workout()?.workoutName }}</h2>
     <p class="workout-description">{{ workout()?.workoutDescription }}</p>
+    <p>This workout's muscle groups: 
+      @for (group of workout()?.muscleGroups; track group) {
+           {{musclegroup_dic[group]}} |
+      }
+    </p>
   </div>
 
   <!-- Exercise List -->
@@ -38,9 +43,11 @@
     }
   <div class="modal-footer">
     
+    @if(!inPlan){
     <button nz-button nzType="dashed" [disabled]="isSkipped" nzDashed (click)="editScheduled(workoutId, false)">
       Edit entry
     </button>
+  }
     <button nz-button nzType="dashed" nzDashed (click)="goToWorkout(workout()!.workoutId)">
       Edit template
     </button>

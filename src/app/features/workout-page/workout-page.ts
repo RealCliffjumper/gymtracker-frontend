@@ -143,6 +143,7 @@ exerciseForm = this.fb.group({
     ])
 });
 
+
 loadPlans(){
   this.weeklyPlanService.getWeeklyPlans(this.userService.currentUser()!.userId).subscribe({
     next:(data) => {
@@ -154,7 +155,6 @@ loadPlans(){
 ngOnInit() {
     this.workoutId = this.route.snapshot.paramMap.get('workoutId')!;
     
-
     if (this.workoutId && this.workoutId !== 'new-workout') {
         this.workoutService.getWorkout(this.workoutId).subscribe(data => {
         this.workout = data;
@@ -163,14 +163,13 @@ ngOnInit() {
         this.workoutForm.controls['workoutDescription'].setValue(this.workout.workoutDescription)
         this.createdAt = this.workout.createdAt
         this.updatedAt = this.workout.updatedAt
+        this.muscleFilters.set(data.muscleGroups)
         
         this.workoutService.getInPlan(this.workoutId).subscribe({
           next: (data)=>{
             this.planNames.set(data)
           }
         })
-        
-    
 /*         if (this.workoutName !== data.workoutName) {
           this.router.navigate(
             ['/workout', data.workoutName],
@@ -182,7 +181,7 @@ ngOnInit() {
         } */
       });
       
-      this.workoutExerciseService.getAllWorkoutExercises(this.workoutId).subscribe(data=>{
+        this.workoutExerciseService.getAllWorkoutExercises(this.workoutId).subscribe(data=>{
         this.workoutExercises.set(data)
       })
     } else {
@@ -201,6 +200,7 @@ onSave() {
 }
 
 createWorkout(){
+  console.log(this.muscleFilters())
   const user = this.userService.currentUser();
   if(user){
     const formValue = this.workoutForm.value;
@@ -242,11 +242,7 @@ updateWorkout(){
         { 
           this.message.success( 'Applied changes to workout')
         },
-      error: (err) => {
-        if (err.status === 304) { //this error handling needs to be changed. either that or the form needs to be read including the day and plan fields
-          this.message.warning('No changes were made');
-          return;
-        }
+      error: () => {
         this.message.error('Failed to update workout');
       }
     });

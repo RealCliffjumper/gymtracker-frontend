@@ -6,6 +6,11 @@
       <p>Workout completed in: {{timerService.formatDurationHMS(_duration)}}</p>
       <p>Workout points: {{scheduledWorkout()?.workoutPoints}}</p>
     }
+    <p>This workout's muscle groups: 
+      @for (group of scheduledWorkout()?.muscleGroups; track group) {
+           {{musclegroup_dic[group]}} |
+      }
+    </p>
   </div>
   <div class="exercise-header">
     <span class="col name">Exercise</span>
