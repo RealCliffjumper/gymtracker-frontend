@@ -1,8 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
-import { NzMessageService } from 'ng-zorro-antd/message';
-import { NzModalComponent, NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
+import {  NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 import { ExerciseService } from '../../core/services/exercise.service';
 import { UserService } from '../../core/services/user.service';
 import { Exercise } from '../../shared/models/exercise';
@@ -24,7 +22,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     NzButtonModule,
     NzIconModule,
     NzModalModule
-  ],
+],
   templateUrl: './exercises.html',
   styleUrl: './exercises.css'
 })
