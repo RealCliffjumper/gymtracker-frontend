@@ -4,17 +4,41 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
+  
 }
 
 .workout-card,
 .exercise-card {
   padding: 20px;
+  background-color: var(--ant-component-background);
+  border-color: var(--ant-primary-color);
+  color: var(--ant-text-highlight);
+  box-shadow: var(--ant-box-shadow-base);
 }
+
 
 .page-title {
   display: inline-block;
   margin-right: 10px;
+  color:var(--ant-text-highlight)
 }
+
+::ng-deep .ant-form-item-label > label{
+  color: var(--ant-text-highlight);
+}
+
+::ng-deep .ant-modal-content{
+  background-color: var(--ant-component-background);
+}
+
+::ng-deep .ant-modal-header{
+  background-color: var(--ant-component-background);
+}
+
+::ng-deep .ant-modal-title{
+  color:var(--ant-text-highlight);
+}
+
 
 .save-btn {
   float: right;
@@ -48,6 +72,15 @@
 
 .exercise-list {
   margin-top: 10px;
+  border-color:var(--ant-primary-color)
+}
+
+.ant-list-item{
+  color: var(--ant-text-highlight);
+}
+
+.ant-list{
+  border-color:var(--ant-secondary-color)
 }
 
 .exercise-actions {

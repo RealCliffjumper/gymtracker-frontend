@@ -1,4 +1,8 @@
 
+::ng-deep .ant-modal-content{
+  color:var(--ant-text-highlight);
+}
+
 .skipped-set {
   background-color: rgba(255, 0, 0, 0.15);
 }
@@ -57,5 +61,6 @@ nz-icon:hover{
 }
 
 nz-divider{
+  background-color:var(--ant-text-highlight);
   margin:16px 0px 10px 0px;
 }

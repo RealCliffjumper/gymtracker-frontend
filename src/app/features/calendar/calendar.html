@@ -2,7 +2,7 @@
   <div class="plan-header">
     <div class="plan-title">
       @if(activePlan()){
-        <h1>Your active plan is:</h1><h1 class="plan-name" (click)="goToPlan(activePlan()!.weeklyPlanId)"> {{ activePlan()?.weeklyPlanName }}</h1>
+        <h1 class="active-text">Your active plan is:</h1><h1 class="plan-name" (click)="goToPlan(activePlan()!.weeklyPlanId)"> {{ activePlan()?.weeklyPlanName }}</h1>
       }
       @else{
         <h1>Currently no plan active</h1>

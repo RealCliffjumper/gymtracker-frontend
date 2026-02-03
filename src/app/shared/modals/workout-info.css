@@ -14,20 +14,24 @@
   font-size: 1.6rem;
   font-weight: 600;
   margin-bottom: 0.3rem;
-  color: #222;
+  color: var(--ant-text-highlight);
 }
 
 .workout-description {
-  color: #666;
+  color: var(--ant-text-highlight);
   font-size: 0.95rem;
   margin: 0;
+}
+
+.muscle-groups{
+  color: var(--ant-text-highlight);
 }
 
 /* --- Exercise List --- */
 .exercise-list {
   border-radius: 8px;
   overflow: hidden;
-  background: #fafafa;
+  background: var(--ant-secondary-color);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
@@ -35,10 +39,6 @@
   padding: 0.75rem 1rem;
   transition: background-color 0.2s ease;
   border-left: 4px solid transparent;
-}
-
-.exercise-item:hover {
-  background-color: #f0f5ff;
 }
 
 .exercise-content {
@@ -49,7 +49,7 @@
 
 .exercise-name {
   font-weight: 500;
-  color: #333;
+  color: var(--ant-text-highlight);
 }
 
 .superset-label {

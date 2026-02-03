@@ -35,8 +35,8 @@
           <div class="unit-selector">
             <label class="unit-label">Preferred units of weight:</label>
             <nz-radio-group formControlName="unitPreference" name="unitPreference">
-              <label nz-radio-button nzValue="KG">KG</label>
-              <label nz-radio-button nzValue="LBS">LBS</label>
+              <label nz-radio-button nzValue="KG" class="KG">KG</label>
+              <label nz-radio-button nzValue="LBS" class="LBS">LBS</label>
             </nz-radio-group>
           </div>
 
@@ -47,16 +47,16 @@
 
 
       <div nz-col [nzSpan]="12" class="exercises-panel">
-        <h3>My exercises</h3>
+        <h3 class="ex-title">My exercises</h3>
         <nz-card nzBordered="true" class="exercise-card">
           @if(exercises().length > 0){
           <nz-list>
             @for (exercise of exercises(); track exercise.exerciseId){
-            <nz-list-item (click)="goToExercise(exercise)">{{ exercise.exerciseName }}</nz-list-item>
+            <nz-list-item (click)="goToExercise(exercise)" class="exercise-name">{{ exercise.exerciseName }}</nz-list-item>
             }
           </nz-list>
           } @else {
-            <p>No exercises added yet.</p>
+            <p style="color:var(--ant-text-highlight);">No exercises added yet.</p>
           }
         </nz-card>
         <nz-icon class="addExerciseBtn" nzType="plus" nzTheme="outline" nz-tooltip nzTooltipTitle="Add exercise" (click)="openCreateExerciseModal()"/>

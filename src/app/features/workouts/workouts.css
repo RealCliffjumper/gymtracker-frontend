@@ -16,8 +16,15 @@
   text-align: center;
   height: 120px;
   cursor: pointer;
-  border-color: black;
+  border-color: var(--ant-primary-color);
+  border-width: 2px;
   margin-bottom: 16px;
+  background-color: var(--ant-secondary-color);
+  box-shadow: var(--ant-box-shadow-base);
+}
+
+.workout-name{
+  color:var(--ant-text-highlight);
 }
 
 .add-workout-btn {
@@ -27,4 +34,6 @@
   justify-content: center;
   align-items: center;
   font-weight: bold;
+  color:var(--ant-text-highlight);
+  background-color: var(--ant-secondary-color);
 }

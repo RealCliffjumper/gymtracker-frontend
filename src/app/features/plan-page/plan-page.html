@@ -30,7 +30,7 @@
         nzTheme="fill" 
         [style.color]="weeklyPlan()?.planActive ? '#ffd700' : 'rgb(148,148,148)'"
         (click)="changePlanStatus()"/>
-        <h1>{{ weeklyPlan()?.weeklyPlanName }}</h1>
+        <h1 style="color: var(--ant-workout-text);">{{ weeklyPlan()?.weeklyPlanName }}</h1>
         <nz-icon
           nzType="edit"
           nzTheme="outline"

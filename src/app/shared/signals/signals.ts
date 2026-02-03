@@ -33,3 +33,4 @@ export const savedVisibleExercises = signal<ScheduledExercise[]>(JSON.parse(loca
 export const savedSets = signal<SetLogs[]>(JSON.parse(localStorage.getItem('savedSets') ?? '[]'))
 export const savedNotes = signal<string | null>(localStorage.getItem('savedNotes'))
 export const savedScheduledExercises = signal<ScheduledExercise[]>(JSON.parse(localStorage.getItem('savedScheduledExercises') ?? '[]'))
+export const themePreference = signal<string | null>(localStorage.getItem('theme'))

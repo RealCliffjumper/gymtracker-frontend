@@ -3,7 +3,7 @@
   <div class="header">
     <h2 class="workout-title">{{ workout()?.workoutName }}</h2>
     <p class="workout-description">{{ workout()?.workoutDescription }}</p>
-    <p>This workout's muscle groups: 
+    <p class="muscle-groups">
       @for (group of workout()?.muscleGroups; track group) {
            {{musclegroup_dic[group]}} |
       }

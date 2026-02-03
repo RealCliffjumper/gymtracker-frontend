@@ -22,6 +22,10 @@
   color:var(--ant-primary-color)
 }
 
+.active-text{
+  color:var(--ant-text-highlight)
+}
+
 .plan-name:hover{
   cursor: pointer;
   transform: scale(1.15);
@@ -35,15 +39,20 @@
   justify-content: space-between; 
   margin: 0 0 1rem 1rem;
   font-size: 1rem;
-  color: #555;
 }
 
 .week-label {
+  color:var(--ant-text-highlight);
   font-weight: 600;
   margin-right: 0.5rem;
 }
 
+.week-dates{
+  color:var(--ant-text-highlight);
+}
+
 nz-date-picker {
+  background-color: var(--ant-alt-color);
   margin-left: 0px;
   margin-right: 10px;
 }
@@ -104,22 +113,23 @@ transform: scale(1.1);
   flex-direction: column;
   justify-content: space-between;
   transition: box-shadow 0.2s ease, transform 0.2s ease;
-  border: 2px solid #e0e0e0;
+  border: 2px solid var(--ant-primary-color);
   border-radius: 8px;
-  background-color: white;
+  background-color: var(--ant-primary-card-bg);
+  box-shadow: var(--ant-box-shadow-base);
 }
 
 /* Completed / Skipped cards cover entire card */
 .day-card.skippedCard {
-  background-color: #fff1f0;
-  border-color: #ff4d4f;
-  color: #a8071a;
+  background-color: var(--ant-skipped-card-bg);
+  border-color: var(--ant-skipped-card-border);
+  color: var(--ant-skipped-card-color);
 }
 
 .day-card.completedCard {
-  background-color: #f6ffed;
-  border-color: #52c41a;
-  color: #237804;
+  background-color: var(--ant-completed-card-bg);
+  border-color: var(--ant-completed-card-border);
+  color: var(--ant-completed-card-color);
 }
 
 .day-card.startedCard{
@@ -137,7 +147,7 @@ transform: scale(1.1);
 
 .day-label {
   font-weight: 600;
-  color: #64c00e;
+  color: var(--ant-day-text-color);
   font-size: 1rem;
 }
 
@@ -152,13 +162,25 @@ transform: scale(1.1);
 
 .workout-name {
   cursor: pointer;
-  color: #333;
+  color: var(--ant-workout-text);
   font-weight: 500;
 }
 
 .workout-name:hover {
   color: #9f0cbd;
   text-decoration: underline;
+}
+
+::ng-deep .ant-modal-content{
+  background-color: var(--ant-component-background);
+}
+
+::ng-deep .ant-modal-header{
+  background-color: var(--ant-component-background);
+}
+
+::ng-deep .ant-modal-title{
+  color:var(--ant-text-highlight);
 }
 
 /* Edit / Plus icons */

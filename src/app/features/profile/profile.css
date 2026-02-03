@@ -2,11 +2,15 @@
   display: flex;
   justify-content: center;
   margin-top: 40px;
+  color: var(--ant-text-highlight);
 }
 
 .profile-card {
   max-width: 900px;
   width: 100%;
+  background-color: var(--ant-component-background);
+  border-color: var(--ant-component-background);
+  color: var(--ant-text-highlight);
 }
 
 .profile-avatar {
@@ -16,6 +20,11 @@
 
 .unit-selector {
   margin: 16px 0;
+}
+
+.ant-input{
+  background-color: var(--ant-secondary-color);
+  color:var(--ant-text-highlight);
 }
 
 .save-btn {
@@ -29,21 +38,65 @@
   text-align: center;
 }
 
+.openPasswordModal{
+  color:var(--ant-text-highlight);
+  border-color:var(--ant-primary-color);
+  background-color:var(--ant-secondary-color)
+}
+
+.KG, .LBS{
+  color:var(--ant-text-highlight);
+  background-color: var(--ant-secondary-color);
+  border-color: var(--ant-primary-color)
+}
+
+::ng-deep .ant-form-item-label > label{
+  color: var(--ant-text-highlight);
+}
+
+::ng-deep .ant-modal-content{
+  background-color: var(--ant-component-background);
+}
+
+::ng-deep .ant-modal-header{
+  background-color: var(--ant-component-background);
+}
+
+::ng-deep .ant-modal-title{
+  color:var(--ant-text-highlight);
+}
+
+::ng-deep .ant-modal-content.ant-input{
+  background-color: var(--ant-component-background);
+}
+
 .exercise-card {
   min-height: 200px;
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: var(--ant-component-background);
+  border-color: var(--ant-primary-color);
+}
+
+.exercise-name{
+  color: var(--ant-text-highlight);
+}
+
+.ex-title{
+  color: var(--ant-text-highlight);
 }
 
 .form-label {
   text-align: right;
   padding-right: 12px;
+  color: var(--ant-text-highlight);
 }
 
 .form-label-email { /* separate class for email label since its 5 letters */
   text-align: right; 
   padding-right: 8px;
+  color: var(--ant-text-highlight);
 }
 
 .btn-enabled {
@@ -55,6 +108,7 @@
 .unit-label {
   margin-right: 10px;
   white-space: nowrap;
+  color: var(--ant-text-highlight);
 }
 
 nz-icon {

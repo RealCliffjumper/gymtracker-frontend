@@ -12,7 +12,7 @@
   border-radius: var(--ant-border-radius-base);
   box-shadow: var(--ant-box-shadow-base);
   width: 100%;
-  max-width: 450px;
+  max-width: 450px; 
 }
 
 :host ::ng-deep .ant-tabs-nav {
@@ -24,6 +24,15 @@
 }
 :host ::ng-deep .ant-tabs-ink-bar {
   background: var(--ant-primary-color) !important;
+}
+
+:host ::ng-deep .ant-tabs-tab-btn {
+  color: var(--ant-text-highlight);
+}
+
+:host ::ng-deep .ant-input{
+  border-color: var(--ant-primary-color);
+  background-color: var(--ant-secondary-color);
 }
 
 .auth-form {

@@ -14,20 +14,24 @@
   font-size: 1.6rem;
   font-weight: 600;
   margin-bottom: 0.3rem;
-  color: #222;
+  color: var(--ant-text-highlight);
 }
 
 .workout-description {
-  color: #666;
+  color: var(--ant-text-highlight);
   font-size: 0.95rem;
   margin: 0;
+}
+
+.muscle-groups{
+  color: var(--ant-text-highlight);
 }
 
 /* --- Exercise List --- */
 .exercise-list {
   border-radius: 8px;
   overflow: hidden;
-  background: #fafafa;
+  background: var(--ant-secondary-color);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
@@ -35,10 +39,6 @@
   padding: 0.75rem 1rem;
   transition: background-color 0.2s ease;
   border-left: 4px solid transparent;
-}
-
-.exercise-item:hover {
-  background-color: #f0f5ff;
 }
 
 .exercise-content {
@@ -51,7 +51,7 @@
 .exercise-name {
   flex:7;
   font-weight: 500;
-  color: #333;
+  color: var(--ant-text-highlight);
 }
 
 .exercise-name.skippedEx{
@@ -67,13 +67,14 @@
   margin-top:10px;
   padding: 8px 12px;
   font-weight: 600;
-  background: #f0f2f5;
+  background: var(--ant-secondary-color);
   border-bottom: 1px solid #d9d9d9;
 }
 
 .exercise-header .col {
   display: flex;
   align-items: center;
+  color:var(--ant-text-highlight);
 }
 
 .exercise-header .col.name { flex: 3; margin-left: 10px;}
@@ -84,10 +85,12 @@
   flex: 1;
   justify-content: flex-end;
   font-weight: 600;
+  color:var(--ant-text-highlight);
 }
 
 .exercise-content .col.points {
   flex: 3;
+  color:var(--ant-workout-text);
   justify-content: flex-end;
   font-weight: 600;
 }
@@ -106,6 +109,7 @@
   justify-content: flex-end;
   gap: 10px;
   margin-top: 1rem;
+  
 }
 
 button[nz-button] {

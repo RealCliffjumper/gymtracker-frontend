@@ -12,6 +12,7 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { HttpClient } from '@angular/common/http';
+import { ThemeService } from '../services/theme.service';
 
 
 @Component({
@@ -56,7 +57,7 @@ export class Auth {
     return this.userDto.password === this.confirmPassword;
   }
 
-  constructor(private authService: AuthService, private route: Router, private userService: UserService, private modal: NzModalService, private message: NzMessageService) {}
+  constructor(private authService: AuthService, private route: Router, private userService: UserService, private modal: NzModalService, private message: NzMessageService, private themeService: ThemeService) {}
   
   ngOnInit(){
     localStorage.removeItem('jwtToken');
@@ -68,7 +69,10 @@ export class Auth {
       next: (res) => {
         localStorage.setItem('jwtToken', res.token);
           this.userService.setUser(res.user);
+          localStorage.setItem('theme', res.isThemeDark ? 'dark' : 'light')
+          this.themeService.initTheme();
           this.route.navigate(['/home']);
+          
       },
 
       error: () => {    

@@ -7,6 +7,7 @@ export interface User {
     password?: string;
     createdAt: Date;
     unitPreference: 'KG' | 'LBS'
+    isThemeDark: boolean;
     enabled: boolean;
     locked: boolean;
     roles: string[];

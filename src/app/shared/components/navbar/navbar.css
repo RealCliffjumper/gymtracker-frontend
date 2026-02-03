@@ -1,15 +1,17 @@
 .nav-menu {
+  font-size: medium ;
   display: flex;
   justify-content: center;
-  background: #fff;
-  border-bottom: 1px solid #f0f0f0;
+  background: var(--ant-component-background);
+  border-bottom: 1px solid var(--ant-primary-color);
+  color: var(--ant-text-highlight);
   width:100%;
 }
 
 /* Highlight active tab with theme color */
 .ant-menu-item-selected {
-  background-color: var(--ant-primary-color) !important;
-  color: #fff !important;
+  background-color: var(--ant-primary-color);
+  color: var(--ant-text-highlight) !important;
   border-radius: 4px;
 }
 
@@ -20,6 +22,7 @@ nz-icon {
 }
 
 nz-icon.bell{
+  color:var(--ant-text-highlight);
   padding-top:10px
 }
 

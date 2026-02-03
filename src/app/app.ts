@@ -9,6 +9,7 @@ import { ScheduledworkoutService } from './core/services/scheduledworkout-servic
 import { isBefore } from 'date-fns';
 import { TimerService } from './core/services/timer.service';
 import { notifications, workoutStartedAt } from './shared/signals/signals';
+import { ThemeService } from './core/services/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -25,7 +26,7 @@ export class App {
   protected readonly title = signal('gymtracker-fe');
 
   
-  constructor(private userService: UserService, scheduledWorkoutService: ScheduledworkoutService, timerService: TimerService){
+  constructor(private userService: UserService, scheduledWorkoutService: ScheduledworkoutService, timerService: TimerService, themeService: ThemeService){
     effect(()=>{
         timerService.timerDisplay(),
         localStorage.setItem("timerDisplay", timerService.timerDisplay()),
@@ -35,6 +36,7 @@ export class App {
                 JSON.stringify(notifications())
               );
         })
+    themeService.initTheme();
     const token = localStorage.getItem('jwtToken');
     if (token) {
     this.userService.getUser().subscribe(user => {

@@ -40,6 +40,10 @@ export class UserService {
     });
   }
 
+  changeThemePreference(userId: string, theme: boolean): Observable<void>{
+    return this.http.put<void>(`${this.apiUrl}/${userId}/theme`, theme);
+  }
+
   deleteUser(userId: string): Observable<void>{
     return this.http.delete<void>(`${this.apiUrl}/delete/${userId}`);
   }
@@ -55,6 +59,7 @@ export class UserService {
 
   purgeAuth(): void {
     this.jwtService.destroyToken();
+    localStorage.removeItem('theme')
     this._currentUser.set(null);
   }
 }

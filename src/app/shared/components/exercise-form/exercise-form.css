@@ -8,6 +8,7 @@ input[nz-input],
 textarea[nz-input] {
   width: 100%;
   padding: 6px 11px;
+  background-color: var(--ant-alt-color);
   font-size: 14px;
   border: 1px solid #d9d9d9;
   border-radius: 0;
@@ -17,6 +18,7 @@ textarea[nz-input] {
 
 textarea[nz-input] {
   min-height: 80px;
+  background-color: var(--ant-alt-color);
   resize: vertical;
 }
 
@@ -24,6 +26,7 @@ input[nz-input]:focus,
 textarea[nz-input]:focus {
   border-color: var(--ant-primary-color);
   box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+  
   outline: none;
 }
 
@@ -39,4 +42,8 @@ textarea[nz-input]:focus {
   background-color: var(--ant-primary-color);
   color: #f5f4ef;
   border-color: var(--ant-primary-color);
+}
+
+::ng-deep .ant-form-item-label > label{
+  color: var(--ant-text-highlight);
 }

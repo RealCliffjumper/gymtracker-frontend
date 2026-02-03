@@ -60,6 +60,18 @@
   width: 100%;
 }
 
+::ng-deep .ant-modal-content{
+  background-color: var(--ant-component-background);
+}
+
+::ng-deep .ant-modal-header{
+  background-color: var(--ant-component-background);
+}
+
+::ng-deep .ant-modal-title{
+  color:var(--ant-text-highlight);
+}
+
 .day-card {
   text-align: center;
   padding: 0.75rem;
@@ -69,6 +81,10 @@
   flex-direction: column;
   justify-content: space-between;
   transition: box-shadow 0.2s ease, transform 0.2s ease;
+  border: 2px solid var(--ant-primary-color);
+  border-radius: 8px;
+  background-color: var(--ant-primary-card-bg);
+  
 }
 
 .day-header {
@@ -79,7 +95,7 @@
 
 .day-label {
   font-weight: 600;
-  color: #64c00e;
+  color: var(--ant-day-text-color);
   font-size: 1rem;
 }
 
@@ -90,13 +106,14 @@
   word-wrap: break-word;
   overflow-wrap: break-word;
   white-space: normal;
+  
   text-align: center;
   gap: 0.25rem;
 }
 
 .workout-name {
   cursor: pointer;
-  color: #333;
+  color:var(--ant-text-highlight);
   font-weight: 500;
 }
 
