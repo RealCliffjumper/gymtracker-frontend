@@ -1,31 +1,52 @@
 <div class="header">
   <h2 class="workout-title">{{ scheduledWorkout()?.workoutName }} </h2>
+  <p class="muscle-groups">
+      @for (group of scheduledWorkout()?.muscleGroups; track group) {
+           {{musclegroup_dic[group]}} |
+      }
+    </p>
     <span class="timer">{{_duration ? timerService.formatDurationHMS(_duration) : _timerDisplay()}}</span>
+    
 
   <textarea 
       nz-input
       class="notes-input"
-      [placeholder]="scheduledWorkout()?.workoutDescription ?? 'Exercise description'"
+      [placeholder]="scheduledWorkout()?.workoutDescription ?? 'Workout description'"
       [(ngModel)]="workoutNotes">
   </textarea>
+  
 </div>
 
 @if(!_duration){
 <div class="search-row">
-  All<label 
+  <a nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu" style="color:var(--ant-text-highlight)">
+      Filters
+      <nz-icon nzType="down" />
+    </a>
+     <nz-dropdown-menu #menu="nzDropdownMenu">
+      <ul nz-menu>
+        <li nz-menu-item>All exercises<label 
       nz-checkbox 
       (nzCheckedChange)="onAllChecked($event)"
-      [nzChecked]="loadAll"
-      ></label>
-  User's only<label 
+      [nzChecked]="loadAll()" style="margin-left:26px;"
+      ></label></li>
+        <li nz-menu-item>Mine only<label 
       nz-checkbox
       (nzCheckedChange)="onUsersChecked($event)"
-      [nzChecked]="usersChecked"
-      ></label>
+      [nzChecked]="usersChecked()" style="margin-left:40px;"
+      ></label></li>
+       <li nz-menu-item>Muscle filtered<label 
+      nz-checkbox
+      (nzCheckedChange)="onMuscleChecked($event)"
+      [nzChecked]="muscleChecked()" style="margin-left:10px;"
+      ></label></li>
+  </ul>
+  </nz-dropdown-menu>
+  
   <nz-select
       nzShowSearch
       nzAllowClear
-      [nzPlaceHolder]="(loadAll) ? 'Search all exercises' : 'Search your exercises'"
+      [nzPlaceHolder]="searchBarPlaceholder()"
       class="searchBar"
       [ngModel]="selectedExercise()"
       (nzOnSearch)="onSearch($event)"
@@ -33,7 +54,7 @@
       (nzOpenChange)="onDropdownOpen($event)">
     
     <nz-option-group nzLabel="Available exercises">
-      @for (exercise of exercises(); track exercise.exerciseId) {
+      @for (exercise of filteredExercises(); track exercise.exerciseId) {
         <nz-option
           [nzLabel]="exercise.exerciseName"
           [nzValue]="exercise.exerciseId">
@@ -58,6 +79,7 @@
     @else {
     <span class="col name">Exercise</span>
     <span class="col sets">Sets</span>
+    <span class="col points"></span>
     <span class="col actions">Actions</span>
     } 
   </div>

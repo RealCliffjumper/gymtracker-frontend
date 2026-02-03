@@ -31,6 +31,8 @@ import { TimerService } from '../../core/services/timer.service';
 import { ScheduledExercise } from '../models/scheduledexercise';
 import { waitForAsync } from '@angular/core/testing';
 import { NzDropdownMenuComponent, NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { MUSCLE_GROUPS } from '../models/musclegroups';
+import { MUSCLE_GROUP_LABELS } from '../models/musclegroups-dictionary';
 
 
 @Component({
@@ -96,7 +98,8 @@ export class ScheduledWorkout {
     this.scheduledExercises().map((ex, idx) => ({ ...ex, exerciseOrder: idx }))
   );
   visibleExercises = signal<ScheduledExercise[]>([])
-
+  musclegroup = MUSCLE_GROUPS
+  musclegroup_dic = MUSCLE_GROUP_LABELS
 
   updatedSets = signal<SetLogs[]>([])
 
@@ -104,17 +107,33 @@ export class ScheduledWorkout {
   muscleFilters = signal<string[]>([])
   searchTerm = signal('')
   selectedExercise = signal<string | null>(null)
-  loadAll = true;
-  usersChecked = false;
+  loadAll = signal(true);
+  usersChecked = signal(false);
+  muscleChecked = signal(false);
 
   filteredExercises = computed(() => {
     const term = this.searchTerm().toLowerCase();
     const filters = this.muscleFilters();
-    return this.exercises().filter(ex =>
+    if(this.muscleChecked()){
+      return this.exercises().filter(ex =>
       (filters.length === 0 || filters.includes(ex.muscleGroup)) &&
       (term === '' || ex.exerciseName.toLowerCase().includes(term))
-    );
+      );
+    }
+    else{
+      return this.exercises()
+    }
   });
+
+  searchBarPlaceholder = computed(() =>{
+    if(this.muscleChecked()){
+      return 'Search all exercises filtered by muscle group'
+    }
+    else if(this.usersChecked()){
+      return 'Search only your exercises'
+    }
+    else return 'Search all exercises'
+  })
 
   supersetCounter = signal(0)
   status = WORKOUT_STATUS // 0 'STARTED', 1 'COMPLETED', 2 'SKIPPED', 3 'PAUSED', 4 'SCHEDULED'
@@ -702,20 +721,32 @@ export class ScheduledWorkout {
   }
 
   onAllChecked(checked: boolean){
-    this.loadAll = checked;
-    this.usersChecked = false;
+    this.muscleChecked.set(false);
+    this.usersChecked.set(false);
+    this.loadAll.set(checked);
+
   }
 
   onUsersChecked(checked:boolean){
-    this.loadAll = false;
-    this.usersChecked = checked;
+    this.loadAll.set(!checked);
+    this.muscleChecked.set(false);
+    this.usersChecked.set(checked);
+  }
+
+  onMuscleChecked(checked:boolean){
+    this.loadAll.set(!checked);
+    this.usersChecked.set(false);
+    this.muscleChecked.set(checked);
+    console.log(this.muscleChecked)
+    console.log(this.loadAll)
+    console.log(this.searchBarPlaceholder())
   }
 
   loadExercises(): void{
     const user = this.userService.currentUser();
     if (!user) return;
 
-    if(this.loadAll){
+    if(this.loadAll() || this.muscleChecked()){
       forkJoin({
       user: this.exerciseService.getUserExercises(user.userId),
       all: this.exerciseService.getAllExercises()
@@ -730,7 +761,7 @@ export class ScheduledWorkout {
       });
     }
 
-    else if(this.usersChecked && !this.loadAll){
+    else if(this.usersChecked() && !this.loadAll()){
       this.exerciseService.getUserExercises(user.userId).subscribe({
         next: (data) => this.exercises.set(data)
       })
