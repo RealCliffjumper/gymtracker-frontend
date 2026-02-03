@@ -61,6 +61,7 @@ export class Profile {
     userFirstName: '',
     userLastName: '',
     unitPreference: 'KG',
+    isThemeDark: false,
     createdAt: new Date(),
     enabled: true,
     locked: false,
@@ -89,7 +90,7 @@ export class Profile {
       
       if (currentUser) {
         this.user.set({ ...currentUser });
-        this.exerciseService.getUserExercises(this.user().userId).subscribe({
+        this.exerciseService.getFiveExercises(this.user().userId).subscribe({
           next: (data) => this.exercises.set(data),
           error: (err) => console.error('Error loading workouts', err)
         });
