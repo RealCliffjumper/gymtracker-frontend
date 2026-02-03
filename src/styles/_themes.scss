@@ -1,0 +1,99 @@
+:root {
+  --ant-secondary-color: rgb(230, 236, 236);
+  --ant-primary-color: #2ecc71;     /* main green */
+  --ant-primary-color-hover: #27ae60;
+  --ant-primary-color-active: #1e8449;
+  --ant-text-highlight: #02110b;
+  --ant-alt-color: #ffffff;
+  --ant-input-color: #ffffff;
+
+  /*Calendar cards */
+
+  --ant-primary-card-bg: #f9f9f9;
+  --ant-skipped-card-bg:#f1c5c5;
+  --ant-completed-card-bg:#f6ffed;
+  --ant-started-card-bg:#e9bb3e48;
+
+  --ant-primary-card-border: #f9f9f9;
+  --ant-skipped-card-border:#ff4d4f;
+  --ant-completed-card-border:#52c41a;
+  --ant-started-card-border:#d8ca0d;
+
+  --ant-primary-card-color: #f9f9f9;
+  --ant-skipped-card-color:#e497a0;
+  --ant-completed-card-color:#237804;
+  --ant-started-card-color:#eebb13;
+
+  --ant-day-text-color:#64c00e;
+  --ant-workout-text:#3a3a3a;
+
+  /* Feedback Colors */
+  --ant-success-color: #2ecc71;
+  --ant-warning-color: #f1c40f;
+  --ant-error-color: #e74c3c;
+  --ant-info-color: #3498db;
+
+  /* Layout & Background */
+  --ant-body-background: #f9f9f9;
+  --ant-component-background: #ffffff;
+
+  /* Borders & Shadows */
+  --ant-border-radius-base: 8px;
+  --ant-border-color-base: #e0e0e0;
+  --ant-box-shadow-base: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.dark-theme {
+  --ant-primary-color: #2ecc7094;
+  --ant-secondary-color: rgba(235, 235, 245, .5);
+  --ant-primary-color-hover: #27ae60;
+  --ant-primary-color-active: #1e8449;
+  --ant-text-highlight: #e0e0e0;
+  --ant-alt-color: rgba(235, 235, 245, .5);
+  --ant-input-color: #ddd8d8a2;
+
+  /*Calendar cards */
+
+  --ant-primary-card-bg: rgba(208, 208, 223, 0.5);
+  --ant-skipped-card-bg:#a85555;
+  --ant-completed-card-bg:#73a541;
+  --ant-started-card-bg:#e9bb3e48;
+
+  --ant-primary-card-border: #f9f9f9;
+  --ant-skipped-card-border:#ff4d4f;
+  --ant-completed-card-border:#52c41a;
+  --ant-started-card-border:#d8ca0d;
+
+  --ant-primary-card-color: #a52b2b;
+  --ant-skipped-card-color:#a8071a;
+  --ant-completed-card-color:#237804;
+  --ant-started-card-color:#eebb13;
+
+  --ant-day-text-color:#3ce784;
+  --ant-workout-text:#f9f9f9;
+
+  /* Feedback Colors */
+  --ant-success-color: #2ecc71;
+  --ant-warning-color: #f1c40f;
+  --ant-error-color: #e74c3c;
+  --ant-info-color: #3498db;
+
+  /* Layout & Background */
+  --ant-body-background: #0e1520;
+  --ant-component-background:  rgb(37, 37, 39);
+
+  /* Borders & Shadows */
+  --ant-border-radius-base: 8px;
+  --ant-border-color-base: #e0e0e0;
+  --ant-box-shadow-base: 0 4px 12px rgba(46, 116, 12, 0.568);
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  background-color: var(--ant-component-background);
+}
+
+.ant-modal-confirm-body .ant-modal-confirm-content, .ant-modal-confirm-body .ant-modal-confirm-title, .ant-modal-close-x {
+  color:var(--ant-text-highlight)
+}
