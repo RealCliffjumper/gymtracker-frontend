@@ -70,7 +70,7 @@ export class Calendar {
   weekOffset = 0;
   today = new Date()
   todayAtMidnight = new Date(this.today.getFullYear(), this.today.getMonth(), this.today.getDate())
-
+  selectedDay = '';
 
   visible = false;
   loadingEntries = false;
@@ -326,17 +326,19 @@ export class Calendar {
     this.isModalVisible = true;
     this.isSubmitting = true;
     this.selectedDate = this.datesFrame[this.getDayIndex(day)];
+    this.selectedDay = day;
     console.log(this.selectedDate)
     this.selectedEntryId = null
     this.selectedWorkout.set(null) 
   }
 
-  openEditEntryModal(entry: CalendarEntry): void{
+  openEditEntryModal(entry: CalendarEntry, day: string): void{
     this.modalMode.set('edit')
     this.isModalVisible = true;
     this.isSubmitting = true;
-    
+    this.selectedDay = day;
     this.selectedDate = new Date(entry.workoutScheduledDate)
+    
     console.log(this.selectedDate)
     this.selectedWorkout.set(entry.workoutId)
   }

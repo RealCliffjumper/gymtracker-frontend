@@ -73,7 +73,7 @@
                   @if (!entry.isSkipped && entry.status !== 'COMPLETED' && entry.status !== 'STARTED') {
                     <div class="icon-actions">
                       <nz-icon nzType="edit" nzTheme="outline" class="cursor-pointer"
-                        (click)="openEditEntryModal(entry)"></nz-icon>
+                        (click)="openEditEntryModal(entry, day)"></nz-icon>
                     </div>
                   }
                   @else if(entry.status === 'STARTED'){
@@ -107,8 +107,8 @@
 <nz-modal
   [(nzVisible)]="isModalVisible"
   [nzTitle]= "modalMode() === 'add' 
-    ? 'Add workout for ' 
-    : 'Edit workout for '"
+    ? 'Add workout for ' + (dow_labels[selectedDay!] || '') 
+    : 'Edit workout for ' + (dow_labels[selectedDay!] || '')"
   (nzOnCancel)="handleCancel()"
   (nzOnOk)="handleOk()"
   [nzOkLoading]="isSubmitting"
