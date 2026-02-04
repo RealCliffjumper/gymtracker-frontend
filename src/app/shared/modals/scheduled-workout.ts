@@ -33,6 +33,7 @@ import { waitForAsync } from '@angular/core/testing';
 import { NzDropdownMenuComponent, NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { MUSCLE_GROUPS } from '../models/musclegroups';
 import { MUSCLE_GROUP_LABELS } from '../models/musclegroups-dictionary';
+import { fireConfetti } from '../utils/confetti.util';
 
 
 @Component({
@@ -290,7 +291,7 @@ export class ScheduledWorkout {
         localStorage.removeItem('savedNotes');
         localStorage.removeItem('timerDisplay')
         localStorage.removeItem('savedSets')
-        
+        fireConfetti();
         break;
       case this.status[3]: //paused
         this.started = true;
@@ -326,7 +327,8 @@ export class ScheduledWorkout {
       status: status,
       startedAt: workoutStartedAt() ?? null,
       completedAt: this.completedAt ?? null ,
-      workoutPoints: (status === this.status[1]) ? Math.round(this.setPoints()) : 0,
+      muscleGroups: this.muscleFilters(),
+      workoutPoints: (status === this.status[1]) ? this.setPoints() : 0,
       exercises: this.scheduledExercises().map((ex, idx) => ({
         scheduledWorkoutExerciseId: ex.scheduledWorkoutExerciseId,
         scheduledWorkoutId: this.scheduledWorkoutId,
@@ -400,8 +402,11 @@ export class ScheduledWorkout {
   }
 
   setPoints = computed(() =>
-    this.updatedSets().reduce((sum, s) => sum + s.setPoints!, 0)
-  );
+  this.updatedSets().reduce(
+    (sum, s) => sum + (s.setPoints ?? 0),
+    0
+  )
+);
 
   sumExercisePoints(i: number){
     const total = this.scheduledExercises()[i].sets
