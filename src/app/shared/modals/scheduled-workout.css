@@ -17,6 +17,7 @@
 }
 
 .notes-input {
+  margin-top:10px;
   width: 100%;
   min-height: 70px;
   resize: vertical;
@@ -25,7 +26,7 @@
 
 /* SEARCH ROW */
 .search-row {
-margin-top:10px;
+  margin-top:10px;
   display: flex;
   gap: 10px;
   align-items: center;
@@ -53,7 +54,6 @@ margin-top:10px;
 
 .exercise-header {
   display: flex;
-  margin-top:10px;
   padding: 8px 12px;
   font-weight: 600;
   background: var(--ant-secondary-color);
@@ -84,7 +84,8 @@ nz-icon:hover{
 }
 
 .exercise-list {
-  background: var(--ant--component-background);
+  overflow: hidden;
+  background: var(--ant-secondary-color);
   border-radius: var(--ant-border-radius-base);
   box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
@@ -93,6 +94,7 @@ nz-icon:hover{
   color:var(--ant-text-highlight);
   width: 100%;
   display: flex;
+  
 }
 
 .exercise-row .col {
@@ -107,22 +109,22 @@ nz-icon:hover{
   cursor: grabbing;
 }
 
-.col.name {
-  color:var(--ant-text-highlight);
-  flex: 2;
-  gap: 6px;
+.exercise-name {
+  flex:7;
+  font-weight: 500;
+  color: var(--ant-text-highlight);
+}
+
+.exercise-name.skippedEx{
+  color:var(--ant-skipped-exercise)
+}
+
+.exercise-name.completedEx{
+  color:var(--ant-primary-color)
 }
 
 .startedEx{ /*make the letters bounce */
   color:rgb(206, 160, 9)
-}
-
-.skippedEx{
-  color:red
-}
-
-.completedEx{
-  color:var(--ant-primary-color)
 }
 
 .col.sets {
@@ -170,8 +172,8 @@ nz-icon:hover{
 
 .timer {
   font-size: 1.6rem;
-  font-weight: 600;
   text-align: center;
+  padding-bottom: 20px;
 }
 
 

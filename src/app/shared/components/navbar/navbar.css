@@ -11,8 +11,12 @@
 /* Highlight active tab with theme color */
 .ant-menu-item-selected {
   background-color: var(--ant-primary-color);
-  color: var(--ant-text-highlight) !important;
+  color:white !important;
   border-radius: 4px;
+}
+
+.ant-menu-item-selected:hover {
+  background-color: var(--ant-primary-color);
 }
 
 nz-icon {

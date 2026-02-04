@@ -3,10 +3,11 @@
     <h2 class="workout-title">{{ scheduledWorkout()?.workoutName }}</h2>
     <p class="workout-description">{{ scheduledWorkout()?.workoutDescription }}</p>
     @if(_duration){
-      <p>Workout completed in: {{timerService.formatDurationHMS(_duration)}}</p>
-      <p>Workout points: {{scheduledWorkout()?.workoutPoints}}</p>
+      <p class="workout-description">Workout completed in: {{timerService.formatDurationHMS(_duration)}}</p>
+      <p class="workout-description">Workout points: {{scheduledWorkout()?.workoutPoints}}</p>
     }
     <p class="muscle-groups">
+      |
       @for (group of scheduledWorkout()?.muscleGroups; track group) {
            {{musclegroup_dic[group]}} |
       }

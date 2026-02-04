@@ -1,12 +1,13 @@
+<div class="workout-info-modal">
 <div class="header">
   <h2 class="workout-title">{{ scheduledWorkout()?.workoutName }} </h2>
   <p class="muscle-groups">
-      @for (group of scheduledWorkout()?.muscleGroups; track group) {
-           {{musclegroup_dic[group]}} |
-      }
-    </p>
-    <span class="timer">{{_duration ? timerService.formatDurationHMS(_duration) : _timerDisplay()}}</span>
-    
+    |
+    @for (group of scheduledWorkout()?.muscleGroups; track group) {
+      {{musclegroup_dic[group]}} |
+    }
+  </p>
+  <span class="timer">{{_duration ? timerService.formatDurationHMS(_duration) : _timerDisplay()}}</span>
 
   <textarea 
       nz-input
@@ -68,7 +69,7 @@
   </button>
 </div>
 }
-<div class="exercise-list">
+
   <div class="exercise-header">
     @if(_duration){
     <span class="col nameC">Exercise</span>
@@ -83,11 +84,11 @@
     <span class="col actions">Actions</span>
     } 
   </div>
-  <nz-list nzBordered cdkDropList (cdkDropListDropped)="drop($event)">
+  <nz-list nzBordered cdkDropList (cdkDropListDropped)="drop($event)" class="exercise-list">
     @for (scheduledExercise of visibleExercises(); track scheduledExercise.exerciseOrder; let idx = $index) {
       @let nextExercise = visibleExercises()[idx + 1];
 
-      <div class="exercise-row"
+      <nz-list-item cdkDrag class="exercise-row"
            [ngStyle]="{
              'border-left': scheduledExercise.supersetGroupId &&
                ((nextExercise && scheduledExercise.supersetGroupId === nextExercise.supersetGroupId) ||
@@ -97,9 +98,9 @@
                : '4px solid transparent'
            }">
         
-        <nz-list-item cdkDrag>
+        
           <div nz-col nzSpan="8">
-          <div
+          <div class="exercise-name"
           [ngClass]="{
               'normalEx' : !scheduledExercise.skipped && !scheduledExercise.completed && !scheduledExercise.isStarted,
               'startedEx' : scheduledExercise.isStarted,
@@ -158,10 +159,8 @@
             </nz-icon>
           </div>
         </nz-list-item>
-      </div>
     }
   </nz-list>
-</div>
 
 <div class="modal-footer">
 
@@ -195,4 +194,5 @@
     }
   </div>
 
+</div>
 </div>

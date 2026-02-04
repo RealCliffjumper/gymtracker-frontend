@@ -55,7 +55,7 @@
 }
 
 .exercise-name.skippedEx{
-  color:red
+  color:var(--ant-skipped-exercise)
 }
 
 .exercise-name.completedEx{

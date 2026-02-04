@@ -5,7 +5,7 @@
         <h1 class="active-text">Your active plan is:</h1><h1 class="plan-name" (click)="goToPlan(activePlan()!.weeklyPlanId)"> {{ activePlan()?.weeklyPlanName }}</h1>
       }
       @else{
-        <h1>Currently no plan active</h1>
+        <h1 class="active-text">Currently no plan active</h1>
         <p class="plan-name" (click)="goToPlansPage()">Create or choose a plan in My plans tab!</p>
       }
     </div>
