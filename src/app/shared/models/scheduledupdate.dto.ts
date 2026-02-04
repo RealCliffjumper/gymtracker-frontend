@@ -5,6 +5,7 @@ export interface ScheduledUpdate{
     status: string,
     startedAt: Date | null,
     completedAt: Date | null,
+    muscleGroups: string[],
     exercises: ScheduledExerciseUpdate[]
     workoutPoints?: number
 }
